@@ -29,8 +29,8 @@
             --error: #ef4444;
             --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
             --shadow-lg: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-            --radius: 12px;
-            --radius-lg: 20px;
+            --radius: 16px;
+            --radius-lg: 24px;
             --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
@@ -50,6 +50,7 @@
             position: relative;
             line-height: 1.6;
             touch-action: manipulation;
+            padding: 20px;
         }
 
         /* Fondo animado */
@@ -70,7 +71,7 @@
             width: 100%;
             height: 100%;
             background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 50%, var(--accent) 100%);
-            opacity: 0.1;
+            opacity: 0.08;
         }
 
         .floating-shapes {
@@ -83,7 +84,7 @@
             position: absolute;
             border-radius: 50%;
             background: rgba(255, 255, 255, 0.03);
-            animation: float 20s infinite linear;
+            animation: float 25s infinite linear;
         }
 
         @keyframes float {
@@ -92,20 +93,42 @@
             100% { transform: translateY(0) rotate(360deg); }
         }
 
-        /* Diseño para móvil */
-        .mobile-container {
+        /* Contenedor principal */
+        .main-container {
             width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 2rem;
             max-width: 500px;
+            background: var(--surface);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+            overflow: hidden;
+            border: 1px solid var(--border);
+            position: relative;
+            z-index: 10;
         }
 
-        .desktop-container {
-            display: none;
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            padding: 2.5rem 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: pulse 15s infinite linear;
+        }
+
+        @keyframes pulse {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
         .logo {
@@ -113,74 +136,71 @@
             align-items: center;
             justify-content: center;
             gap: 12px;
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            z-index: 2;
         }
 
         .logo-icon {
             width: 60px;
             height: 60px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
             border-radius: 16px;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: white;
             font-size: 1.5rem;
-            box-shadow: var(--shadow);
+            color: white;
         }
 
         .logo-text {
-            font-size: 2rem;
+            font-size: 2.2rem;
             font-weight: 700;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-
-        .status-card {
-            background: var(--surface);
-            border-radius: var(--radius-lg);
-            padding: 2rem;
-            width: 100%;
-            box-shadow: var(--shadow-lg);
-            border: 1px solid var(--border);
-            text-align: center;
-            margin-bottom: 2rem;
+            color: white;
+            letter-spacing: -0.5px;
         }
 
         .status-badge {
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            background: rgba(37, 99, 235, 0.2);
-            padding: 0.5rem 1rem;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            padding: 0.6rem 1.2rem;
             border-radius: 100px;
-            font-size: 0.875rem;
+            font-size: 0.9rem;
             font-weight: 600;
             margin-bottom: 1.5rem;
-            color: var(--primary);
+            position: relative;
+            z-index: 2;
         }
 
         h1 {
-            font-size: 1.75rem;
+            font-size: 1.8rem;
             font-weight: 700;
-            margin-bottom: 1rem;
-            background: linear-gradient(135deg, var(--text-primary), var(--text-secondary));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
+            margin-bottom: 0.75rem;
+            position: relative;
+            z-index: 2;
+            color: white;
         }
 
         .subtitle {
-            font-size: 1rem;
-            color: var(--text-secondary);
-            margin-bottom: 2rem;
-            line-height: 1.6;
+            font-size: 1.05rem;
+            opacity: 0.9;
+            position: relative;
+            z-index: 2;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        /* Contenido */
+        .content {
+            padding: 2.5rem 2rem;
         }
 
         .maintenance-icon {
-            margin: 2rem 0;
+            text-align: center;
+            margin: 1.5rem 0 2.5rem;
         }
 
         .icon-wrapper {
@@ -193,26 +213,28 @@
             align-items: center;
             justify-content: center;
             color: white;
-            font-size: 3rem;
+            font-size: 2.8rem;
             box-shadow: 0 15px 30px rgba(37, 99, 235, 0.3);
             position: relative;
-            animation: pulse 2s ease-in-out infinite;
+            animation: pulse-icon 2.5s ease-in-out infinite;
         }
 
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
+        @keyframes pulse-icon {
+            0% { transform: scale(1); box-shadow: 0 15px 30px rgba(37, 99, 235, 0.3); }
+            50% { transform: scale(1.05); box-shadow: 0 20px 40px rgba(37, 99, 235, 0.4); }
+            100% { transform: scale(1); box-shadow: 0 15px 30px rgba(37, 99, 235, 0.3); }
         }
 
+        /* Contador */
         .countdown {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 1rem;
+            display: flex;
+            justify-content: center;
+            gap: 1.2rem;
             margin: 2.5rem 0;
         }
 
         .countdown-item {
+            flex: 1;
             background: rgba(30, 41, 59, 0.8);
             border-radius: var(--radius);
             padding: 1.5rem 0.5rem;
@@ -221,6 +243,10 @@
             border: 1px solid var(--border);
             backdrop-filter: blur(10px);
             transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
 
         .countdown-item:hover {
@@ -229,25 +255,30 @@
         }
 
         .countdown-value {
-            font-size: 2rem;
+            font-size: 2.5rem;
             font-weight: 700;
             color: var(--text-primary);
             margin-bottom: 0.5rem;
             font-variant-numeric: tabular-nums;
             text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            letter-spacing: 1px;
         }
 
         .countdown-label {
-            font-size: 0.75rem;
+            font-size: 0.8rem;
             color: var(--text-light);
             text-transform: uppercase;
             letter-spacing: 1px;
             font-weight: 600;
         }
 
+        /* Progreso */
         .progress-section {
-            margin: 2rem 0;
-            width: 100%;
+            margin: 2.5rem 0;
+            background: rgba(30, 41, 59, 0.6);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            border: 1px solid var(--border);
         }
 
         .progress-header {
@@ -257,24 +288,28 @@
             margin-bottom: 1rem;
         }
 
-        .progress-label {
-            font-size: 0.875rem;
+        .progress-title {
+            font-size: 1rem;
             font-weight: 600;
-            color: var(--text-secondary);
+            color: var(--text-primary);
         }
 
-        .progress-percentage {
+        .progress-status {
+            display: flex;
+            align-items: center;
+            gap: 6px;
             font-size: 0.875rem;
-            font-weight: 700;
-            color: var(--primary);
+            font-weight: 600;
+            color: var(--success);
         }
 
         .progress-container {
-            height: 8px;
+            height: 10px;
             background: rgba(30, 41, 59, 0.8);
             border-radius: 10px;
             overflow: hidden;
             border: 1px solid var(--border);
+            margin-bottom: 0.5rem;
         }
 
         .progress-bar {
@@ -283,7 +318,7 @@
             background: linear-gradient(to right, var(--primary), var(--secondary));
             border-radius: 10px;
             position: relative;
-            transition: width 0.5s ease;
+            transition: width 0.8s cubic-bezier(0.22, 0.61, 0.36, 1);
         }
 
         .progress-bar::after {
@@ -293,7 +328,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
             animation: shimmer 2s infinite;
         }
 
@@ -302,68 +337,86 @@
             100% { transform: translateX(100%); }
         }
 
-        .details-section {
-            background: rgba(30, 41, 59, 0.8);
+        .progress-percentage {
+            text-align: right;
+            font-size: 0.875rem;
+            color: var(--text-light);
+            font-weight: 600;
+        }
+
+        /* Lista de actualizaciones */
+        .updates-section {
+            background: rgba(30, 41, 59, 0.6);
             border-radius: var(--radius);
             padding: 1.5rem;
             margin: 2rem 0;
-            width: 100%;
-            backdrop-filter: blur(10px);
             border: 1px solid var(--border);
         }
 
-        .details-title {
-            font-size: 1rem;
+        .updates-title {
+            font-size: 1.1rem;
             font-weight: 600;
-            margin-bottom: 1rem;
+            margin-bottom: 1.2rem;
             color: var(--text-primary);
             display: flex;
             align-items: center;
             gap: 0.5rem;
         }
 
-        .details-list {
+        .updates-list {
             list-style: none;
         }
 
-        .details-item {
+        .update-item {
             display: flex;
             align-items: center;
             gap: 0.75rem;
-            padding: 0.75rem 0;
+            padding: 0.9rem 0;
             border-bottom: 1px solid var(--border);
         }
 
-        .details-item:last-child {
+        .update-item:last-child {
             border-bottom: none;
         }
 
-        .details-icon {
-            width: 32px;
-            height: 32px;
-            background: var(--primary);
-            color: white;
-            border-radius: 8px;
+        .update-status {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 0.875rem;
+            font-size: 0.7rem;
             flex-shrink: 0;
         }
 
-        .details-text {
-            font-size: 0.875rem;
+        .update-status.pending {
+            background: rgba(245, 158, 11, 0.2);
+            border: 1px solid var(--warning);
+            color: var(--warning);
+        }
+
+        .update-status.completed {
+            background: rgba(16, 185, 129, 0.2);
+            border: 1px solid var(--success);
+            color: var(--success);
+        }
+
+        .update-text {
+            font-size: 0.95rem;
             color: var(--text-secondary);
         }
 
+        /* Contacto */
         .contact-section {
             text-align: center;
-            margin-top: 2rem;
-            width: 100%;
+            margin-top: 2.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border);
         }
 
-        .contact-info {
-            font-size: 0.875rem;
+        .contact-text {
+            font-size: 0.95rem;
             color: var(--text-secondary);
             margin-bottom: 1.5rem;
         }
@@ -373,10 +426,12 @@
             text-decoration: none;
             font-weight: 600;
             transition: var(--transition);
+            display: inline-block;
         }
 
         .contact-link:hover {
             color: var(--accent);
+            transform: translateY(-2px);
         }
 
         .social-links {
@@ -408,208 +463,6 @@
             transform: translateY(-3px);
         }
 
-        /* Diseño para escritorio */
-        @media (min-width: 1024px) {
-            .mobile-container {
-                display: none;
-            }
-            
-            .desktop-container {
-                display: flex;
-                width: 100%;
-                height: 100%;
-                align-items: center;
-                justify-content: center;
-                padding: 3rem;
-            }
-            
-            .desktop-content {
-                display: grid;
-                grid-template-columns: 1fr 1fr;
-                gap: 3rem;
-                max-width: 1200px;
-                width: 100%;
-                align-items: center;
-            }
-            
-            .desktop-left {
-                text-align: left;
-            }
-            
-            .desktop-logo {
-                display: flex;
-                align-items: center;
-                gap: 1rem;
-                margin-bottom: 2rem;
-            }
-            
-            .desktop-logo-icon {
-                width: 80px;
-                height: 80px;
-                background: linear-gradient(135deg, var(--primary), var(--secondary));
-                border-radius: 20px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                color: white;
-                font-size: 2rem;
-                box-shadow: var(--shadow-lg);
-            }
-            
-            .desktop-logo-text {
-                font-size: 2.5rem;
-                font-weight: 700;
-                background: linear-gradient(135deg, var(--primary), var(--secondary));
-                -webkit-background-clip: text;
-                background-clip: text;
-                color: transparent;
-            }
-            
-            .desktop-title {
-                font-size: 3rem;
-                font-weight: 700;
-                margin-bottom: 1.5rem;
-                line-height: 1.2;
-            }
-            
-            .desktop-subtitle {
-                font-size: 1.2rem;
-                color: var(--text-secondary);
-                margin-bottom: 2rem;
-                line-height: 1.6;
-            }
-            
-            .desktop-countdown {
-                display: flex;
-                gap: 1.5rem;
-                margin: 3rem 0;
-            }
-            
-            .desktop-countdown-item {
-                background: rgba(30, 41, 59, 0.8);
-                border-radius: var(--radius);
-                padding: 2rem 1rem;
-                text-align: center;
-                min-width: 120px;
-                box-shadow: var(--shadow);
-                border: 1px solid var(--border);
-                backdrop-filter: blur(10px);
-                transition: var(--transition);
-            }
-            
-            .desktop-countdown-item:hover {
-                transform: translateY(-8px);
-                box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-            }
-            
-            .desktop-countdown-value {
-                font-size: 3rem;
-                font-weight: 700;
-                color: var(--text-primary);
-                margin-bottom: 0.5rem;
-                font-variant-numeric: tabular-nums;
-                text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-            }
-            
-            .desktop-countdown-label {
-                font-size: 0.875rem;
-                color: var(--text-light);
-                text-transform: uppercase;
-                letter-spacing: 1px;
-                font-weight: 600;
-            }
-            
-            .desktop-right {
-                background: var(--surface);
-                border-radius: var(--radius-lg);
-                padding: 3rem;
-                box-shadow: var(--shadow-lg);
-                border: 1px solid var(--border);
-            }
-            
-            .desktop-progress {
-                margin: 2rem 0;
-            }
-            
-            .desktop-progress-bar {
-                height: 12px;
-                background: rgba(30, 41, 59, 0.8);
-                border-radius: 10px;
-                overflow: hidden;
-                border: 1px solid var(--border);
-            }
-            
-            .desktop-features {
-                display: grid;
-                grid-template-columns: 1fr 1fr;
-                gap: 1.5rem;
-                margin-top: 2rem;
-            }
-            
-            .desktop-feature {
-                display: flex;
-                align-items: center;
-                gap: 1rem;
-                padding: 1rem;
-                background: rgba(30, 41, 59, 0.5);
-                border-radius: var(--radius);
-                transition: var(--transition);
-            }
-            
-            .desktop-feature:hover {
-                background: rgba(37, 99, 235, 0.2);
-                transform: translateX(5px);
-            }
-            
-            .desktop-feature-icon {
-                width: 40px;
-                height: 40px;
-                background: var(--primary);
-                color: white;
-                border-radius: 10px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                font-size: 1rem;
-                flex-shrink: 0;
-            }
-        }
-
-        /* Ajustes para pantallas muy pequeñas */
-        @media (max-width: 380px) {
-            .mobile-container {
-                padding: 1.5rem;
-            }
-            
-            .countdown {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 0.75rem;
-            }
-            
-            .countdown-item {
-                padding: 1.25rem 0.5rem;
-            }
-            
-            .countdown-value {
-                font-size: 1.75rem;
-            }
-            
-            .logo {
-                flex-direction: column;
-                gap: 0.5rem;
-            }
-        }
-
-        /* Prevenir zoom y gestos no deseados */
-        @media (pointer: coarse) {
-            * {
-                -webkit-user-select: none;
-                -moz-user-select: none;
-                -ms-user-select: none;
-                user-select: none;
-            }
-        }
-
         /* Notificación */
         .notification {
             position: fixed;
@@ -628,6 +481,7 @@
             z-index: 1000;
             border: 1px solid var(--border);
             backdrop-filter: blur(10px);
+            max-width: 90%;
         }
 
         .notification.show {
@@ -644,6 +498,79 @@
             font-size: 0.875rem;
             font-weight: 500;
         }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            body {
+                padding: 15px;
+            }
+            
+            .main-container {
+                border-radius: 20px;
+            }
+            
+            .header {
+                padding: 2rem 1.5rem;
+            }
+            
+            .content {
+                padding: 2rem 1.5rem;
+            }
+            
+            .logo {
+                flex-direction: column;
+                gap: 0.8rem;
+            }
+            
+            .logo-text {
+                font-size: 2rem;
+            }
+            
+            .countdown {
+                gap: 0.8rem;
+            }
+            
+            .countdown-item {
+                padding: 1.2rem 0.5rem;
+            }
+            
+            .countdown-value {
+                font-size: 2rem;
+            }
+            
+            .icon-wrapper {
+                width: 100px;
+                height: 100px;
+                font-size: 2.5rem;
+            }
+        }
+
+        @media (max-width: 350px) {
+            .countdown {
+                flex-direction: column;
+                gap: 0.8rem;
+            }
+            
+            .countdown-item {
+                flex-direction: row;
+                justify-content: space-between;
+                padding: 1rem 1.5rem;
+            }
+            
+            .countdown-value {
+                margin-bottom: 0;
+            }
+        }
+
+        /* Prevenir zoom */
+        @media (pointer: coarse) {
+            * {
+                -webkit-user-select: none;
+                -moz-user-select: none;
+                -ms-user-select: none;
+                user-select: none;
+            }
+        }
     </style>
 </head>
 <body>
@@ -653,23 +580,25 @@
         <div class="floating-shapes" id="floatingShapes"></div>
     </div>
 
-    <!-- Diseño para móvil -->
-    <div class="mobile-container">
-        <div class="logo">
-            <div class="logo-icon">
-                <i class="fas fa-code"></i>
+    <!-- Contenedor principal -->
+    <div class="main-container">
+        <div class="header">
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-code"></i>
+                </div>
+                <div class="logo-text">NesticoTech</div>
             </div>
-            <div class="logo-text">NesticoTech</div>
-        </div>
-
-        <div class="status-card">
+            
             <div class="status-badge">
                 <i class="fas fa-sync-alt fa-spin"></i> Mantenimiento en Progreso
             </div>
             
             <h1>Mejoras en Curso</h1>
             <p class="subtitle">Estamos implementando actualizaciones para ofrecerte una experiencia superior</p>
-            
+        </div>
+        
+        <div class="content">
             <div class="maintenance-icon">
                 <div class="icon-wrapper">
                     <i class="fas fa-cogs"></i>
@@ -678,163 +607,76 @@
             
             <div class="countdown">
                 <div class="countdown-item">
-                    <div class="countdown-value" id="mobile-hours">00</div>
+                    <div class="countdown-value" id="hours">03</div>
                     <div class="countdown-label">Horas</div>
                 </div>
                 <div class="countdown-item">
-                    <div class="countdown-value" id="mobile-minutes">00</div>
+                    <div class="countdown-value" id="minutes">14</div>
                     <div class="countdown-label">Minutos</div>
                 </div>
                 <div class="countdown-item">
-                    <div class="countdown-value" id="mobile-seconds">00</div>
+                    <div class="countdown-value" id="seconds">13</div>
                     <div class="countdown-label">Segundos</div>
                 </div>
             </div>
             
             <div class="progress-section">
                 <div class="progress-header">
-                    <span class="progress-label">Progreso del Sistema</span>
-                    <span class="progress-percentage" id="mobile-progress-percentage">0%</span>
+                    <span class="progress-title">Progreso del Sistema</span>
+                    <span class="progress-status">
+                        <i class="fas fa-check-circle"></i> OK
+                    </span>
                 </div>
                 <div class="progress-container">
-                    <div class="progress-bar" id="mobile-progress-bar"></div>
+                    <div class="progress-bar" id="progressBar"></div>
                 </div>
+                <div class="progress-percentage" id="progressPercentage">0%</div>
             </div>
-        </div>
-        
-        <div class="details-section">
-            <h3 class="details-title">
-                <i class="fas fa-list-check"></i> Actualizaciones en Progreso
-            </h3>
-            <ul class="details-list">
-                <li class="details-item">
-                    <div class="details-icon">
-                        <i class="fas fa-server"></i>
-                    </div>
-                    <span class="details-text">Optimización de servidores</span>
-                </li>
-                <li class="details-item">
-                    <div class="details-icon">
-                        <i class="fas fa-shield-alt"></i>
-                    </div>
-                    <span class="details-text">Mejoras de seguridad</span>
-                </li>
-                <li class="details-item">
-                    <div class="details-icon">
-                        <i class="fas fa-bolt"></i>
-                    </div>
-                    <span class="details-text">Nuevas funcionalidades</span>
-                </li>
-            </ul>
-        </div>
-        
-        <div class="contact-section">
-            <p class="contact-info">
-                ¿Necesitas ayuda? <a href="mailto:soporte@nesticotech.com" class="contact-link">soporte@nesticotech.com</a>
-            </p>
             
-            <div class="social-links">
-                <a href="#" class="social-link">
-                    <i class="fab fa-twitter"></i>
-                </a>
-                <a href="#" class="social-link">
-                    <i class="fab fa-linkedin-in"></i>
-                </a>
-                <a href="#" class="social-link">
-                    <i class="fab fa-github"></i>
-                </a>
-                <a href="#" class="social-link">
-                    <i class="fab fa-discord"></i>
-                </a>
+            <div class="updates-section">
+                <h3 class="updates-title">
+                    <i class="fas fa-list-check"></i> Actualizaciones en Progreso
+                </h3>
+                <ul class="updates-list">
+                    <li class="update-item">
+                        <div class="update-status pending">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <span class="update-text">Optimización de servidores</span>
+                    </li>
+                    <li class="update-item">
+                        <div class="update-status completed">
+                            <i class="fas fa-check"></i>
+                        </div>
+                        <span class="update-text">Mejoras de seguridad</span>
+                    </li>
+                    <li class="update-item">
+                        <div class="update-status pending">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <span class="update-text">Nuevas funcionalidades</span>
+                    </li>
+                </ul>
             </div>
-        </div>
-    </div>
-
-    <!-- Diseño para escritorio -->
-    <div class="desktop-container">
-        <div class="desktop-content">
-            <div class="desktop-left">
-                <div class="desktop-logo">
-                    <div class="desktop-logo-icon">
-                        <i class="fas fa-code"></i>
-                    </div>
-                    <div class="desktop-logo-text">NesticoTech</div>
-                </div>
-                
-                <h1 class="desktop-title">Mejoras en <span style="color: var(--primary)">Progreso</span></h1>
-                <p class="desktop-subtitle">
-                    Nuestro equipo está trabajando en mejoras de infraestructura y nuevas funcionalidades. 
-                    Agradecemos tu paciencia durante este proceso.
+            
+            <div class="contact-section">
+                <p class="contact-text">
+                    ¿Necesitas ayuda? <a href="mailto:soporte@nesticotech.com" class="contact-link">soporte@nesticotech.com</a>
                 </p>
                 
-                <div class="desktop-countdown">
-                    <div class="desktop-countdown-item">
-                        <div class="desktop-countdown-value" id="desktop-hours">00</div>
-                        <div class="desktop-countdown-label">Horas</div>
-                    </div>
-                    <div class="desktop-countdown-item">
-                        <div class="desktop-countdown-value" id="desktop-minutes">00</div>
-                        <div class="desktop-countdown-label">Minutos</div>
-                    </div>
-                    <div class="desktop-countdown-item">
-                        <div class="desktop-countdown-value" id="desktop-seconds">00</div>
-                        <div class="desktop-countdown-label">Segundos</div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="desktop-right">
-                <div class="status-badge">
-                    <i class="fas fa-sync-alt fa-spin"></i> Mantenimiento en Progreso
-                </div>
-                
-                <div class="maintenance-icon">
-                    <div class="icon-wrapper">
-                        <i class="fas fa-cogs"></i>
-                    </div>
-                </div>
-                
-                <div class="progress-section">
-                    <div class="progress-header">
-                        <span class="progress-label">Progreso del Sistema</span>
-                        <span class="progress-percentage" id="desktop-progress-percentage">0%</span>
-                    </div>
-                    <div class="desktop-progress-bar">
-                        <div class="progress-bar" id="desktop-progress-bar"></div>
-                    </div>
-                </div>
-                
-                <div class="desktop-features">
-                    <div class="desktop-feature">
-                        <div class="desktop-feature-icon">
-                            <i class="fas fa-server"></i>
-                        </div>
-                        <span class="details-text">Optimización de servidores</span>
-                    </div>
-                    <div class="desktop-feature">
-                        <div class="desktop-feature-icon">
-                            <i class="fas fa-shield-alt"></i>
-                        </div>
-                        <span class="details-text">Mejoras de seguridad</span>
-                    </div>
-                    <div class="desktop-feature">
-                        <div class="desktop-feature-icon">
-                            <i class="fas fa-bolt"></i>
-                        </div>
-                        <span class="details-text">Nuevas funcionalidades</span>
-                    </div>
-                    <div class="desktop-feature">
-                        <div class="desktop-feature-icon">
-                            <i class="fas fa-mobile-alt"></i>
-                        </div>
-                        <span class="details-text">Experiencia móvil</span>
-                    </div>
-                </div>
-                
-                <div class="contact-section">
-                    <p class="contact-info">
-                        ¿Necesitas ayuda? <a href="mailto:soporte@nesticotech.com" class="contact-link">soporte@nesticotech.com</a>
-                    </p>
+                <div class="social-links">
+                    <a href="#" class="social-link">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#" class="social-link">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+                    <a href="#" class="social-link">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a href="#" class="social-link">
+                        <i class="fab fa-discord"></i>
+                    </a>
                 </div>
             </div>
         </div>
@@ -848,11 +690,11 @@
     <script>
         // Crear formas flotantes para el fondo
         const floatingShapes = document.getElementById('floatingShapes');
-        for (let i = 0; i < 15; i++) {
+        for (let i = 0; i < 12; i++) {
             const shape = document.createElement('div');
             shape.classList.add('shape');
             
-            const size = Math.random() * 150 + 50;
+            const size = Math.random() * 120 + 30;
             shape.style.width = `${size}px`;
             shape.style.height = `${size}px`;
             
@@ -862,7 +704,7 @@
             shape.style.animationDuration = `${Math.random() * 30 + 20}s`;
             shape.style.animationDelay = `${Math.random() * 5}s`;
             
-            shape.style.opacity = Math.random() * 0.1 + 0.03;
+            shape.style.opacity = Math.random() * 0.08 + 0.02;
             
             floatingShapes.appendChild(shape);
         }
@@ -870,7 +712,8 @@
         // Configurar la fecha de finalización (3 horas desde ahora)
         const endTime = new Date();
         endTime.setHours(endTime.getHours() + 3);
-        endTime.setMinutes(endTime.getMinutes() + 15);
+        endTime.setMinutes(endTime.getMinutes() + 14);
+        endTime.setSeconds(endTime.getSeconds() + 13);
         
         // Guardar en localStorage para persistencia
         if (!localStorage.getItem('maintenanceEndTime')) {
@@ -881,18 +724,11 @@
         const maintenanceEndTime = new Date(savedEndTime);
 
         // Elementos del DOM
-        const mobileHours = document.getElementById('mobile-hours');
-        const mobileMinutes = document.getElementById('mobile-minutes');
-        const mobileSeconds = document.getElementById('mobile-seconds');
-        const mobileProgressBar = document.getElementById('mobile-progress-bar');
-        const mobileProgressPercentage = document.getElementById('mobile-progress-percentage');
-        
-        const desktopHours = document.getElementById('desktop-hours');
-        const desktopMinutes = document.getElementById('desktop-minutes');
-        const desktopSeconds = document.getElementById('desktop-seconds');
-        const desktopProgressBar = document.getElementById('desktop-progress-bar');
-        const desktopProgressPercentage = document.getElementById('desktop-progress-percentage');
-        
+        const hoursElement = document.getElementById('hours');
+        const minutesElement = document.getElementById('minutes');
+        const secondsElement = document.getElementById('seconds');
+        const progressBar = document.getElementById('progressBar');
+        const progressPercentage = document.getElementById('progressPercentage');
         const notification = document.getElementById('notification');
         const notificationText = document.getElementById('notificationText');
 
@@ -929,15 +765,10 @@
             const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
             const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-            // Actualizar elementos móviles
-            mobileHours.textContent = hours.toString().padStart(2, '0');
-            mobileMinutes.textContent = minutes.toString().padStart(2, '0');
-            mobileSeconds.textContent = seconds.toString().padStart(2, '0');
-            
-            // Actualizar elementos de escritorio
-            desktopHours.textContent = hours.toString().padStart(2, '0');
-            desktopMinutes.textContent = minutes.toString().padStart(2, '0');
-            desktopSeconds.textContent = seconds.toString().padStart(2, '0');
+            // Actualizar elementos
+            hoursElement.textContent = hours.toString().padStart(2, '0');
+            minutesElement.textContent = minutes.toString().padStart(2, '0');
+            secondsElement.textContent = seconds.toString().padStart(2, '0');
 
             // Actualizar la barra de progreso (3 horas = 10800000 ms)
             const totalTime = 3 * 60 * 60 * 1000;
@@ -945,12 +776,11 @@
             const elapsedTime = now - startTime;
             const progress = Math.min(100, Math.max(0, (elapsedTime / totalTime) * 100));
             
-            mobileProgressBar.style.width = `${progress}%`;
-            desktopProgressBar.style.width = `${progress}%`;
-            
-            const progressText = `${Math.round(progress)}%`;
-            mobileProgressPercentage.textContent = progressText;
-            desktopProgressPercentage.textContent = progressText;
+            progressBar.style.width = `${progress}%`;
+            progressPercentage.textContent = `${Math.round(progress)}%`;
+
+            // Actualizar estados de las tareas según el progreso
+            updateTaskStatus(progress);
 
             // Mostrar notificaciones en hitos importantes
             if (Math.round(progress) === 25 && progress > 24.5) {
@@ -959,6 +789,23 @@
                 showNotification("Sistemas de seguridad actualizados");
             } else if (Math.round(progress) === 75 && progress > 74.5) {
                 showNotification("Nuevas funcionalidades implementadas");
+            }
+        }
+
+        // Actualizar estados de las tareas
+        function updateTaskStatus(progress) {
+            const tasks = document.querySelectorAll('.update-item');
+            
+            if (progress >= 33) {
+                // Primera tarea completada
+                tasks[0].querySelector('.update-status').className = 'update-status completed';
+                tasks[0].querySelector('.update-status').innerHTML = '<i class="fas fa-check"></i>';
+            }
+            
+            if (progress >= 66) {
+                // Tercera tarea completada
+                tasks[2].querySelector('.update-status').className = 'update-status completed';
+                tasks[2].querySelector('.update-status').innerHTML = '<i class="fas fa-check"></i>';
             }
         }
 

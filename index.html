@@ -2,2862 +2,707 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Snacks - Tu fiesta perfecta empieza aquí</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <title>NesticoTech - Sitio en Mantenimiento</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            -webkit-touch-callout: none;
-            -webkit-user-select: none;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+
+        :root {
+            --primary: #007AFF;
+            --secondary: #5856D6;
+            --background: #F2F2F7;
+            --card-bg: #FFFFFF;
+            --text-primary: #1C1C1E;
+            --text-secondary: #8E8E93;
+            --success: #34C759;
+            --warning: #FF9500;
+            --border-radius: 18px;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #fafafa;
+            background: var(--background);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             overflow-x: hidden;
-        }
-
-        .loading-screen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, #FF6B9D 0%, #C06C84 50%, #6C5B7B 100%);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-            transition: opacity 0.8s, visibility 0.8s;
-        }
-
-        .loading-screen.hidden {
-            opacity: 0;
-            visibility: hidden;
-        }
-
-        .loader-container {
-            position: relative;
-            width: 300px;
-            height: 300px;
-        }
-
-        .popcorn-loader {
-            position: absolute;
-            width: 120px;
-            height: 140px;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
-
-        .popcorn-bucket {
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100px;
-            height: 80px;
-            background: linear-gradient(135deg, #FF6B6B 0%, #FF5252 100%);
-            clip-path: polygon(20% 0%, 80% 0%, 100% 100%, 0% 100%);
-            border-radius: 0 0 15px 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            animation: bucketShake 0.5s infinite;
-        }
-
-        .popcorn-bucket::before {
-            content: '🍿';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 35px;
-            animation: popcornPop 0.6s infinite;
-        }
-
-        .popcorn-piece {
-            position: absolute;
-            width: 25px;
-            height: 25px;
-            background: linear-gradient(135deg, #FFF8DC 0%, #FFE4B5 100%);
-            border-radius: 50% 40% 50% 40%;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-        }
-
-        .popcorn-piece:nth-child(1) {
-            top: -30px;
-            left: 20%;
-            animation: popcornJump1 1.2s infinite;
-        }
-
-        .popcorn-piece:nth-child(2) {
-            top: -40px;
-            left: 40%;
-            animation: popcornJump2 1s infinite;
-            animation-delay: 0.2s;
-        }
-
-        .popcorn-piece:nth-child(3) {
-            top: -35px;
-            right: 20%;
-            animation: popcornJump3 1.1s infinite;
-            animation-delay: 0.4s;
-        }
-
-        .loading-text {
-            position: absolute;
-            bottom: -60px;
-            left: 50%;
-            transform: translateX(-50%);
-            color: white;
-            font-size: 24px;
-            font-weight: 700;
-            letter-spacing: 3px;
-            animation: textPulse 1.5s infinite;
-        }
-
-        .loading-dots {
-            position: absolute;
-            bottom: -90px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            gap: 12px;
-        }
-
-        .loading-dot {
-            width: 12px;
-            height: 12px;
-            background: white;
-            border-radius: 50%;
-            animation: dotBounce 1.4s infinite ease-in-out;
-        }
-
-        .loading-dot:nth-child(1) { animation-delay: -0.32s; }
-        .loading-dot:nth-child(2) { animation-delay: -0.16s; }
-
-        @keyframes bucketShake {
-            0%, 100% { transform: translateX(-50%) rotate(-2deg); }
-            50% { transform: translateX(-50%) rotate(2deg); }
-        }
-
-        @keyframes popcornPop {
-            0%, 100% { transform: translate(-50%, -50%) scale(1); }
-            50% { transform: translate(-50%, -50%) scale(1.2); }
-        }
-
-        @keyframes popcornJump1 {
-            0%, 100% { transform: translateY(0) rotate(0deg); opacity: 1; }
-            50% { transform: translateY(-50px) rotate(180deg); opacity: 0.5; }
-        }
-
-        @keyframes popcornJump2 {
-            0%, 100% { transform: translateY(0) rotate(0deg); opacity: 1; }
-            50% { transform: translateY(-60px) rotate(-180deg); opacity: 0.5; }
-        }
-
-        @keyframes popcornJump3 {
-            0%, 100% { transform: translateY(0) rotate(0deg); opacity: 1; }
-            50% { transform: translateY(-45px) rotate(180deg); opacity: 0.5; }
-        }
-
-        @keyframes textPulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.6; }
-        }
-
-        @keyframes dotBounce {
-            0%, 80%, 100% { transform: scale(0); }
-            40% { transform: scale(1); }
-        }
-
-        .announcement-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.7);
-            backdrop-filter: blur(8px);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 5000;
             padding: 20px;
-        }
-
-        .announcement-modal.hidden {
-            display: none;
-        }
-
-        .announcement-content {
-            background: white;
-            border-radius: 30px;
-            max-width: 600px;
-            width: 100%;
-            padding: 50px 40px;
-            text-align: center;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            animation: slideUp 0.5s ease;
             position: relative;
         }
 
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(50px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .announcement-close {
-            position: absolute;
-            top: 15px;
-            right: 20px;
-            font-size: 35px;
-            cursor: pointer;
-            color: #999;
-            transition: 0.3s;
-        }
-
-        .announcement-close:hover {
-            color: #FF6B9D;
-            transform: rotate(90deg);
-        }
-
-        .announcement-icon {
-            font-size: 80px;
-            margin-bottom: 20px;
-        }
-
-        .announcement-content h2 {
-            font-size: 32px;
-            color: #333;
-            margin-bottom: 15px;
-            background: linear-gradient(135deg, #FF6B9D, #FEC84D);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .announcement-content p {
-            color: #666;
-            font-size: 16px;
-            line-height: 1.8;
-            margin-bottom: 30px;
-        }
-
-        .announcement-btn {
-            padding: 14px 40px;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-            border: none;
-            border-radius: 25px;
-            font-weight: 700;
-            cursor: pointer;
-            font-size: 16px;
-            transition: 0.3s;
-        }
-
-        .announcement-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
-        }
-
-        .whatsapp-float {
+        body::before {
+            content: '';
             position: fixed;
-            bottom: 30px;
-            right: 30px;
-            width: 70px;
-            height: 70px;
-            background: linear-gradient(135deg, #25D366, #20BA5A);
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 40px;
-            cursor: pointer;
-            box-shadow: 0 10px 40px rgba(37, 211, 102, 0.4);
-            animation: float 3s ease-in-out infinite;
-            z-index: 999;
-            transition: 0.3s;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-15px); }
-        }
-
-        .whatsapp-float:hover {
-            transform: scale(1.15);
-            box-shadow: 0 15px 50px rgba(37, 211, 102, 0.6);
-        }
-
-        header {
-            background: rgba(255, 255, 255, 0.98);
-            backdrop-filter: blur(20px);
-            padding: 20px 5%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.08);
-            position: sticky;
             top: 0;
-            z-index: 100;
-            border-bottom: 2px solid rgba(255,107,157,0.1);
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #007AFF 0%, #5856D6 100%);
+            opacity: 0.05;
+            z-index: -1;
         }
 
-        .logo-container {
+        .container {
+            max-width: 800px;
+            width: 100%;
+            padding: 2.5rem;
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            position: relative;
+            z-index: 1;
+            transition: var(--transition);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+        }
+
+        .container:hover {
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+        }
+
+        .logo {
             display: flex;
             align-items: center;
-            gap: 15px;
-            cursor: pointer;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 2rem;
         }
 
-        .logo-svg {
+        .logo-icon {
             width: 50px;
             height: 50px;
-            animation: logoFloat 3s ease-in-out infinite;
-        }
-
-        @keyframes logoFloat {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-8px) rotate(5deg); }
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0, 122, 255, 0.3);
         }
 
         .logo-text {
-            font-size: 32px;
-            font-weight: 900;
-            background: linear-gradient(135deg, #FF6B9D 0%, #FF8E53 50%, #FEC84D 100%);
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .logo-text span {
+            color: var(--primary);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            text-align: center;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
             -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
             background-clip: text;
-            letter-spacing: 1px;
+            color: transparent;
         }
 
-        nav {
-            display: flex;
-            gap: 35px;
-            align-items: center;
-        }
-
-        nav a {
-            text-decoration: none;
-            color: #555;
-            font-size: 16px;
-            font-weight: 600;
-            transition: all 0.3s;
-            cursor: pointer;
-            position: relative;
-            padding: 8px 0;
-        }
-
-        nav a::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 0;
-            height: 3px;
-            background: linear-gradient(135deg, #FF6B9D 0%, #FEC84D 100%);
-            transition: width 0.3s;
-            border-radius: 2px;
-        }
-
-        nav a:hover::after {
-            width: 100%;
-        }
-
-        nav a:hover {
-            color: #FF6B9D;
-        }
-
-        .header-actions {
-            display: flex;
-            gap: 15px;
-            align-items: center;
-        }
-
-        .action-btn {
-            padding: 12px 28px;
-            border-radius: 30px;
-            border: none;
-            font-size: 15px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, #FF6B9D 0%, #FF5252 100%);
-            color: white;
-            box-shadow: 0 8px 25px rgba(255,107,157,0.4);
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 12px 35px rgba(255,107,157,0.5);
-        }
-
-        .btn-secondary {
-            background: white;
-            color: #FF6B9D;
-            border: 2px solid #FF6B9D;
-        }
-
-        .btn-secondary:hover {
-            background: #FF6B9D;
-            color: white;
-        }
-
-        .menu-mobile {
-            display: none;
-            flex-direction: column;
-            gap: 6px;
-            cursor: pointer;
-        }
-
-        .menu-mobile span {
-            width: 30px;
-            height: 3px;
-            background: linear-gradient(135deg, #FF6B9D 0%, #FEC84D 100%);
-            border-radius: 3px;
-            transition: 0.3s;
-        }
-
-        .hero {
-            background: linear-gradient(135deg, #FF6B9D 0%, #C06C84 50%, #6C5B7B 100%);
-            padding: 100px 5%;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            align-items: center;
-            gap: 80px;
-            min-height: 650px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            right: -20%;
-            width: 80%;
-            height: 150%;
-            background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 70%);
-            animation: heroGlow 8s ease-in-out infinite;
-        }
-
-        @keyframes heroGlow {
-            0%, 100% { transform: scale(1) rotate(0deg); opacity: 0.5; }
-            50% { transform: scale(1.1) rotate(10deg); opacity: 0.8; }
-        }
-
-        .hero-content {
-            position: relative;
-            z-index: 2;
-        }
-
-        .hero-content h1 {
-            color: white;
-            font-size: 62px;
-            line-height: 1.2;
-            margin-bottom: 25px;
-            animation: fadeInUp 0.8s ease;
-            font-weight: 900;
-            text-shadow: 0 8px 30px rgba(0,0,0,0.2);
-        }
-
-        .hero-content p {
-            color: rgba(255,255,255,0.95);
-            font-size: 20px;
-            margin-bottom: 40px;
+        .subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 2.5rem;
+            text-align: center;
             line-height: 1.6;
-            animation: fadeInUp 0.8s ease 0.2s both;
         }
 
-        .search-box {
-            background: rgba(255, 255, 255, 0.98);
-            backdrop-filter: blur(10px);
-            padding: 8px 12px;
-            border-radius: 60px;
-            display: flex;
-            align-items: center;
-            gap: 0px;
-            box-shadow: 0 15px 50px rgba(0,0,0,0.2);
-            margin-bottom: 60px;
-            transition: all 0.3s;
-            border: 2px solid rgba(255,255,255,0.5);
-        }
-
-        .search-box:focus-within {
-            transform: scale(1.02);
-            box-shadow: 0 20px 60px rgba(255,107,157,0.4);
-            border-color: #FF6B9D;
-        }
-
-        .search-box input {
-            border: none;
-            outline: none;
-            flex: 1;
-            font-size: 17px;
-            color: #333;
-            background: transparent;
-            padding: 12px;
-        }
-
-        .search-box input::placeholder {
-            color: #999;
-        }
-
-        .search-icon {
-            font-size: 24px;
-            cursor: pointer;
-            transition: transform 0.3s;
-            padding: 8px;
-        }
-
-        .search-icon:hover {
-            transform: scale(1.2);
-        }
-
-        .filter-buttons {
-            display: flex;
-            gap: 15px;
-            flex-wrap: wrap;
-            animation: fadeInUp 0.8s ease 0.4s both;
-        }
-
-        .filter-btn {
-            padding: 14px 28px;
-            border-radius: 30px;
-            border: none;
-            font-size: 20px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.4s;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .filter-btn.active {
-            background: linear-gradient(135deg, #FEC84D 0%, #FF8E53 100%);
-            color: white;
-            box-shadow: 0 8px 25px rgba(254,200,77,0.5);
-            transform: translateY(-2px);
-        }
-
-        .filter-btn:not(.active) {
-            background: rgba(255, 255, 255, 0.25);
-            backdrop-filter: blur(10px);
-            color: white;
-            border: 2px solid rgba(255,255,255,0.4);
-        }
-
-        .filter-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.25);
-        }
-
-        .hero-image {
-            position: relative;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 2;
-        }
-
-        .snack-illustration {
-            width: 450px;
-            height: 450px;
-            position: relative;
-            animation: float 4s ease-in-out infinite;
+        .maintenance-icon {
+            font-size: 5rem;
+            margin: 2rem 0;
+            color: var(--primary);
+            text-align: center;
+            animation: float 3s ease-in-out infinite;
         }
 
         @keyframes float {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-30px) rotate(5deg); }
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
         }
 
-        .search-results {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) scale(0.9);
-            width: 90%;
-            max-width: 900px;
-            max-height: 85vh;
-            background: white;
-            border-radius: 30px;
-            padding: 40px;
-            box-shadow: 0 25px 80px rgba(0,0,0,0.3);
-            z-index: 1000;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s;
-            overflow-y: auto;
+        .status-container {
+            background: var(--background);
+            border-radius: var(--border-radius);
+            padding: 1.8rem;
+            margin: 2.5rem 0;
+            box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(0, 0, 0, 0.05);
         }
 
-        .search-results.active {
-            opacity: 1;
-            visibility: visible;
-            transform: translate(-50%, -50%) scale(1);
-        }
-
-        .search-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.6);
-            backdrop-filter: blur(5px);
-            z-index: 999;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s;
-        }
-
-        .search-overlay.active {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .close-search {
-            position: absolute;
-            top: 20px;
-            right: 25px;
-            font-size: 35px;
-            cursor: pointer;
-            color: #999;
-            transition: all 0.3s;
-            width: 45px;
-            height: 45px;
+        .status-title {
+            font-size: 1.2rem;
+            color: var(--text-primary);
+            margin-bottom: 1.2rem;
             display: flex;
             align-items: center;
             justify-content: center;
-            border-radius: 50%;
-        }
-
-        .close-search:hover {
-            background: #f8f9ff;
-            color: #FF6B9D;
-            transform: rotate(90deg);
-        }
-
-        .results-header {
-            margin-bottom: 30px;
-            padding-bottom: 20px;
-            border-bottom: 2px solid #f0f0f0;
-        }
-
-        .results-header h2 {
-            font-size: 32px;
-            color: #333;
-            margin-bottom: 10px;
-            background: linear-gradient(135deg, #FF6B9D 0%, #FEC84D 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .result-item {
-            padding: 25px;
-            border-bottom: 1px solid #f0f0f0;
-            cursor: pointer;
-            transition: all 0.3s;
-            border-radius: 15px;
-            margin-bottom: 10px;
-        }
-
-        .result-item:hover {
-            background: linear-gradient(135deg, #f8f9ff 0%, #fff5f8 100%);
-            transform: translateX(10px);
-            box-shadow: 0 5px 20px rgba(255,107,157,0.1);
-        }
-
-        .result-item h3 {
-            color: #333;
-            font-size: 20px;
-            margin-bottom: 8px;
-            display: flex;
-            align-items: center;
             gap: 10px;
         }
 
-        .result-item p {
-            color: #666;
-            font-size: 15px;
-            line-height: 1.6;
-        }
-
-        .no-results {
-            text-align: center;
-            padding: 60px 20px;
-        }
-
-        .no-results-icon {
-            font-size: 80px;
-            margin-bottom: 20px;
-        }
-
-        .categories {
-            padding: 100px 5%;
-            background: linear-gradient(180deg, white 0%, #f8f9ff 100%);
-        }
-
-        .section-header {
-            text-align: center;
-            margin-bottom: 60px;
-        }
-
-        .section-header h2 {
-            color: #333;
-            font-size: 48px;
-            margin-bottom: 15px;
-            font-weight: 900;
-            background: linear-gradient(135deg, #FF6B9D 0%, #FEC84D 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .section-header p {
-            color: #666;
-            font-size: 18px;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        .category-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-            gap: 40px;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        .category-item {
-            text-align: center;
-            cursor: pointer;
-            transition: transform 0.4s;
-            animation: fadeInUp 0.6s ease both;
-        }
-
-        .category-item:hover {
-            transform: translateY(-20px);
-        }
-
-        .category-icon {
-            width: 160px;
-            height: 160px;
-            background: white;
-            border-radius: 30px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin: 0 auto 20px;
-            font-size: 80px;
-            box-shadow: 0 15px 50px rgba(0,0,0,0.1);
-            transition: all 0.4s;
-            position: relative;
+        .progress-container {
+            width: 100%;
+            height: 10px;
+            background: #E5E5EA;
+            border-radius: 10px;
+            margin: 1.5rem 0;
             overflow: hidden;
         }
 
-        .category-icon::before {
+        .progress-bar {
+            height: 100%;
+            width: 65%;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            border-radius: 10px;
+            position: relative;
+            transition: width 0.5s ease;
+        }
+
+        .progress-bar::after {
             content: '';
             position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(135deg, rgba(255,107,157,0.1) 0%, rgba(254,200,77,0.1) 100%);
-            transform: rotate(45deg);
-            transition: all 0.5s;
-        }
-
-        .category-item:hover .category-icon {
-            box-shadow: 0 25px 70px rgba(255,107,157,0.3);
-            transform: scale(1.1) rotate(-5deg);
-        }
-
-        .category-item:hover .category-icon::before {
             top: 0;
             left: 0;
+            bottom: 0;
+            right: 0;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            animation: shimmer 2s infinite;
         }
 
-        .category-name {
-            color: #333;
-            font-size: 17px;
-            font-weight: 700;
-            transition: color 0.3s;
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
         }
 
-        .category-item:hover .category-name {
-            color: #FF6B9D;
-        }
-
-        .services {
-            padding: 100px 5%;
-            background: white;
-        }
-
-        .service-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 35px;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        .service-card {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            padding: 50px;
-            border-radius: 30px;
-            color: white;
-            box-shadow: 0 15px 50px rgba(0,0,0,0.15);
-            transition: all 0.4s;
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .service-card::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            right: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
-            transition: all 0.5s;
-        }
-
-        .service-card:hover::before {
-            top: -25%;
-            right: -25%;
-        }
-
-        .service-card:hover {
-            transform: translateY(-15px);
-            box-shadow: 0 25px 70px rgba(102,126,234,0.3);
-        }
-
-        .service-icon {
-            font-size: 70px;
-            margin-bottom: 25px;
-            display: inline-block;
-            animation: serviceFloat 3s ease-in-out infinite;
-        }
-
-        .service-card:nth-child(2) .service-icon {
-            animation-delay: 0.3s;
-        }
-
-        .service-card:nth-child(3) .service-icon {
-            animation-delay: 0.6s;
-        }
-
-        @keyframes serviceFloat {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-
-        .service-card h3 {
-            font-size: 26px;
-            margin-bottom: 15px;
-            font-weight: 700;
-        }
-
-        .service-card p {
-            font-size: 16px;
-            line-height: 1.7;
-            opacity: 0.95;
-        }
-
-        .flyers {
-            padding: 100px 5%;
-            background: linear-gradient(180deg, #f8f9ff 0%, white 100%);
-        }
-
-        .flyer-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 35px;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        .flyer-card {
-            background: white;
-            border-radius: 25px;
-            overflow: hidden;
-            box-shadow: 0 15px 50px rgba(0,0,0,0.1);
-            transition: all 0.4s;
-            cursor: pointer;
-        }
-
-        .flyer-card:hover {
-            transform: translateY(-15px);
-            box-shadow: 0 25px 70px rgba(255,107,157,0.2);
-        }
-
-        .flyer-image {
-            width: 100%;
-            height: 250px;
-            background: linear-gradient(135deg, #FF6B9D 0%, #FEC84D 100%);
+        .countdown {
             display: flex;
-            align-items: center;
             justify-content: center;
-            font-size: 100px;
+            gap: 1.2rem;
+            margin: 3rem 0;
+        }
+
+        .countdown-item {
+            background: var(--card-bg);
+            padding: 1.5rem 1rem;
+            border-radius: var(--border-radius);
+            min-width: 100px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            border: 1px solid rgba(0, 0, 0, 0.05);
             position: relative;
             overflow: hidden;
         }
 
-        .flyer-image::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 70%);
-            animation: imageGlow 3s ease-in-out infinite;
-        }
-
-        @keyframes imageGlow {
-            0%, 100% { transform: translate(0, 0); }
-            50% { transform: translate(-20%, -20%); }
-        }
-
-        .flyer-content {
-            padding: 30px;
-        }
-
-        .flyer-content h3 {
-            font-size: 22px;
-            color: #333;
-            margin-bottom: 12px;
-            font-weight: 700;
-        }
-
-        .flyer-content p {
-            color: #666;
-            font-size: 15px;
-            line-height: 1.6;
-            margin-bottom: 20px;
-        }
-
-        .flyer-price {
-            font-size: 24px;
-            font-weight: 800;
-            background: linear-gradient(135deg, #FF6B9D 0%, #FEC84D 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .testimonials {
-            padding: 100px 5%;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-        }
-
-        .testimonial-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 35px;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        .testimonial-card {
-            background: rgba(255,255,255,0.1);
-            backdrop-filter: blur(10px);
-            padding: 40px;
-            border-radius: 25px;
-            border: 2px solid rgba(255,255,255,0.2);
-            transition: all 0.4s;
-        }
-
-        .testimonial-card:hover {
-            transform: translateY(-10px);
-            background: rgba(255,255,255,0.15);
-            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
-        }
-
-        .testimonial-stars {
-            font-size: 24px;
-            margin-bottom: 20px;
-        }
-
-        .testimonial-text {
-            font-size: 16px;
-            line-height: 1.7;
-            margin-bottom: 25px;
-            font-style: italic;
-        }
-
-        .testimonial-author {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .testimonial-avatar {
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, #FF6B9D 0%, #FEC84D 100%);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 28px;
-            border: 3px solid white;
-        }
-
-        .testimonial-info h4 {
-            font-size: 18px;
-            margin-bottom: 5px;
-        }
-
-        .testimonial-info p {
-            font-size: 14px;
-            opacity: 0.8;
-        }
-
-        .social-center {
-            padding: 100px 5%;
-            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .social-center::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 70%);
-            animation: socialGlow 10s ease-in-out infinite;
-        }
-
-        @keyframes socialGlow {
-            0%, 100% { transform: translate(0, 0) rotate(0deg); }
-            50% { transform: translate(10%, 10%) rotate(90deg); }
-        }
-
-        .social-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            text-align: center;
-            position: relative;
-            z-index: 2;
-        }
-
-        .social-content h2 {
-            color: white;
-            font-size: 48px;
-            margin-bottom: 20px;
-            font-weight: 900;
-            text-shadow: 0 5px 20px rgba(0,0,0,0.3);
-        }
-
-        .social-content p {
-            color: rgba(255,255,255,0.9);
-            font-size: 20px;
-            margin-bottom: 60px;
-        }
-
-        .social-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 40px;
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-
-        .social-item {
-            background: rgba(255,255,255,0.1);
-            backdrop-filter: blur(20px);
-            padding: 40px 30px;
-            border-radius: 25px;
-            border: 2px solid rgba(255,255,255,0.2);
-            cursor: pointer;
-            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .social-item::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            border-radius: 50%;
-            background: rgba(255,255,255,0.2);
-            transition: all 0.6s;
-            transform: translate(-50%, -50%);
-        }
-
-        .social-item:hover::before {
-            width: 300px;
-            height: 300px;
-        }
-
-        .social-item:hover {
-            transform: translateY(-15px) scale(1.05);
-            box-shadow: 0 25px 60px rgba(0,0,0,0.3);
-            border-color: rgba(255,255,255,0.5);
-        }
-
-        .social-icon-wrapper {
-            width: 80px;
-            height: 80px;
-            margin: 0 auto 20px;
-            background: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 40px;
-            transition: all 0.5s;
-            position: relative;
-            z-index: 2;
-        }
-
-        .social-item:hover .social-icon-wrapper {
-            transform: scale(1.2) rotate(360deg);
-            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
-        }
-
-        .social-name {
-            color: white;
-            font-size: 20px;
-            font-weight: 700;
-            margin-bottom: 10px;
-            position: relative;
-            z-index: 2;
-        }
-
-        .social-handle {
-            color: rgba(255,255,255,0.8);
-            font-size: 14px;
-            position: relative;
-            z-index: 2;
-        }
-
-        footer {
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-            color: white;
-            padding: 80px 5% 30px;
-            position: relative;
-        }
-
-        footer::before {
+        .countdown-item::before {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 4px;
-            background: linear-gradient(90deg, #FF6B9D 0%, #FEC84D 50%, #FF6B9D 100%);
+            background: linear-gradient(to right, var(--primary), var(--secondary));
         }
 
-        .footer-content {
+        .countdown-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .countdown-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .countdown-label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .features {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 50px;
-            max-width: 1400px;
-            margin: 0 auto 50px;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.2rem;
+            margin: 2.5rem 0;
         }
 
-        .footer-section h3 {
-            margin-bottom: 25px;
-            font-size: 22px;
-            background: linear-gradient(135deg, #FF6B9D 0%, #FEC84D 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            font-weight: 800;
-        }
-
-        .footer-section p {
-            color: rgba(255,255,255,0.8);
-            line-height: 1.8;
-            margin-bottom: 20px;
-        }
-
-        .footer-section a {
+        .feature {
             display: flex;
             align-items: center;
-            gap: 10px;
-            color: rgba(255,255,255,0.8);
-            text-decoration: none;
-            margin-bottom: 15px;
-            transition: all 0.3s;
-            padding: 8px 0;
+            gap: 12px;
+            background: var(--background);
+            padding: 1.2rem;
+            border-radius: var(--border-radius);
+            font-size: 0.95rem;
+            color: var(--text-primary);
+            transition: var(--transition);
         }
 
-        .footer-section a:hover {
-            color: #FEC84D;
-            transform: translateX(10px);
+        .feature:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
         }
 
-        .footer-logo {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: 20px;
+        .feature i {
+            color: var(--primary);
+            font-size: 1.2rem;
         }
 
-        .footer-logo-icon {
-            font-size: 40px;
+        .community-section {
+            background: var(--background);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            margin: 2.5rem 0;
+            text-align: center;
         }
 
-        .footer-logo-text {
-            font-size: 28px;
-            font-weight: 900;
-            background: linear-gradient(135deg, #FF6B9D 0%, #FEC84D 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+        .community-title {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
         }
 
         .social-links {
             display: flex;
-            gap: 15px;
-            margin-top: 25px;
+            justify-content: center;
+            gap: 1.2rem;
+            margin: 1.5rem 0;
         }
 
         .social-link {
-            width: 45px;
-            height: 45px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 20px;
-            transition: all 0.3s;
-            border: 2px solid rgba(255,255,255,0.2);
+            width: 55px;
+            height: 55px;
+            background: var(--card-bg);
+            color: var(--text-primary);
+            border-radius: 50%;
+            font-size: 1.3rem;
+            transition: var(--transition);
+            text-decoration: none;
+            box-shadow: var(--shadow);
         }
 
         .social-link:hover {
-            background: linear-gradient(135deg, #FF6B9D 0%, #FEC84D 100%);
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(255,107,157,0.4);
+            transform: translateY(-5px) scale(1.1);
+            color: white;
         }
 
-        .footer-bottom {
-            text-align: center;
-            padding-top: 40px;
-            border-top: 1px solid rgba(255,255,255,0.1);
-            color: rgba(255,255,255,0.7);
+        .social-link.discord:hover { background: #5865F2; }
+        .social-link.github:hover { background: #333; }
+        .social-link.twitter:hover { background: #1DA1F2; }
+        .social-link.linkedin:hover { background: #0077B5; }
+
+        .contact-info {
+            margin-top: 2.5rem;
+            padding-top: 1.8rem;
+            border-top: 1px solid #E5E5EA;
+            font-size: 1rem;
+            color: var(--text-secondary);
         }
 
-        .footer-bottom p {
-            font-size: 15px;
+        .contact-info a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
         }
 
-        .modal {
+        .contact-info a:hover {
+            text-decoration: underline;
+        }
+
+        .notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--card-bg);
+            padding: 1rem 1.5rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: var(--transition);
+            z-index: 1000;
+        }
+
+        .notification.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .notification i {
+            color: var(--success);
+            font-size: 1.2rem;
+        }
+
+        .floating-elements {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.8);
-            backdrop-filter: blur(10px);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 2000;
-            padding: 20px;
+            overflow: hidden;
+            z-index: 0;
+            pointer-events: none;
         }
 
-        .modal.active {
-            display: flex;
-            animation: fadeIn 0.3s ease;
-        }
-
-        .modal-content {
-            background: white;
-            padding: 50px;
-            border-radius: 30px;
-            max-width: 700px;
-            width: 100%;
-            max-height: 85vh;
-            overflow-y: auto;
-            position: relative;
-            animation: modalSlideIn 0.4s ease;
-            box-shadow: 0 25px 80px rgba(0,0,0,0.3);
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        @keyframes modalSlideIn {
-            from { transform: scale(0.9) translateY(-20px); opacity: 0; }
-            to { transform: scale(1) translateY(0); opacity: 1; }
-        }
-
-        .modal-close {
+        .floating-element {
             position: absolute;
-            top: 20px;
-            right: 25px;
-            font-size: 40px;
-            cursor: pointer;
-            color: #999;
-            transition: all 0.3s;
-            width: 50px;
-            height: 50px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            background: rgba(0, 122, 255, 0.1);
             border-radius: 50%;
+            animation: float-element 25s infinite linear;
         }
 
-        .modal-close:hover {
-            background: #f8f9ff;
-            color: #FF6B9D;
-            transform: rotate(90deg);
-        }
-
-        .modal-header {
-            text-align: center;
-            margin-bottom: 35px;
-        }
-
-        .modal-icon {
-            font-size: 80px;
-            margin-bottom: 20px;
-            display: inline-block;
-            animation: modalIconPop 0.6s ease;
-        }
-
-        @keyframes modalIconPop {
-            0% { transform: scale(0); }
-            50% { transform: scale(1.2); }
-            100% { transform: scale(1); }
-        }
-
-        .modal-header h2 {
-            font-size: 36px;
-            color: #333;
-            margin-bottom: 15px;
-            font-weight: 800;
-            background: linear-gradient(135deg, #FF6B9D 0%, #FEC84D 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .modal-description {
-            color: #666;
-            font-size: 17px;
-            line-height: 1.7;
-            margin-bottom: 30px;
-        }
-
-        .modal-features {
-            background: linear-gradient(135deg, #f8f9ff 0%, #fff5f8 100%);
-            border-radius: 20px;
-            padding: 30px;
-            margin-bottom: 30px;
-        }
-
-        .modal-features h3 {
-            color: #333;
-            font-size: 22px;
-            margin-bottom: 20px;
-            font-weight: 700;
-        }
-
-        .feature-list {
-            list-style: none;
-        }
-
-        .feature-list li {
-            padding: 12px 0;
-            color: #555;
-            font-size: 16px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            border-bottom: 1px solid rgba(0,0,0,0.05);
-        }
-
-        .feature-list li:last-child {
-            border-bottom: none;
-        }
-
-        .modal-price {
-            text-align: center;
-            padding: 25px;
-            background: linear-gradient(135deg, #FF6B9D 0%, #FEC84D 100%);
-            border-radius: 20px;
-            color: white;
-            margin-bottom: 25px;
-        }
-
-        .modal-price-label {
-            font-size: 16px;
-            margin-bottom: 10px;
-            opacity: 0.9;
-        }
-
-        .modal-price-amount {
-            font-size: 42px;
-            font-weight: 900;
-        }
-
-        .modal-actions {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-        }
-
-        .modal-btn {
-            padding: 16px 40px;
-            border-radius: 30px;
-            border: none;
-            font-size: 17px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .modal-btn-primary {
-            background: linear-gradient(135deg, #FF6B9D 0%, #FF5252 100%);
-            color: white;
-            box-shadow: 0 10px 30px rgba(255,107,157,0.4);
-        }
-
-        .modal-btn-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 40px rgba(255,107,157,0.5);
-        }
-
-        .modal-btn-secondary {
-            background: white;
-            color: #FF6B9D;
-            border: 2px solid #FF6B9D;
-        }
-
-        .modal-btn-secondary:hover {
-            background: #FF6B9D;
-            color: white;
-        }
-
-        @media (max-width: 1024px) {
-            .hero {
-                padding: 80px 5%;
-                gap: 60px;
-                grid-template-columns: 1fr 1fr;
-                min-height: auto;
-            }
-
-            .hero-content h1 {
-                font-size: 48px;
-            }
-
-            .hero-content p {
-                font-size: 18px;
-            }
-
-            .snack-illustration {
-                width: 350px;
-                height: 350px;
-            }
-
-            .category-grid {
-                grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-                gap: 30px;
-            }
-
-            .category-icon {
-                width: 140px;
-                height: 140px;
-                font-size: 70px;
-            }
-
-            .section-header h2 {
-                font-size: 40px;
-            }
+        @keyframes float-element {
+            0% { transform: translateY(100vh) rotate(0deg); }
+            100% { transform: translateY(-100px) rotate(360deg); }
         }
 
         @media (max-width: 768px) {
-            header {
-                padding: 15px 5%;
+            .container {
+                padding: 2rem 1.5rem;
             }
-
-            .logo-text {
-                font-size: 24px;
+            
+            h1 { 
+                font-size: 2rem; 
             }
-
-            nav {
-                display: none;
+            
+            .subtitle { 
+                font-size: 1.1rem; 
             }
-
-            nav.active {
-                display: flex;
-                flex-direction: column;
-                position: absolute;
-                top: 70px;
-                right: 5%;
-                background: white;
-                padding: 20px;
-                border-radius: 15px;
-                box-shadow: 0 15px 50px rgba(0,0,0,0.2);
-                gap: 10px;
-                min-width: 180px;
-                z-index: 101;
+            
+            .countdown {
+                gap: 0.8rem;
             }
-
-            nav a {
-                font-size: 14px;
+            
+            .countdown-item {
+                min-width: 70px;
+                padding: 1.2rem 0.5rem;
             }
-
-            .menu-mobile {
-                display: flex;
+            
+            .countdown-value {
+                font-size: 1.8rem;
             }
-
-            .header-actions {
-                display: none;
-            }
-
-            .hero {
+            
+            .features {
                 grid-template-columns: 1fr;
-                text-align: center;
-                padding: 60px 5%;
-                gap: 40px;
-                min-height: auto;
-            }
-
-            .hero-content h1 {
-                font-size: 36px;
-                line-height: 1.3;
-            }
-
-            .hero-content p {
-                font-size: 16px;
-                margin-bottom: 30px;
-            }
-
-            .snack-illustration {
-                width: 280px;
-                height: 280px;
-            }
-
-            .search-box {
-                font-size: 14px;
-                padding: 8px 10px;
-                margin-bottom: 30px;
-            }
-
-            .search-box input {
-                font-size: 14px;
-                padding: 10px;
-            }
-
-            .filter-buttons {
-                gap: 8px;
-                justify-content: center;
-            }
-
-            .filter-btn {
-                padding: 10px 16px;
-                font-size: 13px;
-            }
-
-            .categories {
-                padding: 60px 5%;
-            }
-
-            .section-header h2 {
-                font-size: 32px;
-            }
-
-            .section-header p {
-                font-size: 15px;
-            }
-
-            .category-grid {
-                grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
-                gap: 20px;
-            }
-
-            .category-icon {
-                width: 110px;
-                height: 110px;
-                font-size: 50px;
-                margin: 0 auto 12px;
-            }
-
-            .category-name {
-                font-size: 13px;
-            }
-
-            .services {
-                padding: 60px 5%;
-            }
-
-            .service-grid {
-                grid-template-columns: 1fr;
-                gap: 25px;
-            }
-
-            .service-card {
-                padding: 35px;
-            }
-
-            .service-icon {
-                font-size: 50px;
-                margin-bottom: 15px;
-            }
-
-            .service-card h3 {
-                font-size: 20px;
-                margin-bottom: 10px;
-            }
-
-            .service-card p {
-                font-size: 14px;
-            }
-
-            .flyers {
-                padding: 60px 5%;
-            }
-
-            .flyer-grid {
-                grid-template-columns: 1fr;
-                gap: 25px;
-            }
-
-            .flyer-image {
-                height: 200px;
-                font-size: 80px;
-            }
-
-            .flyer-content {
-                padding: 20px;
-            }
-
-            .flyer-content h3 {
-                font-size: 18px;
-            }
-
-            .flyer-content p {
-                font-size: 13px;
-                margin-bottom: 15px;
-            }
-
-            .flyer-price {
-                font-size: 20px;
-            }
-
-            .testimonials {
-                padding: 60px 5%;
-            }
-
-            .testimonial-grid {
-                grid-template-columns: 1fr;
-                gap: 25px;
-            }
-
-            .testimonial-card {
-                padding: 25px;
-            }
-
-            .testimonial-text {
-                font-size: 14px;
-                margin-bottom: 15px;
-            }
-
-            .testimonial-stars {
-                font-size: 20px;
-                margin-bottom: 12px;
-            }
-
-            .testimonial-avatar {
-                width: 50px;
-                height: 50px;
-                font-size: 24px;
-            }
-
-            .testimonial-info h4 {
-                font-size: 15px;
-            }
-
-            .testimonial-info p {
-                font-size: 12px;
-            }
-
-            .social-center {
-                padding: 60px 5%;
-            }
-
-            .social-content h2 {
-                font-size: 32px;
-                margin-bottom: 15px;
-            }
-
-            .social-content p {
-                font-size: 16px;
-                margin-bottom: 40px;
-            }
-
-            .social-grid {
-                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-                gap: 25px;
-            }
-
-            .social-item {
-                padding: 25px 15px;
-            }
-
-            .social-icon-wrapper {
-                width: 60px;
-                height: 60px;
-                font-size: 30px;
-                margin-bottom: 12px;
-            }
-
-            .social-name {
-                font-size: 16px;
-                margin-bottom: 5px;
-            }
-
-            .social-handle {
-                font-size: 12px;
-            }
-
-            footer {
-                padding: 60px 5% 20px;
-            }
-
-            .footer-content {
-                gap: 30px;
-                grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            }
-
-            .footer-section h3 {
-                font-size: 16px;
-                margin-bottom: 15px;
-            }
-
-            .footer-section a {
-                font-size: 13px;
-                margin-bottom: 10px;
-                padding: 5px 0;
-            }
-
-            .footer-bottom p {
-                font-size: 12px;
-            }
-
-            .modal-content {
-                padding: 30px 20px;
-            }
-
-            .modal-header h2 {
-                font-size: 28px;
-            }
-
-            .modal-icon {
-                font-size: 60px;
-            }
-
-            .modal-description {
-                font-size: 15px;
-            }
-
-            .feature-list li {
-                font-size: 14px;
-                padding: 10px 0;
-            }
-
-            .modal-price-amount {
-                font-size: 36px;
-            }
-
-            .modal-btn {
-                padding: 12px 25px;
-                font-size: 14px;
-            }
-
-            .whatsapp-float {
-                width: 60px;
-                height: 60px;
-                font-size: 30px;
-                bottom: 20px;
-                right: 20px;
-            }
-
-            .search-results {
-                width: 95%;
-                padding: 25px;
-                max-height: 80vh;
-            }
-
-            .results-header h2 {
-                font-size: 24px;
-            }
-
-            .result-item {
-                padding: 15px;
-                margin-bottom: 8px;
-            }
-
-            .result-item h3 {
-                font-size: 16px;
-            }
-
-            .result-item p {
-                font-size: 13px;
             }
         }
 
-        @media (max-width: 480px) {
-            header {
-                padding: 12px 5%;
-            }
-
-            .logo-container {
-                gap: 8px;
-            }
-
-            .logo-text {
-                font-size: 20px;
-            }
-
-            .logo-svg {
-                width: 40px;
-                height: 40px;
-            }
-
-            .hero {
-                padding: 40px 5%;
-                gap: 30px;
-            }
-
-            .hero-content h1 {
-                font-size: 28px;
-                margin-bottom: 15px;
-            }
-
-            .hero-content p {
-                font-size: 14px;
-                margin-bottom: 20px;
-            }
-
-            .snack-illustration {
-                width: 220px;
-                height: 220px;
-            }
-
-            .search-box {
-                margin-bottom: 20px;
-                padding: 8px 8px;
-            }
-
-            .search-box input {
-                font-size: 13px;
-                padding: 8px;
-            }
-
-            .search-icon {
-                font-size: 18px;
-                padding: 6px;
-            }
-
-            .filter-buttons {
-                gap: 6px;
-            }
-
-            .filter-btn {
-                padding: 8px 12px;
-                font-size: 11px;
-            }
-
-            .categories {
-                padding: 40px 5%;
-            }
-
-            .section-header h2 {
-                font-size: 24px;
-                margin-bottom: 10px;
-            }
-
-            .section-header p {
-                font-size: 13px;
-            }
-
-            .category-grid {
-                grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
-                gap: 12px;
-            }
-
-            .category-icon {
-                width: 90px;
-                height: 90px;
-                font-size: 40px;
-                margin: 0 auto 8px;
-            }
-
-            .category-name {
-                font-size: 11px;
-            }
-
-            .services {
-                padding: 40px 5%;
-            }
-
-            .service-card {
-                padding: 25px 20px;
-            }
-
-            .service-icon {
-                font-size: 40px;
-                margin-bottom: 10px;
-            }
-
-            .service-card h3 {
-                font-size: 18px;
-            }
-
-            .service-card p {
-                font-size: 13px;
-            }
-
-            .flyers {
-                padding: 40px 5%;
-            }
-
-            .flyer-image {
-                height: 150px;
-                font-size: 60px;
-            }
-
-            .flyer-content h3 {
-                font-size: 16px;
-            }
-
-            .flyer-content p {
-                font-size: 12px;
-            }
-
-            .testimonials {
-                padding: 40px 5%;
-            }
-
-            .testimonial-card {
-                padding: 18px;
-            }
-
-            .testimonial-text {
-                font-size: 13px;
-            }
-
-            .social-center {
-                padding: 40px 5%;
-            }
-
-            .social-content h2 {
-                font-size: 24px;
-            }
-
-            .social-content p {
-                font-size: 14px;
-            }
-
-            .social-grid {
-                grid-template-columns: 1fr;
-                gap: 15px;
-            }
-
-            .social-item {
-                padding: 18px 12px;
-            }
-
-            footer {
-                padding: 40px 5% 15px;
-            }
-
-            .footer-content {
-                grid-template-columns: 1fr;
-                gap: 25px;
-            }
-
-            .modal-content {
-                padding: 20px 15px;
-            }
-
-            .modal-header h2 {
-                font-size: 22px;
-            }
-
-            .modal-icon {
-                font-size: 50px;
-            }
-
-            .announcement-content {
-                padding: 30px 20px;
-            }
-
-            .announcement-content h2 {
-                font-size: 24px;
-            }
-
-            .announcement-icon {
-                font-size: 60px;
-            }
+        /* iOS-style toggle */
+        .toggle-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin: 1.5rem 0;
         }
 
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(40px); }
-            to { opacity: 1; transform: translateY(0); }
+        .toggle-text {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .ios-toggle {
+            width: 51px;
+            height: 31px;
+            background: #E5E5EA;
+            border-radius: 50px;
+            position: relative;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .ios-toggle.active {
+            background: var(--primary);
+        }
+
+        .ios-toggle::after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 27px;
+            height: 27px;
+            background: white;
+            border-radius: 50%;
+            transition: var(--transition);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .ios-toggle.active::after {
+            transform: translateX(20px);
         }
     </style>
 </head>
 <body>
-    <div class="loading-screen" id="loadingScreen">
-        <div class="loader-container">
-            <div class="popcorn-loader">
-                <div class="popcorn-piece"></div>
-                <div class="popcorn-piece"></div>
-                <div class="popcorn-piece"></div>
-                <div class="popcorn-bucket"></div>
+    <div class="floating-elements" id="floatingElements"></div>
+    
+    <div class="container">
+        <div class="logo">
+            <div class="logo-icon">
+                <i class="fas fa-code"></i>
             </div>
-            <div class="loading-text">Snacks</div>
-            <div class="loading-dots">
-                <div class="loading-dot"></div>
-                <div class="loading-dot"></div>
-                <div class="loading-dot"></div>
+            <div class="logo-text">Nestico<span>Tech</span></div>
+        </div>
+        
+        <h1>Estamos mejorando tu experiencia</h1>
+        
+        <p class="subtitle">
+            Nuestra comunidad de desarrolladores está trabajando en importantes actualizaciones. 
+            Estamos implementando nuevas funciones y mejorando el rendimiento.
+        </p>
+        
+        <div class="maintenance-icon">
+            <i class="fas fa-laptop-code"></i>
+        </div>
+        
+        <div class="status-container">
+            <div class="status-title">
+                <i class="fas fa-sync-alt fa-spin"></i> Progreso del mantenimiento
             </div>
+            <div class="progress-container">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+            <p id="progressText">Optimizando servicios y base de datos</p>
+        </div>
+        
+        <p class="subtitle">Volvemos en:</p>
+        <div class="countdown">
+            <div class="countdown-item">
+                <div class="countdown-value" id="days">00</div>
+                <div class="countdown-label">Días</div>
+            </div>
+            <div class="countdown-item">
+                <div class="countdown-value" id="hours">00</div>
+                <div class="countdown-label">Horas</div>
+            </div>
+            <div class="countdown-item">
+                <div class="countdown-value" id="minutes">00</div>
+                <div class="countdown-label">Minutos</div>
+            </div>
+            <div class="countdown-item">
+                <div class="countdown-value" id="seconds">00</div>
+                <div class="countdown-label">Segundos</div>
+            </div>
+        </div>
+        
+        <div class="toggle-container">
+            <span class="toggle-text">Modo oscuro</span>
+            <div class="ios-toggle" id="darkModeToggle"></div>
+        </div>
+        
+        <div class="features">
+            <div class="feature">
+                <i class="fas fa-bolt"></i> Mejoras de rendimiento
+            </div>
+            <div class="feature">
+                <i class="fas fa-shield-alt"></i> Actualización de seguridad
+            </div>
+            <div class="feature">
+                <i class="fas fa-palette"></i> Nuevo diseño de interfaz
+            </div>
+            <div class="feature">
+                <i class="fas fa-rocket"></i> Funciones innovadoras
+            </div>
+        </div>
+        
+        <div class="community-section">
+            <h3 class="community-title">Únete a nuestra comunidad</h3>
+            <p class="subtitle">Conecta con otros desarrolladores y mantente actualizado</p>
+            
+            <div class="social-links">
+                <a href="#" class="social-link discord">
+                    <i class="fab fa-discord"></i>
+                </a>
+                <a href="#" class="social-link github">
+                    <i class="fab fa-github"></i>
+                </a>
+                <a href="#" class="social-link twitter">
+                    <i class="fab fa-twitter"></i>
+                </a>
+                <a href="#" class="social-link linkedin">
+                    <i class="fab fa-linkedin-in"></i>
+                </a>
+            </div>
+        </div>
+        
+        <div class="contact-info">
+            <p>¿Tienes preguntas? Contáctanos en <a href="mailto:hola@nesticotech.dev">hola@nesticotech.dev</a></p>
+            <p>Soporte técnico: <a href="mailto:soporte@nesticotech.dev">soporte@nesticotech.dev</a></p>
         </div>
     </div>
 
-    <div class="announcement-modal" id="announcementModal1">
-        <div class="announcement-content">
-            <span class="announcement-close" onclick="closeAnnouncement('announcementModal1')">×</span>
-            <div class="announcement-icon">🎉</div>
-            <h2>¡Bienvenido a Snacks!</h2>
-            <p>La mejor experiencia en snacks y catering para tus eventos. Somos especialistas en hacer fiestas memorables con calidad, sabor y diversión garantizada.</p>
-            <button class="announcement-btn" onclick="closeAnnouncement('announcementModal1')">Explorar 🚀</button>
-        </div>
-    </div>
-
-    <div class="announcement-modal hidden" id="announcementModal2">
-        <div class="announcement-content">
-            <span class="announcement-close" onclick="closeAnnouncement('announcementModal2')">×</span>
-            <div class="announcement-icon">👨‍💻</div>
-            <h2>Diseñado por NesticoTechnology</h2>
-            <p>Somos expertos en soluciones web innovadoras y diseño premium. Este proyecto fue creado con tecnología de punta para brindarte la mejor experiencia digital.</p>
-            <button class="announcement-btn" onclick="closeAnnouncement('announcementModal2')">Entendido ✨</button>
-        </div>
-    </div>
-
-    <div class="whatsapp-float" onclick="contactarWhatsApp('Hola, quiero información de sus servicios')">💬</div>
-
-    <header>
-        <div class="logo-container" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
-            <svg class="logo-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                <defs>
-                    <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" style="stop-color:#FF6B9D;stop-opacity:1" />
-                        <stop offset="100%" style="stop-color:#FEC84D;stop-opacity:1" />
-                    </linearGradient>
-                </defs>
-                <circle cx="50" cy="30" r="8" fill="url(#logoGradient)"/>
-                <circle cx="35" cy="35" r="6" fill="url(#logoGradient)"/>
-                <circle cx="65" cy="35" r="6" fill="url(#logoGradient)"/>
-                <path d="M 30 45 Q 50 25 70 45 L 75 75 Q 50 85 25 75 Z" fill="url(#logoGradient)"/>
-                <rect x="40" y="60" width="20" height="15" fill="#fff" opacity="0.8"/>
-            </svg>
-            <div class="logo-text">Snacks</div>
-        </div>
-        <nav id="nav">
-            <a href="#inicio">Inicio</a>
-            <a href="#categorias">Categorías</a>
-            <a href="#servicios">Servicios</a>
-            <a href="#testimonios">Testimonios</a>
-            <a href="#contacto">Redes Sociales</a>
-        </nav>
-        <div class="header-actions">
-            <button class="action-btn btn-secondary" onclick="scrollToSection('contacto')">
-                📱 Contáctanos
-            </button>
-            <button class="action-btn btn-primary" onclick="scrollToSection('categorias')">
-                🎉 Cotizar Evento
-            </button>
-        </div>
-        <div class="menu-mobile" onclick="toggleMenu()">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
-    </header>
-
-    <div class="search-overlay" id="searchOverlay" onclick="closeSearch()"></div>
-    <div class="search-results" id="searchResults">
-        <span class="close-search" onclick="closeSearch()">×</span>
-        <div class="results-header">
-            <h2>Resultados de búsqueda</h2>
-            <p id="searchQuery"></p>
-        </div>
-        <div id="resultsContainer"></div>
-    </div>
-
-    <section class="hero" id="inicio">
-        <div class="hero-content">
-            <h1>¡Haz de tu fiesta un momento inolvidable! 🎉</h1>
-            <p>Servicio premium de snacks y catering para todo tipo de eventos. Calidad, sabor y diversión garantizada.</p>
-            <div class="search-box">
-                <span class="search-icon">🔍</span>
-                <input type="text" id="searchInput" placeholder="Busca: chocolate, crispetas, bebidas...">
-                <span class="search-icon" onclick="buscar()">🎤</span>
-            </div>
-            <div class="filter-buttons">
-                <button class="filter-btn active" data-filter="dulces" onclick="filtrarPor('dulces', this)">🍭 Dulces</button>
-                <button class="filter-btn" data-filter="salados" onclick="filtrarPor('salados', this)">🍟 Salados</button>
-                <button class="filter-btn" data-filter="bebidas" onclick="filtrarPor('bebidas', this)">🥤 Bebidas</button>
-                <button class="filter-btn" data-filter="especiales" onclick="filtrarPor('especiales', this)">⭐ Premium</button>
-            </div>
-        </div>
-        <div class="hero-image">
-            <svg class="snack-illustration" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-                <defs>
-                    <linearGradient id="gradient1" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" style="stop-color:#FFE49B;stop-opacity:1" />
-                        <stop offset="100%" style="stop-color:#FFB347;stop-opacity:1" />
-                    </linearGradient>
-                    <linearGradient id="gradient2" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" style="stop-color:#FF8A7A;stop-opacity:1" />
-                        <stop offset="100%" style="stop-color:#FF5A42;stop-opacity:1" />
-                    </linearGradient>
-                </defs>
-                <ellipse cx="100" cy="150" rx="80" ry="20" fill="#00000010"/>
-                <path d="M 60 100 Q 100 50 140 100 L 145 160 Q 100 170 55 160 Z" fill="url(#gradient2)"/>
-                <circle cx="70" cy="60" r="15" fill="url(#gradient1)"/>
-                <circle cx="100" cy="50" r="18" fill="url(#gradient1)"/>
-                <circle cx="130" cy="60" r="15" fill="url(#gradient1)"/>
-                <rect x="75" y="120" width="50" height="30" rx="5" fill="#fff" opacity="0.9"/>
-                <text x="100" y="140" font-size="20" text-anchor="middle" fill="#FF5A42">🍿</text>
-            </svg>
-        </div>
-    </section>
-
-    <section class="categories" id="categorias">
-        <div class="section-header">
-            <h2>Explora Nuestro Menú</h2>
-            <p>Descubre todos los servicios que tenemos para hacer tu evento perfecto</p>
-        </div>
-        <div class="category-grid">
-            <div class="category-item" onclick="abrirCategoria('chocolate')">
-                <div class="category-icon">🍫</div>
-                <div class="category-name">Fuente de Chocolate</div>
-            </div>
-            <div class="category-item" onclick="abrirCategoria('crispetera')">
-                <div class="category-icon">🍿</div>
-                <div class="category-name">Crispetera</div>
-            </div>
-            <div class="category-item" onclick="abrirCategoria('raspados')">
-                <div class="category-icon">🧊</div>
-                <div class="category-name">Raspados</div>
-            </div>
-            <div class="category-item" onclick="abrirCategoria('algodones')">
-                <div class="category-icon">🍭</div>
-                <div class="category-name">Algodones</div>
-            </div>
-            <div class="category-item" onclick="abrirCategoria('obleas')">
-                <div class="category-icon">🥞</div>
-                <div class="category-name">Obleas</div>
-            </div>
-            <div class="category-item" onclick="abrirCategoria('miniperros')">
-                <div class="category-icon">🌭</div>
-                <div class="category-name">Mini Perros</div>
-            </div>
-            <div class="category-item" onclick="abrirCategoria('minihamburguesas')">
-                <div class="category-icon">🍔</div>
-                <div class="category-name">Mini Hamburguesas</div>
-            </div>
-            <div class="category-item" onclick="abrirCategoria('pasabocas')">
-                <div class="category-icon">🍟</div>
-                <div class="category-name">Pasabocas</div>
-            </div>
-            <div class="category-item" onclick="abrirCategoria('buffet')">
-                <div class="category-icon">🍽️</div>
-                <div class="category-name">Buffet</div>
-            </div>
-        </div>
-    </section>
-
-    <section class="services" id="servicios">
-        <div class="section-header">
-            <h2>Servicios para Cada Ocasión</h2>
-            <p>Atendemos todo tipo de eventos con el más alto nivel de calidad</p>
-        </div>
-        <div class="service-grid">
-            <div class="service-card">
-                <div class="service-icon">🎉</div>
-                <h3>Eventos Corporativos</h3>
-                <p>Servicio completo de catering para conferencias, lanzamientos, y reuniones empresariales. Impresiona a tus clientes y colaboradores.</p>
-            </div>
-            <div class="service-card">
-                <div class="service-icon">🎂</div>
-                <h3>Fiestas Infantiles</h3>
-                <p>Diversión garantizada para los más pequeños. Snacks coloridos, saludables y deliciosos que harán su día inolvidable.</p>
-            </div>
-            <div class="service-card">
-                <div class="service-icon">💍</div>
-                <h3>Bodas y Quinceaños</h3>
-                <p>Servicio premium para tus eventos especiales. Elegancia, sabor y presentación de primera clase.</p>
-            </div>
-        </div>
-    </section>
-
-    <section class="flyers">
-        <div class="section-header">
-            <h2>Paquetes Especiales</h2>
-            <p>Ofertas increíbles para tu próximo evento</p>
-        </div>
-        <div class="flyer-grid">
-            <div class="flyer-card" onclick="abrirCategoria('crispetera')">
-                <div class="flyer-image">🍿</div>
-                <div class="flyer-content">
-                    <h3>Paquete Cine en Casa</h3>
-                    <p>Crispetera ilimitada + Fuente de chocolate + Bebidas para 50 personas</p>
-                    <div class="flyer-price">$480.000</div>
-                </div>
-            </div>
-            <div class="flyer-card" onclick="abrirCategoria('buffet')">
-                <div class="flyer-image">🎪</div>
-                <div class="flyer-content">
-                    <h3>Paquete Fiesta Total</h3>
-                    <p>Buffet completo + Mini hamburguesas + Raspados + Algodones</p>
-                    <div class="flyer-price">$850.000</div>
-                </div>
-            </div>
-            <div class="flyer-card" onclick="abrirCategoria('chocolate')">
-                <div class="flyer-image">🍫</div>
-                <div class="flyer-content">
-                    <h3>Paquete Dulce Tentación</h3>
-                    <p>Fuente de chocolate + Obleas + Algodones para 30 personas</p>
-                    <div class="flyer-price">$420.000</div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="testimonials" id="testimonios">
-        <div class="section-header">
-            <h2 style="color: white;">Lo Que Dicen Nuestros Clientes</h2>
-            <p style="color: rgba(255,255,255,0.9);">Miles de eventos exitosos nos respaldan</p>
-        </div>
-        <div class="testimonial-grid">
-            <div class="testimonial-card">
-                <div class="testimonial-stars">⭐⭐⭐⭐⭐</div>
-                <p class="testimonial-text">"Excelente servicio para la fiesta de 15 de mi hija. Todo estuvo perfecto, desde la presentación hasta el sabor. ¡Súper recomendados!"</p>
-                <div class="testimonial-author">
-                    <div class="testimonial-avatar">👩</div>
-                    <div class="testimonial-info">
-                        <h4>María González</h4>
-                        <p>Madre de familia</p>
-                    </div>
-                </div>
-            </div>
-            <div class="testimonial-card">
-                <div class="testimonial-stars">⭐⭐⭐⭐⭐</div>
-                <p class="testimonial-text">"Contratamos sus servicios para un evento corporativo y superaron nuestras expectativas. Profesionales y muy atentos a cada detalle."</p>
-                <div class="testimonial-author">
-                    <div class="testimonial-avatar">👨</div>
-                    <div class="testimonial-info">
-                        <h4>Carlos Pérez</h4>
-                        <p>Gerente de Eventos</p>
-                    </div>
-                </div>
-            </div>
-            <div class="testimonial-card">
-                <div class="testimonial-stars">⭐⭐⭐⭐⭐</div>
-                <p class="testimonial-text">"La fuente de chocolate fue la sensación en mi boda. Todos los invitados quedaron encantados. ¡Gracias por hacer nuestro día más especial!"</p>
-                <div class="testimonial-author">
-                    <div class="testimonial-avatar">👰</div>
-                    <div class="testimonial-info">
-                        <h4>Andrea Martínez</h4>
-                        <p>Novia feliz</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="social-center" id="contacto">
-        <div class="social-content">
-            <h2>🌟 Encuéntranos en Redes Sociales 🌟</h2>
-            <p>Síguenos para ver nuestros eventos, promociones exclusivas y mucho más</p>
-            <div class="social-grid">
-                <div class="social-item" onclick="window.open('https://www.instagram.com/snackparty', '_blank')">
-                    <div class="social-icon-wrapper" style="background: linear-gradient(135deg, #E1306C 0%, #C13584 50%, #833AB4 100%);">
-                        <span style="color: white;">📷</span>
-                    </div>
-                    <div class="social-name">Instagram</div>
-                    <div class="social-handle">@snackparty</div>
-                </div>
-                <div class="social-item" onclick="window.open('https://www.tiktok.com/@snackparty', '_blank')">
-                    <div class="social-icon-wrapper" style="background: linear-gradient(135deg, #000000 0%, #EE1D52 100%);">
-                        <span style="color: white;">🎵</span>
-                    </div>
-                    <div class="social-name">TikTok</div>
-                    <div class="social-handle">@snackparty</div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <footer>
-        <div class="footer-content">
-            <div class="footer-section">
-                <div class="footer-logo">
-                    <div class="footer-logo-icon">🍿</div>
-                    <div class="footer-logo-text">Snacks</div>
-                </div>
-                <p>Hacemos de cada evento una experiencia única e inolvidable. Calidad, sabor y diversión garantizada.</p>
-                <div class="social-links">
-                    <a href="https://www.facebook.com/snackparty" target="_blank" class="social-link">📘</a>
-                    <a href="https://www.instagram.com/snackparty" target="_blank" class="social-link">📷</a>
-                    <a href="https://www.tiktok.com/@snackparty" target="_blank" class="social-link">🎵</a>
-                    <a href="https://wa.me/573001234567" target="_blank" class="social-link">💬</a>
-                </div>
-            </div>
-            <div class="footer-section">
-                <h3>Enlaces Rápidos</h3>
-                <a href="#inicio">🏠 Inicio</a>
-                <a href="#categorias">🎯 Categorías</a>
-                <a href="#servicios">✨ Servicios</a>
-                <a href="#testimonios">💬 Testimonios</a>
-                <a href="#contacto">📱 Contacto</a>
-            </div>
-            <div class="footer-section">
-                <h3>Servicios</h3>
-                <a href="#" onclick="abrirCategoria('chocolate')">🍫 Fuente de Chocolate</a>
-                <a href="#" onclick="abrirCategoria('crispetera')">🍿 Crispetera</a>
-                <a href="#" onclick="abrirCategoria('buffet')">🍽️ Buffet Completo</a>
-                <a href="#" onclick="abrirCategoria('minihamburguesas')">🍔 Mini Hamburguesas</a>
-                <a href="#" onclick="abrirCategoria('raspados')">🧊 Raspados</a>
-            </div>
-            <div class="footer-section">
-                <h3>Contacto</h3>
-                <a href="tel:+573001234567">📞 +57 300 123 4567</a>
-                <a href="mailto:snacks.empresa.es@gmail.com">✉️ snacks.empresa.es@gmail.com</a>
-                <a href="https://wa.me/573001234567" target="_blank">💬 WhatsApp</a>
-                <a href="#">📍 Malambo, Colombia</a>
-                <a href="#">🕐 Lun - Dom: 7:00 AM - 10:00 PM</a>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; 2025 Snacks. Todos los derechos reservados. | Hecho por el Ingeniero NesticoTechnology</p>
-        </div>
-    </footer>
-
-    <div class="modal" id="categoryModal">
-        <div class="modal-content">
-            <span class="modal-close" onclick="cerrarModal()">×</span>
-            <div id="modalContent"></div>
-        </div>
+    <div class="notification" id="notification">
+        <i class="fas fa-check-circle"></i>
+        <span id="notificationText">Estado actualizado correctamente</span>
     </div>
 
     <script>
-        const productos = {
-            chocolate: {
-                icono: '🍫',
-                nombre: 'Fuente de Chocolate',
-                descripcion: 'Experiencia premium con chocolate belga de la más alta calidad. Perfecta para eventos elegantes y momentos especiales.',
-                caracteristicas: [
-                    'Chocolate belga premium 100% puro',
-                    'Control digital de temperatura',
-                    'Incluye frutas frescas de temporada',
-                    'Variedades: chocolate con leche, oscuro y blanco',
-                    'Personal capacitado y uniformado',
-                    'Servicio continuo por 4 horas',
-                    'Decoración temática incluida',
-                    'Utensilios desechables premium'
-                ],
-                precio: 'Desde $250.000',
-                categoria: 'dulces'
-            },
-            crispetera: {
-                icono: '🍿',
-                nombre: 'Crispetera Profesional',
-                descripcion: 'Crispetas frescas estilo cine con máquina profesional. El snack favorito de grandes y pequeños.',
-                caracteristicas: [
-                    'Maíz premium importado tipo butterfly',
-                    'Variedad de sabores: mantequilla, caramelo, queso cheddar, bbq',
-                    'Máquina profesional tipo cine',
-                    'Producción ilimitada durante el evento',
-                    'Empaques personalizados con tu marca',
-                    'Operador uniformado incluido',
-                    'Estación decorada temáticamente',
-                    'Sin trans grasas - 100% saludable'
-                ],
-                precio: 'Desde $180.000',
-                categoria: 'salados'
-            },
-            raspados: {
-                icono: '🧊',
-                nombre: 'Raspados Artesanales',
-                descripcion: 'Raspados refrescantes con hielo super fino y jarabes artesanales. Perfectos para días calurosos.',
-                caracteristicas: [
-                    'Hielo fino tipo nieve súper suave',
-                    '15+ sabores naturales disponibles',
-                    'Preparaciones personalizadas',
-                    'Vasos biodegradables personalizados',
-                    'Máquina industrial de alta capacidad',
-                    'Toppings premium incluidos',
-                    'Salsas y complementos variados',
-                    'Servicio continuo durante el evento'
-                ],
-                precio: 'Desde $150.000',
-                categoria: 'bebidas'
-            },
-            algodones: {
-                icono: '🍭',
-                nombre: 'Algodones de Azúcar Gourmet',
-                descripcion: 'Algodones dulces y esponjosos con colores vibrantes y sabores únicos. Magia comestible para tu evento.',
-                caracteristicas: [
-                    'Colores vibrantes y llamativos',
-                    'Sabores gourmet exclusivos',
-                    'Diseños personalizados y creativos',
-                    'Máquina profesional de última generación',
-                    'Presentación espectacular',
-                    'Tamaños: mini, regular y jumbo',
-                    'Sin gluten y sin colorantes artificiales',
-                    'Operador especializado incluido'
-                ],
-                precio: 'Desde $120.000',
-                categoria: 'dulces'
-            },
-            obleas: {
-                icono: '🥞',
-                nombre: 'Obleas Artesanales',
-                descripcion: 'Obleas frescas y crujientes con una increíble variedad de rellenos. Tradición colombiana en su máxima expresión.',
-                caracteristicas: [
-                    'Obleas frescas horneadas diariamente',
-                    '12+ tipos de rellenos disponibles',
-                    'Arequipe, queso, mermeladas artesanales',
-                    'Chocolate, frutas y combinaciones especiales',
-                    'Estación de preparación en vivo',
-                    'Ingredientes 100% naturales',
-                    'Empaques biodegradables',
-                    'Opciones vegetarianas y veganas'
-                ],
-                precio: 'Desde $100.000',
-                categoria: 'dulces'
-            },
-            miniperros: {
-                icono: '🌭',
-                nombre: 'Mini Perros Calientes Gourmet',
-                descripcion: 'Mini perros calientes con ingredientes premium. El bocado perfecto para tu evento.',
-                caracteristicas: [
-                    'Salchichas premium de primera calidad',
-                    'Pan fresco horneado artesanalmente',
-                    'Bar de toppings completo',
-                    'Salsas caseras exclusivas',
-                    'Preparación higiénica certificada',
-                    'Presentación elegante',
-                    'Opciones vegetarianas disponibles',
-                    'Servicio de meseros incluido'
-                ],
-                precio: 'Desde $220.000',
-                categoria: 'salados'
-            },
-            minihamburguesas: {
-                icono: '🍔',
-                nombre: 'Mini Hamburguesas Gourmet',
-                descripcion: 'Mini hamburguesas con carne 100% premium. Sabor extraordinario en cada bocado.',
-                caracteristicas: [
-                    'Carne 100% premium seleccionada',
-                    'Pan brioche artesanal',
-                    'Quesos importados de alta calidad',
-                    'Vegetales frescos orgánicos',
-                    'Salsas especiales de la casa',
-                    'Preparación al momento',
-                    'Presentación gourmet',
-                    'Opciones de pollo y vegetarianas'
-                ],
-                precio: 'Desde $280.000',
-                categoria: 'salados'
-            },
-            pasabocas: {
-                icono: '🍟',
-                nombre: 'Estación de Pasabocas',
-                descripcion: 'Variedad premium de pasabocas salados y fritos. La combinación perfecta de sabor y textura.',
-                caracteristicas: [
-                    'Papas a la francesa premium',
-                    'Aros de cebolla crujientes',
-                    'Deditos de queso mozzarella',
-                    'Nuggets de pollo y pescado',
-                    'Tequeños venezolanos',
-                    'Empanadas colombianas',
-                    '5+ salsas especiales',
-                    'Presentación en bandejas decoradas'
-                ],
-                precio: 'Desde $200.000',
-                categoria: 'salados'
-            },
-            buffet: {
-                icono: '🍽️',
-                nombre: 'Buffet Completo Premium',
-                descripcion: 'Servicio de buffet completo con opciones variadas. La solución integral para tu evento.',
-                caracteristicas: [
-                    'Platos principales: pollo, carne, pescado',
-                    'Acompañamientos diversos',
-                    'Ensaladas frescas y creativas',
-                    'Salsas gourmet variadas',
-                    'Postres y repostería',
-                    'Bebidas incluidas',
-                    'Montaje profesional completo',
-                    'Personal de servicio uniformado',
-                    'Vajilla y cristalería premium'
-                ],
-                precio: 'Desde $450.000',
-                categoria: 'especiales'
-            }
-        };
-
-        window.addEventListener('load', function() {
-            setTimeout(() => {
-                document.getElementById('loadingScreen').classList.add('hidden');
-            }, 2000);
-            escribirPlaceholder();
-            mostrarAnuncios();
-        });
-
-        function mostrarAnuncios() {
-            setTimeout(() => {
-                document.getElementById('announcementModal1').classList.remove('hidden');
-            }, 500);
-            setTimeout(() => {
-                document.getElementById('announcementModal1').classList.add('hidden');
-                document.getElementById('announcementModal2').classList.remove('hidden');
-            }, 5000);
-        }
-
-        function closeAnnouncement(id) {
-            document.getElementById(id).classList.add('hidden');
-        }
-
-        function escribirPlaceholder() {
-            const input = document.getElementById('searchInput');
-            const textos = [
-                'Busca: chocolate, crispetas, bebidas...',
-                'Ejemplo: fuente de chocolate',
-                'Busca: mini hamburguesas',
-                'Ejemplo: raspados para fiesta',
-                'Busca: buffet completo'
-            ];
-            let textoIndex = 0;
-            let charIndex = 0;
-            let isDeleting = false;
-
-            function type() {
-                const textoActual = textos[textoIndex];
-                if (isDeleting) {
-                    input.placeholder = textoActual.substring(0, charIndex - 1);
-                    charIndex--;
-                } else {
-                    input.placeholder = textoActual.substring(0, charIndex + 1);
-                    charIndex++;
-                }
-                let velocidad = isDeleting ? 50 : 100;
-                if (!isDeleting && charIndex === textoActual.length) {
-                    velocidad = 2000;
-                    isDeleting = true;
-                } else if (isDeleting && charIndex === 0) {
-                    isDeleting = false;
-                    textoIndex = (textoIndex + 1) % textos.length;
-                    velocidad = 500;
-                }
-                setTimeout(type, velocidad);
-            }
-            type();
-        }
-
-        function buscar() {
-            const query = document.getElementById('searchInput').value.toLowerCase().trim();
-            if (!query) {
-                alert('Por favor escribe algo para buscar 🔍');
-                return;
-            }
-            const resultados = [];
-            for (let key in productos) {
-                const producto = productos[key];
-                if (
-                    producto.nombre.toLowerCase().includes(query) ||
-                    producto.descripcion.toLowerCase().includes(query) ||
-                    producto.caracteristicas.some(c => c.toLowerCase().includes(query)) ||
-                    key.includes(query)
-                ) {
-                    resultados.push({ key, ...producto });
-                }
-            }
-            mostrarResultados(resultados, query);
-        }
-
-        document.getElementById('searchInput').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                buscar();
-            }
-        });
-
-        function mostrarResultados(resultados, query) {
-            const overlay = document.getElementById('searchOverlay');
-            const modal = document.getElementById('searchResults');
-            const container = document.getElementById('resultsContainer');
-            const searchQuery = document.getElementById('searchQuery');
-
-            searchQuery.textContent = `Buscaste: "${query}" - ${resultados.length} resultado(s) encontrado(s)`;
-
-            if (resultados.length === 0) {
-                container.innerHTML = `
-                    <div class="no-results">
-                        <div class="no-results-icon">😕</div>
-                        <h3 style="color: #333; margin-bottom: 10px;">No encontramos resultados</h3>
-                        <p style="color: #666;">Intenta buscar con otras palabras como: chocolate, crispetas, buffet, hamburguesas...</p>
-                    </div>
-                `;
-            } else {
-                container.innerHTML = resultados.map(producto => `
-                    <div class="result-item" onclick="abrirCategoria('${producto.key}'); closeSearch();">
-                        <h3>${producto.icono} ${producto.nombre}</h3>
-                        <p>${producto.descripcion}</p>
-                        <p style="margin-top: 10px; font-weight: 700; color: #FF6B9D;">${producto.precio}</p>
-                    </div>
-                `).join('');
-            }
-
-            overlay.classList.add('active');
-            modal.classList.add('active');
-        }
-
-        function closeSearch() {
-            document.getElementById('searchOverlay').classList.remove('active');
-            document.getElementById('searchResults').classList.remove('active');
-            setTimeout(() => {
-                document.getElementById('searchInput').value = '';
-            }, 300);
-        }
-
-        function filtrarPor(categoria, boton) {
-            document.querySelectorAll('.filter-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            boton.classList.add('active');
-
-            const productosFiltrados = [];
-            for (let key in productos) {
-                const producto = productos[key];
-                if (producto.categoria === categoria) {
-                    productosFiltrados.push({ key, ...producto });
-                }
-            }
-            mostrarResultados(productosFiltrados, `Categoría: ${categoria}`);
-        }
-
-        function abrirCategoria(categoria) {
-            const producto = productos[categoria];
-            if (!producto) return;
-
-            const modal = document.getElementById('categoryModal');
-            const content = document.getElementById('modalContent');
-
-            content.innerHTML = `
-                <div class="modal-header">
-                    <div class="modal-icon">${producto.icono}</div>
-                    <h2>${producto.nombre}</h2>
-                </div>
-                <p class="modal-description">${producto.descripcion}</p>
-                <div class="modal-features">
-                    <h3>✨ Características del Servicio</h3>
-                    <ul class="feature-list">
-                        ${producto.caracteristicas.map(c => `<li>✓ ${c}</li>`).join('')}
-                    </ul>
-                </div>
-                <div class="modal-price">
-                    <div class="modal-price-label">Precio del servicio</div>
-                    <div class="modal-price-amount">${producto.precio}</div>
-                </div>
-                <div class="modal-actions">
-                    <button class="modal-btn modal-btn-primary" onclick="contactarWhatsApp('${producto.nombre}')">
-                        💬 Cotizar por WhatsApp
-                    </button>
-                    <button class="modal-btn modal-btn-secondary" onclick="cerrarModal()">
-                        Cerrar
-                    </button>
-                </div>
-            `;
-
-            modal.classList.add('active');
-        }
-
-        function cerrarModal() {
-            document.getElementById('categoryModal').classList.remove('active');
-        }
-
-        document.getElementById('categoryModal').addEventListener('click', function(e) {
-            if (e.target === this) {
-                cerrarModal();
-            }
-        });
-
-        function contactarWhatsApp(servicio) {
-            const mensaje = encodeURIComponent(`Hola! Me interesa el servicio de: ${servicio}. ¿Podrían darme más información?`);
-            window.open(`https://wa.me/573001234567?text=${mensaje}`, '_blank');
-        }
-
-        function toggleMenu() {
-            const nav = document.getElementById('nav');
-            nav.classList.toggle('active');
-        }
-
-        function scrollToSection(id) {
-            const element = document.getElementById(id);
-            if (element) {
-                element.scrollIntoView({ behavior: 'smooth' });
-            }
-        }
-
-        document.querySelectorAll('nav a').forEach(link => {
-            link.addEventListener('click', function(e) {
-                e.preventDefault();
-                const targetId = this.getAttribute('href').substring(1);
-                scrollToSection(targetId);
-                const nav = document.getElementById('nav');
-                nav.classList.remove('active');
-            });
-        });
-
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -100px 0px'
-        };
-
-        const observer = new IntersectionObserver(function(entries) {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
-                }
-            });
-        }, observerOptions);
-
-        document.addEventListener('DOMContentLoaded', function() {
-            const elements = document.querySelectorAll('.category-item, .service-card, .flyer-card, .testimonial-card');
-            elements.forEach(el => {
-                el.style.opacity = '0';
-                el.style.transform = 'translateY(30px)';
-                el.style.transition = 'all 0.6s ease';
-                observer.observe(el);
-            });
-        });
-
-        const modales = document.querySelectorAll('.modal, .search-results');
-        modales.forEach(modal => {
-            const modalObserver = new MutationObserver(function(mutations) {
-                mutations.forEach(mutation => {
-                    if (mutation.target.classList.contains('active')) {
-                        document.body.style.overflow = 'hidden';
-                    } else {
-                        document.body.style.overflow = 'auto';
-                    }
-                });
-            });
-
-            modalObserver.observe(modal, {
-                attributes: true,
-                attributeFilter: ['class']
-            });
-        });
-
-        let clickCount = 0;
-        let clickTimer = null;
-
-        document.querySelector('.logo-container').addEventListener('click', function() {
-            clickCount++;
+        // Crear elementos flotantes
+        const floatingElements = document.getElementById('floatingElements');
+        for (let i = 0; i < 15; i++) {
+            const element = document.createElement('div');
+            element.classList.add('floating-element');
             
-            if (clickCount === 1) {
-                clickTimer = setTimeout(() => {
-                    clickCount = 0;
-                }, 500);
-            } else if (clickCount === 3) {
-                clearTimeout(clickTimer);
-                clickCount = 0;
-                crearConfetti();
+            // Tamaño aleatorio
+            const size = Math.random() * 100 + 20;
+            element.style.width = `${size}px`;
+            element.style.height = `${size}px`;
+            
+            // Posición inicial aleatoria
+            element.style.left = `${Math.random() * 100}%`;
+            
+            // Animación con duración aleatoria
+            element.style.animationDuration = `${Math.random() * 30 + 20}s`;
+            element.style.animationDelay = `${Math.random() * 5}s`;
+            
+            // Opacidad aleatoria
+            element.style.opacity = Math.random() * 0.3 + 0.1;
+            
+            floatingElements.appendChild(element);
+        }
+
+        // Configurar la fecha de finalización del mantenimiento (3 días desde ahora)
+        const endDate = new Date();
+        endDate.setDate(endDate.getDate() + 3);
+        endDate.setHours(endDate.getHours() + 12);
+        endDate.setMinutes(endDate.getMinutes() + 30);
+        endDate.setSeconds(endDate.getSeconds() + 45);
+
+        // Contador preciso
+        let countdownInterval;
+        
+        function startCountdown() {
+            // Limpiar intervalo anterior si existe
+            if (countdownInterval) {
+                clearInterval(countdownInterval);
             }
-        });
+            
+            // Actualizar cada segundo
+            countdownInterval = setInterval(updateCountdown, 1000);
+            updateCountdown(); // Llamada inicial
+        }
 
-        function crearConfetti() {
-            const colors = ['#FF6B9D', '#FEC84D', '#667eea', '#764ba2'];
-            const confettiCount = 50;
+        // Actualizar cuenta regresiva
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const distance = endDate - now;
 
-            for (let i = 0; i < confettiCount; i++) {
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById('days').textContent = days.toString().padStart(2, '0');
+            document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+            document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+            document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+
+            // Actualizar la barra de progreso
+            const totalTime = 3 * 24 * 60 * 60 * 1000; // 3 días en milisegundos
+            const elapsedTime = totalTime - distance;
+            const progressPercentage = Math.min(100, Math.max(0, (elapsedTime / totalTime) * 100));
+            document.getElementById('progressBar').style.width = `${progressPercentage}%`;
+
+            // Actualizar texto de progreso
+            const progressText = document.getElementById('progressText');
+            if (progressPercentage < 25) {
+                progressText.textContent = "Preparando entorno de desarrollo";
+            } else if (progressPercentage < 50) {
+                progressText.textContent = "Optimizando servicios y base de datos";
+            } else if (progressPercentage < 75) {
+                progressText.textContent = "Implementando nuevas funciones";
+            } else {
+                progressText.textContent = "Realizando pruebas finales";
+            }
+
+            if (distance < 0) {
+                clearInterval(countdownInterval);
+                document.querySelector('.countdown').innerHTML = "<p class='subtitle'>¡El mantenimiento ha finalizado! Redirigiendo...</p>";
+                document.getElementById('progressBar').style.width = '100%';
+                progressText.textContent = "Mantenimiento completado";
+                
+                // Simular redirección después de 3 segundos
                 setTimeout(() => {
-                    const confetti = document.createElement('div');
-                    confetti.style.position = 'fixed';
-                    confetti.style.width = '10px';
-                    confetti.style.height = '10px';
-                    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-                    confetti.style.left = Math.random() * 100 + '%';
-                    confetti.style.top = '-10px';
-                    confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
-                    confetti.style.zIndex = '10000';
-                    confetti.style.pointerEvents = 'none';
-                    
-                    document.body.appendChild(confetti);
-                    
-                    const animation = confetti.animate([
-                        { transform: 'translateY(0) rotate(0deg)', opacity: 1 },
-                        { transform: `translateY(${window.innerHeight + 10}px) rotate(${Math.random() * 360}deg)`, opacity: 0 }
-                    ], {
-                        duration: Math.random() * 2000 + 1000,
-                        easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)'
-                    });
-                    
-                    animation.onfinish = () => confetti.remove();
-                }, i * 30);
+                    showNotification("Redirigiendo al sitio principal...");
+                }, 3000);
             }
         }
 
-        document.addEventListener('touchmove', function(e) {
-            if (e.touches.length > 1) e.preventDefault();
-        }, false);
+        // Mostrar notificación
+        function showNotification(message) {
+            const notification = document.getElementById('notification');
+            const notificationText = document.getElementById('notificationText');
+            
+            notificationText.textContent = message;
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
 
-        document.addEventListener('keydown', function(e) {
-            if ((e.ctrlKey || e.metaKey) && (e.key === '+' || e.key === '-' || e.key === '0')) {
-                e.preventDefault();
+        // Toggle modo oscuro
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        darkModeToggle.addEventListener('click', function() {
+            this.classList.toggle('active');
+            document.body.classList.toggle('dark-mode');
+            
+            // Cambiar variables CSS para modo oscuro
+            if (document.body.classList.contains('dark-mode')) {
+                document.documentElement.style.setProperty('--background', '#1C1C1E');
+                document.documentElement.style.setProperty('--card-bg', '#2C2C2E');
+                document.documentElement.style.setProperty('--text-primary', '#FFFFFF');
+                document.documentElement.style.setProperty('--text-secondary', '#8E8E93');
+                showNotification("Modo oscuro activado");
+            } else {
+                document.documentElement.style.setProperty('--background', '#F2F2F7');
+                document.documentElement.style.setProperty('--card-bg', '#FFFFFF');
+                document.documentElement.style.setProperty('--text-primary', '#1C1C1E');
+                document.documentElement.style.setProperty('--text-secondary', '#8E8E93');
+                showNotification("Modo claro activado");
             }
         });
 
-        console.log('%c🍿 Snacks 🎉', 'font-size: 30px; font-weight: bold; color: #FF6B9D;');
-        console.log('%c¡Gracias por visitar nuestra página!', 'font-size: 16px; color: #667eea;');
-        console.log('%cContacto: +57 300 123 4567', 'font-size: 14px; color: #666;');
+        // Efectos de interacción en elementos
+        document.querySelectorAll('.countdown-item, .feature, .social-link').forEach(element => {
+            element.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-5px)';
+            });
+            
+            element.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+            });
+        });
+
+        // Iniciar contador
+        startCountdown();
+
+        // Mostrar notificación de bienvenida
+        setTimeout(() => {
+            showNotification("Estado del mantenimiento actualizado");
+        }, 1000);
     </script>
 </body>
 </html>

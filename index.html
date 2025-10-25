@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>NesticoTech - Mantenimiento Programado</title>
+    <title>NesticoTech - Mantenimiento Programado | Sistema de Gestión Empresarial</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -14,188 +14,247 @@
         }
 
         :root {
-            --primary: #2563eb;
-            --primary-dark: #1e40af;
-            --secondary: #7c3aed;
+            --primary: #0066ff;
+            --primary-dark: #0052cc;
+            --primary-light: #338fff;
+            --secondary: #6366f1;
             --accent: #06b6d4;
-            --background: #0a0f1e;
-            --surface: #141b2d;
-            --text-primary: #f8fafc;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --background: #000814;
+            --surface: #001d3d;
+            --surface-light: #003566;
+            --text-primary: #ffffff;
             --text-secondary: #cbd5e1;
             --text-muted: #94a3b8;
-            --border: #1e293b;
-            --glow: rgba(37, 99, 235, 0.4);
+            --border: #1e3a5f;
+            --glow-primary: rgba(0, 102, 255, 0.6);
+            --glow-secondary: rgba(99, 102, 241, 0.4);
         }
 
         html, body {
             height: 100%;
             width: 100%;
-            overflow: hidden;
-            position: fixed;
-            overscroll-behavior: none;
-            touch-action: none;
+            overflow-x: hidden;
+            overflow-y: auto;
+            position: relative;
+            scroll-behavior: smooth;
         }
 
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: var(--background);
             color: var(--text-primary);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
+            line-height: 1.6;
         }
 
-        /* Animaciones de fondo */
-        .background-grid {
+        /* Fondo dinámico mejorado */
+        .background-wrapper {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .grid-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             background-image: 
-                linear-gradient(rgba(37, 99, 235, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(37, 99, 235, 0.03) 1px, transparent 1px);
-            background-size: 50px 50px;
-            animation: gridMove 20s linear infinite;
-            z-index: 1;
+                linear-gradient(rgba(0, 102, 255, 0.05) 2px, transparent 2px),
+                linear-gradient(90deg, rgba(0, 102, 255, 0.05) 2px, transparent 2px),
+                linear-gradient(rgba(0, 102, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 102, 255, 0.03) 1px, transparent 1px);
+            background-size: 100px 100px, 100px 100px, 20px 20px, 20px 20px;
+            animation: gridScroll 30s linear infinite;
         }
 
-        @keyframes gridMove {
+        @keyframes gridScroll {
             0% { transform: translate(0, 0); }
-            100% { transform: translate(50px, 50px); }
+            100% { transform: translate(100px, 100px); }
         }
 
-        .gradient-orb {
-            position: fixed;
+        .gradient-sphere {
+            position: absolute;
             border-radius: 50%;
-            filter: blur(80px);
-            opacity: 0.15;
-            animation: float 25s infinite ease-in-out;
-            z-index: 2;
+            filter: blur(100px);
+            opacity: 0.2;
+            animation: sphereFloat 20s infinite ease-in-out;
         }
 
-        .orb-1 {
-            width: 500px;
-            height: 500px;
-            background: var(--primary);
-            top: -10%;
+        .sphere-1 {
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, var(--primary), transparent);
+            top: -15%;
             left: -10%;
             animation-delay: 0s;
         }
 
-        .orb-2 {
+        .sphere-2 {
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, var(--secondary), transparent);
+            bottom: -15%;
+            right: -10%;
+            animation-delay: 7s;
+        }
+
+        .sphere-3 {
             width: 400px;
             height: 400px;
-            background: var(--secondary);
-            bottom: -10%;
-            right: -10%;
-            animation-delay: 5s;
+            background: radial-gradient(circle, var(--accent), transparent);
+            top: 40%;
+            right: 5%;
+            animation-delay: 14s;
         }
 
-        .orb-3 {
-            width: 350px;
-            height: 350px;
-            background: var(--accent);
-            top: 50%;
-            right: 10%;
-            animation-delay: 10s;
-        }
-
-        @keyframes float {
+        @keyframes sphereFloat {
             0%, 100% { transform: translate(0, 0) scale(1); }
-            33% { transform: translate(30px, -30px) scale(1.1); }
-            66% { transform: translate(-20px, 20px) scale(0.9); }
+            33% { transform: translate(50px, -50px) scale(1.15); }
+            66% { transform: translate(-30px, 30px) scale(0.9); }
+        }
+
+        .particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
+        .particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: var(--primary);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--glow-primary);
+            animation: particleFloat 15s infinite ease-in-out;
+        }
+
+        @keyframes particleFloat {
+            0%, 100% { transform: translateY(0) translateX(0); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-100vh) translateX(50px); opacity: 0; }
         }
 
         /* Contenedor principal */
-        .container {
+        .main-wrapper {
             position: relative;
-            z-index: 10;
-            text-align: center;
-            padding: 2rem;
-            max-width: 900px;
-            width: 100%;
+            z-index: 1;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
 
-        /* Logo y encabezado */
-        .logo-section {
-            margin-bottom: 3rem;
-            animation: fadeInDown 0.8s ease-out;
+        /* Header superior profesional */
+        .top-header {
+            padding: 1rem 2rem;
+            background: rgba(0, 29, 61, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
 
-        @keyframes fadeInDown {
-            from {
-                opacity: 0;
-                transform: translateY(-30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .logo-container {
-            display: inline-flex;
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
             align-items: center;
-            gap: 1rem;
-            margin-bottom: 2rem;
         }
 
-        .logo-icon {
-            width: 80px;
-            height: 80px;
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .brand-icon {
+            width: 45px;
+            height: 45px;
             background: linear-gradient(135deg, var(--primary), var(--secondary));
-            border-radius: 20px;
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 2.5rem;
-            color: white;
-            box-shadow: 0 20px 60px var(--glow);
-            position: relative;
+            font-size: 1.3rem;
+            box-shadow: 0 5px 20px var(--glow-primary);
         }
 
-        .logo-icon::before {
-            content: '';
-            position: absolute;
-            inset: -2px;
-            border-radius: 20px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            filter: blur(10px);
-            opacity: 0.5;
-            z-index: -1;
+        .brand-text {
+            display: flex;
+            flex-direction: column;
         }
 
-        .logo-text {
-            font-size: 3rem;
+        .brand-name {
+            font-size: 1.3rem;
             font-weight: 800;
-            background: linear-gradient(135deg, var(--text-primary), var(--text-secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            letter-spacing: -1px;
+            letter-spacing: -0.5px;
         }
 
-        .company-tagline {
-            font-size: 0.95rem;
+        .brand-subtitle {
+            font-size: 0.7rem;
             color: var(--text-muted);
-            font-weight: 500;
-            letter-spacing: 2px;
             text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
         }
 
-        /* Contenido principal */
-        .main-content {
-            animation: fadeInUp 0.8s ease-out 0.2s backwards;
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(245, 158, 11, 0.1);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--warning);
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--warning);
+            border-radius: 50%;
+            animation: statusPulse 2s infinite;
+        }
+
+        @keyframes statusPulse {
+            0%, 100% { opacity: 1; box-shadow: 0 0 10px var(--warning); }
+            50% { opacity: 0.5; box-shadow: 0 0 20px var(--warning); }
+        }
+
+        /* Hero Section */
+        .hero-section {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+
+        .hero-content {
+            max-width: 1000px;
+            animation: fadeInUp 1s ease-out;
         }
 
         @keyframes fadeInUp {
             from {
                 opacity: 0;
-                transform: translateY(30px);
+                transform: translateY(40px);
             }
             to {
                 opacity: 1;
@@ -203,443 +262,997 @@
             }
         }
 
-        .status-badge {
+        .maintenance-badge {
             display: inline-flex;
             align-items: center;
             gap: 0.75rem;
-            background: rgba(37, 99, 235, 0.1);
-            border: 1px solid rgba(37, 99, 235, 0.3);
-            padding: 0.75rem 1.5rem;
+            background: rgba(0, 102, 255, 0.1);
+            border: 2px solid rgba(0, 102, 255, 0.3);
+            padding: 0.75rem 1.75rem;
             border-radius: 50px;
-            font-size: 0.875rem;
-            font-weight: 600;
-            color: var(--primary);
-            margin-bottom: 2rem;
+            font-size: 0.9rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 2.5rem;
             backdrop-filter: blur(10px);
+            box-shadow: 0 10px 40px var(--glow-primary);
         }
 
-        .status-icon {
-            width: 8px;
-            height: 8px;
-            background: var(--primary);
-            border-radius: 50%;
-            animation: pulse 2s infinite;
+        .badge-icon {
+            font-size: 1rem;
+            animation: spin 3s linear infinite;
         }
 
-        @keyframes pulse {
-            0%, 100% {
-                opacity: 1;
-                transform: scale(1);
-            }
-            50% {
-                opacity: 0.5;
-                transform: scale(1.3);
-            }
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
         }
 
         h1 {
-            font-size: 3.5rem;
-            font-weight: 800;
+            font-size: 4.5rem;
+            font-weight: 900;
             margin-bottom: 1.5rem;
-            line-height: 1.2;
-            letter-spacing: -1px;
+            line-height: 1.1;
+            letter-spacing: -2px;
+            background: linear-gradient(135deg, #ffffff 0%, #a5b4fc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
-        .subtitle {
-            font-size: 1.25rem;
+        .hero-subtitle {
+            font-size: 1.4rem;
             color: var(--text-secondary);
-            line-height: 1.6;
-            max-width: 600px;
+            line-height: 1.7;
+            max-width: 700px;
             margin: 0 auto 3rem;
+            font-weight: 400;
         }
 
-        /* Icono central animado */
-        .main-icon-wrapper {
+        /* Icono central épico */
+        .main-visual {
             margin: 3rem 0;
             position: relative;
+        }
+
+        .icon-container {
+            position: relative;
+            display: inline-block;
         }
 
         .main-icon {
-            width: 160px;
-            height: 160px;
-            margin: 0 auto;
+            width: 200px;
+            height: 200px;
             background: linear-gradient(135deg, var(--primary), var(--secondary));
-            border-radius: 30px;
+            border-radius: 35px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 4rem;
+            font-size: 5rem;
             color: white;
             position: relative;
-            animation: iconFloat 3s ease-in-out infinite;
-            box-shadow: 0 30px 80px var(--glow);
+            animation: mainIconFloat 4s ease-in-out infinite;
+            box-shadow: 0 30px 90px var(--glow-primary);
+            border: 3px solid rgba(255, 255, 255, 0.1);
         }
 
-        @keyframes iconFloat {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-15px); }
+        @keyframes mainIconFloat {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            25% { transform: translateY(-20px) rotate(-2deg); }
+            75% { transform: translateY(-10px) rotate(2deg); }
         }
 
-        .main-icon::before {
-            content: '';
+        .icon-glow {
             position: absolute;
-            inset: -3px;
-            border-radius: 30px;
+            inset: -20px;
             background: linear-gradient(135deg, var(--primary), var(--secondary));
-            filter: blur(20px);
-            opacity: 0.6;
+            border-radius: 40px;
+            filter: blur(40px);
+            opacity: 0.4;
             z-index: -1;
-            animation: glowPulse 2s ease-in-out infinite;
+            animation: glowPulse 3s ease-in-out infinite;
         }
 
         @keyframes glowPulse {
-            0%, 100% { opacity: 0.6; }
-            50% { opacity: 0.9; }
+            0%, 100% { opacity: 0.4; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(1.1); }
         }
 
-        /* Dots loader elegante */
-        .loader-container {
+        .rotating-ring {
+            position: absolute;
+            inset: -30px;
+            border: 2px solid rgba(0, 102, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: var(--primary);
+            animation: ringRotate 3s linear infinite;
+        }
+
+        @keyframes ringRotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* Loader profesional mejorado */
+        .loader-section {
             margin: 3rem 0;
         }
 
-        .dots-loader {
+        .dots-wrapper {
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 0.75rem;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
         }
 
         .dot {
-            width: 12px;
-            height: 12px;
-            background: var(--primary);
+            width: 16px;
+            height: 16px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
             border-radius: 50%;
-            animation: dotBounce 1.4s infinite ease-in-out;
-            box-shadow: 0 0 20px var(--glow);
+            animation: dotBounce 1.6s infinite ease-in-out;
+            box-shadow: 0 0 30px var(--glow-primary);
         }
 
         .dot:nth-child(1) { animation-delay: -0.32s; }
         .dot:nth-child(2) { animation-delay: -0.16s; }
         .dot:nth-child(3) { animation-delay: 0s; }
+        .dot:nth-child(4) { animation-delay: 0.16s; }
+        .dot:nth-child(5) { animation-delay: 0.32s; }
 
         @keyframes dotBounce {
             0%, 80%, 100% {
-                transform: scale(0.8);
+                transform: scale(0.6) translateY(0);
                 opacity: 0.5;
             }
             40% {
-                transform: scale(1.2);
+                transform: scale(1.3) translateY(-10px);
                 opacity: 1;
             }
         }
 
         .loading-text {
-            margin-top: 1.5rem;
-            font-size: 1rem;
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .loading-subtext {
+            font-size: 0.9rem;
             color: var(--text-muted);
-            font-weight: 500;
-            letter-spacing: 1px;
+            margin-top: 0.5rem;
         }
 
-        /* Información adicional */
-        .info-cards {
+        /* Sección de características */
+        .features-section {
+            padding: 4rem 2rem;
+            background: rgba(0, 29, 61, 0.3);
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .features-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            letter-spacing: -1px;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            margin-bottom: 3rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .features-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-            margin: 4rem 0 3rem;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
         }
 
-        .info-card {
-            background: rgba(20, 27, 45, 0.6);
+        .feature-card {
+            background: rgba(0, 53, 102, 0.4);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 2.5rem;
+            backdrop-filter: blur(10px);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, transparent, rgba(0, 102, 255, 0.1));
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary);
+            box-shadow: 0 20px 60px var(--glow-primary);
+        }
+
+        .feature-card:hover::before {
+            opacity: 1;
+        }
+
+        .feature-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 10px 30px var(--glow-primary);
+        }
+
+        .feature-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .feature-description {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        /* Timeline de actualizaciones */
+        .timeline-section {
+            padding: 4rem 2rem;
+        }
+
+        .timeline-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .timeline {
+            position: relative;
+            padding: 2rem 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, var(--primary), var(--secondary));
+            transform: translateX(-50%);
+        }
+
+        .timeline-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .timeline-item:nth-child(odd) {
+            flex-direction: row-reverse;
+        }
+
+        .timeline-content {
+            flex: 1;
+            background: rgba(0, 53, 102, 0.4);
             border: 1px solid var(--border);
             border-radius: 16px;
             padding: 2rem;
             backdrop-filter: blur(10px);
+            margin: 0 2rem;
             transition: all 0.3s ease;
         }
 
-        .info-card:hover {
-            transform: translateY(-5px);
-            border-color: rgba(37, 99, 235, 0.3);
-            box-shadow: 0 10px 40px rgba(37, 99, 235, 0.1);
+        .timeline-content:hover {
+            transform: scale(1.05);
+            border-color: var(--primary);
+            box-shadow: 0 10px 40px var(--glow-primary);
         }
 
-        .info-card-icon {
-            font-size: 2rem;
-            margin-bottom: 1rem;
-            color: var(--primary);
+        .timeline-marker {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            box-shadow: 0 0 30px var(--glow-primary);
+            position: relative;
+            z-index: 2;
         }
 
-        .info-card-title {
-            font-size: 1.1rem;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-            color: var(--text-primary);
-        }
-
-        .info-card-text {
-            font-size: 0.9rem;
-            color: var(--text-muted);
-            line-height: 1.5;
-        }
-
-        /* Footer */
-        .footer {
-            margin-top: 4rem;
-            padding-top: 2rem;
-            border-top: 1px solid var(--border);
-        }
-
-        .contact-info {
-            margin-bottom: 1.5rem;
-        }
-
-        .contact-text {
-            font-size: 1rem;
-            color: var(--text-secondary);
+        .timeline-title {
+            font-size: 1.2rem;
+            font-weight: 700;
             margin-bottom: 0.75rem;
         }
 
-        .contact-link {
-            color: var(--primary);
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
+        .timeline-text {
+            color: var(--text-secondary);
+            line-height: 1.6;
         }
 
-        .contact-link:hover {
-            color: var(--accent);
+        .timeline-status {
+            display: inline-block;
+            margin-top: 0.75rem;
+            padding: 0.4rem 1rem;
+            background: rgba(16, 185, 129, 0.2);
+            border: 1px solid var(--success);
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--success);
+        }
+
+        .timeline-status.pending {
+            background: rgba(245, 158, 11, 0.2);
+            border-color: var(--warning);
+            color: var(--warning);
+        }
+
+        /* Footer profesional */
+        .footer {
+            padding: 3rem 2rem 2rem;
+            background: rgba(0, 29, 61, 0.6);
+            border-top: 1px solid var(--border);
+            backdrop-filter: blur(20px);
+        }
+
+        .footer-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-section h3 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            color: var(--text-secondary);
+            transition: all 0.3s ease;
+        }
+
+        .contact-item:hover {
+            color: var(--primary);
             transform: translateX(5px);
         }
 
-        .social-links {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            margin-top: 2rem;
-        }
-
-        .social-link {
-            width: 50px;
-            height: 50px;
-            background: rgba(20, 27, 45, 0.8);
+        .contact-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(0, 102, 255, 0.1);
             border: 1px solid var(--border);
-            border-radius: 14px;
+            border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
+            font-size: 1.1rem;
+        }
+
+        .contact-link {
             color: var(--text-secondary);
-            font-size: 1.3rem;
-            transition: all 0.3s ease;
             text-decoration: none;
-            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .contact-link:hover {
+            color: var(--primary);
+        }
+
+        .social-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem;
+            background: rgba(0, 53, 102, 0.4);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            font-weight: 600;
         }
 
         .social-link:hover {
             background: var(--primary);
             color: white;
             border-color: var(--primary);
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px var(--glow);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px var(--glow-primary);
         }
 
-        .copyright {
-            margin-top: 2rem;
-            font-size: 0.85rem;
+        .social-icon {
+            font-size: 1.2rem;
+        }
+
+        .footer-bottom {
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+            text-align: center;
             color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .footer-bottom p {
+            margin-bottom: 0.5rem;
+        }
+
+        /* Pull to refresh indicator */
+        .pull-to-refresh {
+            position: fixed;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%) translateY(-100%);
+            background: rgba(0, 102, 255, 0.95);
+            padding: 1rem 2rem;
+            border-radius: 0 0 20px 20px;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-weight: 600;
+            box-shadow: 0 10px 40px var(--glow-primary);
+            transition: transform 0.3s ease;
+            z-index: 1000;
+            backdrop-filter: blur(20px);
+        }
+
+        .pull-to-refresh.show {
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .refresh-icon {
+            font-size: 1.2rem;
+            animation: spin 1s linear infinite;
         }
 
         /* Responsive */
+        @media (max-width: 1024px) {
+            .timeline::before {
+                left: 30px;
+            }
+
+            .timeline-item,
+            .timeline-item:nth-child(odd) {
+                flex-direction: row;
+            }
+
+            .timeline-marker {
+                width: 40px;
+                height: 40px;
+                font-size: 1.2rem;
+            }
+
+            .timeline-content {
+                margin-left: 2rem;
+                margin-right: 0;
+            }
+        }
+
         @media (max-width: 768px) {
-            .logo-text {
-                font-size: 2.5rem;
+            .top-header {
+                padding: 1rem;
+            }
+
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
             }
 
             h1 {
-                font-size: 2.5rem;
+                font-size: 3rem;
             }
 
-            .subtitle {
+            .hero-subtitle {
                 font-size: 1.1rem;
             }
 
             .main-icon {
-                width: 130px;
-                height: 130px;
-                font-size: 3rem;
+                width: 150px;
+                height: 150px;
+                font-size: 3.5rem;
             }
 
-            .info-cards {
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .features-grid {
                 grid-template-columns: 1fr;
-                gap: 1rem;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .social-grid {
+                grid-template-columns: 1fr;
             }
         }
 
         @media (max-width: 480px) {
-            .container {
-                padding: 1.5rem;
-            }
-
-            .logo-container {
-                flex-direction: column;
-                gap: 0.75rem;
-            }
-
-            .logo-icon {
-                width: 70px;
-                height: 70px;
-                font-size: 2rem;
-            }
-
-            .logo-text {
-                font-size: 2rem;
-            }
-
             h1 {
-                font-size: 2rem;
+                font-size: 2.2rem;
             }
 
-            .subtitle {
+            .hero-subtitle {
                 font-size: 1rem;
             }
 
             .main-icon {
-                width: 110px;
-                height: 110px;
-                font-size: 2.5rem;
+                width: 120px;
+                height: 120px;
+                font-size: 3rem;
+            }
+
+            .brand-name {
+                font-size: 1.1rem;
             }
         }
 
-        /* Prevenir interacciones no deseadas */
+        /* Prevenir zoom pero permitir scroll */
         * {
             -webkit-user-select: none;
             -moz-user-select: none;
             -ms-user-select: none;
             user-select: none;
-            -webkit-touch-callout: none;
+        }
+
+        a, button {
+            -webkit-user-select: auto;
+            -moz-user-select: auto;
+            -ms-user-select: auto;
+            user-select: auto;
         }
     </style>
 </head>
 <body>
     <!-- Fondo animado -->
-    <div class="background-grid"></div>
-    <div class="gradient-orb orb-1"></div>
-    <div class="gradient-orb orb-2"></div>
-    <div class="gradient-orb orb-3"></div>
+    <div class="background-wrapper">
+        <div class="grid-background"></div>
+        <div class="gradient-sphere sphere-1"></div>
+        <div class="gradient-sphere sphere-2"></div>
+        <div class="gradient-sphere sphere-3"></div>
+        <div class="particles" id="particles"></div>
+    </div>
 
-    <!-- Contenedor principal -->
-    <div class="container">
-        <!-- Logo -->
-        <div class="logo-section">
-            <div class="logo-container">
-                <div class="logo-icon">
-                    <i class="fas fa-code"></i>
-                </div>
-                <div class="logo-text">NesticoTech</div>
-            </div>
-            <div class="company-tagline">Soluciones Tecnológicas Empresariales</div>
-        </div>
+    <!-- Pull to refresh indicator -->
+    <div class="pull-to-refresh" id="pullToRefresh">
+        <i class="fas fa-sync-alt refresh-icon"></i>
+        <span>Actualizando...</span>
+    </div>
 
-        <!-- Contenido principal -->
-        <div class="main-content">
-            <div class="status-badge">
-                <div class="status-icon"></div>
-                Mantenimiento Programado
-            </div>
-
-            <h1>Estamos Mejorando<br>Nuestra Plataforma</h1>
-            
-            <p class="subtitle">
-                Estamos realizando actualizaciones importantes para ofrecerle una experiencia más rápida, segura y eficiente. Volveremos pronto con mejoras significativas.
-            </p>
-
-            <!-- Icono central -->
-            <div class="main-icon-wrapper">
-                <div class="main-icon">
-                    <i class="fas fa-server"></i>
-                </div>
-            </div>
-
-            <!-- Loader de dots -->
-            <div class="loader-container">
-                <div class="dots-loader">
-                    <div class="dot"></div>
-                    <div class="dot"></div>
-                    <div class="dot"></div>
-                </div>
-                <div class="loading-text">Actualizando sistemas...</div>
-            </div>
-
-            <!-- Tarjetas informativas -->
-            <div class="info-cards">
-                <div class="info-card">
-                    <div class="info-card-icon">
-                        <i class="fas fa-shield-alt"></i>
+    <!-- Wrapper principal -->
+    <div class="main-wrapper">
+        <!-- Header -->
+        <header class="top-header">
+            <div class="header-content">
+                <div class="brand">
+                    <div class="brand-icon">
+                        <i class="fas fa-code"></i>
                     </div>
-                    <div class="info-card-title">Mayor Seguridad</div>
-                    <div class="info-card-text">
-                        Implementando protocolos de seguridad avanzados para proteger sus datos
+                    <div class="brand-text">
+                        <div class="brand-name">NesticoTech</div>
+                        <div class="brand-subtitle">Enterprise Solutions</div>
                     </div>
                 </div>
+                <div class="status-indicator">
+                    <div class="status-dot"></div>
+                    Mantenimiento Activo
+                </div>
+            </div>
+        </header>
+
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <div class="hero-content">
+                <div class="maintenance-badge">
+                    <i class="fas fa-cog badge-icon"></i>
+                    Sistema en Mantenimiento
+                </div>
+
+                <h1>Actualizando Nuestra<br>Infraestructura</h1>
                 
-                <div class="info-card">
-                    <div class="info-card-icon">
-                        <i class="fas fa-rocket"></i>
-                    </div>
-                    <div class="info-card-title">Mejor Rendimiento</div>
-                    <div class="info-card-text">
-                        Optimizando la infraestructura para una experiencia más rápida
+                <p class="hero-subtitle">
+                    Estamos implementando mejoras significativas en nuestros sistemas para ofrecerle una experiencia más rápida, segura y eficiente. Nuestros servidores empresariales están siendo optimizados con las últimas tecnologías disponibles.
+                </p>
+
+                <div class="main-visual">
+                    <div class="icon-container">
+                        <div class="icon-glow"></div>
+                        <div class="rotating-ring"></div>
+                        <div class="main-icon">
+                            <i class="fas fa-server"></i>
+                        </div>
                     </div>
                 </div>
-                
-                <div class="info-card">
-                    <div class="info-card-icon">
-                        <i class="fas fa-sparkles"></i>
+
+                <div class="loader-section">
+                    <div class="dots-wrapper">
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                        <div class="dot"></div>
                     </div>
-                    <div class="info-card-title">Nuevas Funciones</div>
-                    <div class="info-card-text">
-                        Añadiendo características innovadoras para su comodidad
+                    <div class="loading-text" id="loadingText">Optimizando Sistemas...</div>
+                    <div class="loading-subtext">Por favor, espere mientras completamos las actualizaciones</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="features-section">
+            <div class="features-container">
+                <h2 class="section-title">Mejoras en Progreso</h2>
+                <p class="section-subtitle">
+                    Estas son las actualizaciones que estamos implementando para mejorar su experiencia
+                </p>
+
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h3 class="feature-title">Rendimiento Optimizado</h3>
+                        <p class="feature-description">
+                            Actualización de servidores y bases de datos para tiempos de respuesta hasta 10x más rápidos, con arquitectura distribuida y balanceo de carga inteligente.
+                        </p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-cloud"></i>
+                        </div>
+                        <h3 class="feature-title">Infraestructura Cloud</h3>
+                        <p class="feature-description">
+                            Migración a infraestructura cloud de última generación con alta disponibilidad, escalabilidad automática y respaldo geográfico distribuido.
+                        </p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-database"></i>
+                        </div>
+                        <h3 class="feature-title">Base de Datos Mejorada</h3>
+                        <p class="feature-description">
+                            Optimización de consultas, indexación avanzada y sistemas de caché inteligente para procesamiento de datos más eficiente y confiable.
+                        </p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h3 class="feature-title">Analítica Avanzada</h3>
+                        <p class="feature-description">
+                            Integración de sistemas de monitoreo en tiempo real y dashboards empresariales para mejor toma de decisiones basadas en datos.
+                        </p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-mobile-alt"></i>
+                        </div>
+                        <h3 class="feature-title">Experiencia Móvil</h3>
+                        <p class="feature-description">
+                            Interfaz completamente renovada con diseño responsive, Progressive Web App (PWA) y soporte offline para acceso desde cualquier dispositivo.
+                        </p>
                     </div>
                 </div>
             </div>
-        </div>
+        </section>
+
+        <!-- Timeline Section -->
+        <section class="timeline-section">
+            <div class="timeline-container">
+                <h2 class="section-title">Fases de Actualización</h2>
+                <p class="section-subtitle">
+                    Seguimiento del proceso de mantenimiento y actualización del sistema
+                </p>
+
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-marker">
+                            <i class="fas fa-check"></i>
+                        </div>
+                        <div class="timeline-content">
+                            <h3 class="timeline-title">Fase 1: Respaldo de Datos</h3>
+                            <p class="timeline-text">
+                                Backup completo de todas las bases de datos y configuraciones del sistema en múltiples ubicaciones geográficas para garantizar la integridad de la información.
+                            </p>
+                            <span class="timeline-status">Completado</span>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-marker">
+                            <i class="fas fa-sync-alt fa-spin"></i>
+                        </div>
+                        <div class="timeline-content">
+                            <h3 class="timeline-title">Fase 2: Actualización de Servidores</h3>
+                            <p class="timeline-text">
+                                Implementación de nueva infraestructura de servidores con tecnología de punta, migración de datos y configuración de sistemas de alta disponibilidad.
+                            </p>
+                            <span class="timeline-status pending">En Progreso</span>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-marker">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="timeline-content">
+                            <h3 class="timeline-title">Fase 3: Optimización de Seguridad</h3>
+                            <p class="timeline-text">
+                                Actualización de protocolos de seguridad, implementación de firewall de aplicaciones web (WAF) y configuración de sistemas de detección de intrusos.
+                            </p>
+                            <span class="timeline-status pending">Pendiente</span>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-marker">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="timeline-content">
+                            <h3 class="timeline-title">Fase 4: Pruebas y Verificación</h3>
+                            <p class="timeline-text">
+                                Ejecución de pruebas exhaustivas de rendimiento, seguridad y funcionalidad antes del lanzamiento oficial para garantizar una experiencia impecable.
+                            </p>
+                            <span class="timeline-status pending">Pendiente</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
         <!-- Footer -->
-        <div class="footer">
-            <div class="contact-info">
-                <p class="contact-text">¿Necesita asistencia inmediata?</p>
-                <a href="mailto:soporte@nesticotech.com" class="contact-link">
-                    <i class="fas fa-envelope"></i>
-                    soporte@nesticotech.com
-                </a>
-            </div>
+        <footer class="footer">
+            <div class="footer-container">
+                <div class="footer-content">
+                    <div class="footer-section">
+                        <h3>Contacto de Soporte</h3>
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div>
+                                <a href="mailto:soporte@nesticotech.com" class="contact-link">
+                                    soporte@nesticotech.com
+                                </a>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-phone"></i>
+                            </div>
+                            <div>
+                                <a href="tel:+573001234567" class="contact-link">
+                                    +57 (300) 123-4567
+                                </a>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-headset"></i>
+                            </div>
+                            <div>
+                                <span class="contact-link">Soporte 24/7 disponible</span>
+                            </div>
+                        </div>
+                    </div>
 
-            <div class="social-links">
-                <a href="#" class="social-link" aria-label="Twitter">
-                    <i class="fab fa-twitter"></i>
-                </a>
-                <a href="#" class="social-link" aria-label="LinkedIn">
-                    <i class="fab fa-linkedin-in"></i>
-                </a>
-                <a href="#" class="social-link" aria-label="GitHub">
-                    <i class="fab fa-github"></i>
-                </a>
-                <a href="#" class="social-link" aria-label="Discord">
-                    <i class="fab fa-discord"></i>
-                </a>
-            </div>
+                    <div class="footer-section">
+                        <h3>Información</h3>
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-info-circle"></i>
+                            </div>
+                            <div>
+                                <span class="contact-link">Estado del sistema en tiempo real</span>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-calendar"></i>
+                            </div>
+                            <div>
+                                <span class="contact-link">Mantenimiento programado</span>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-bell"></i>
+                            </div>
+                            <div>
+                                <span class="contact-link">Notificaciones automáticas</span>
+                            </div>
+                        </div>
+                    </div>
 
-            <div class="copyright">
-                © 2024 NesticoTech. Todos los derechos reservados.
+                    <div class="footer-section">
+                        <h3>Síguenos</h3>
+                        <div class="social-grid">
+                            <a href="#" class="social-link">
+                                <i class="fab fa-twitter social-icon"></i>
+                                <span>Twitter</span>
+                            </a>
+                            <a href="#" class="social-link">
+                                <i class="fab fa-linkedin-in social-icon"></i>
+                                <span>LinkedIn</span>
+                            </a>
+                            <a href="#" class="social-link">
+                                <i class="fab fa-github social-icon"></i>
+                                <span>GitHub</span>
+                            </a>
+                            <a href="#" class="social-link">
+                                <i class="fab fa-discord social-icon"></i>
+                                <span>Discord</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="footer-bottom">
+                    <p><strong>© 2024 NesticoTech - Enterprise Solutions</strong></p>
+                    <p>Todos los derechos reservados | Tecnología de Clase Mundial</p>
+                    <p style="margin-top: 1rem; font-size: 0.8rem;">
+                        Sistema de Gestión Empresarial | ISO 27001 Certificado | SOC 2 Compliant
+                    </p>
+                </div>
             </div>
-        </div>
+        </footer>
     </div>
 
     <script>
-        // Prevenir zoom en dispositivos móviles
+        // Crear partículas flotantes
+        const particlesContainer = document.getElementById('particles');
+        for (let i = 0; i < 30; i++) {
+            const particle = document.createElement('div');
+            particle.classList.add('particle');
+            particle.style.left = `${Math.random() * 100}%`;
+            particle.style.animationDuration = `${Math.random() * 10 + 10}s`;
+            particle.style.animationDelay = `${Math.random() * 5}s`;
+            particlesContainer.appendChild(particle);
+        }
+
+        // Mensajes rotativos mejorados
+        const loadingMessages = [
+            'Optimizando Sistemas...',
+            'Actualizando Servidores...',
+            'Implementando Mejoras de Seguridad...',
+            'Configurando Infraestructura Cloud...',
+            'Migrando Bases de Datos...',
+            'Optimizando Rendimiento...',
+            'Verificando Integridad de Datos...',
+            'Aplicando Actualizaciones Críticas...'
+        ];
+
+        let messageIndex = 0;
+        const loadingText = document.getElementById('loadingText');
+
+        setInterval(() => {
+            messageIndex = (messageIndex + 1) % loadingMessages.length;
+            loadingText.style.opacity = '0';
+            loadingText.style.transform = 'translateY(-10px)';
+            
+            setTimeout(() => {
+                loadingText.textContent = loadingMessages[messageIndex];
+                loadingText.style.opacity = '1';
+                loadingText.style.transform = 'translateY(0)';
+            }, 300);
+        }, 4000);
+
+        loadingText.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+
+        // Pull to refresh mejorado
+        let startY = 0;
+        let currentY = 0;
+        let isPulling = false;
+        const pullToRefresh = document.getElementById('pullToRefresh');
+        const threshold = 80;
+
+        document.addEventListener('touchstart', (e) => {
+            if (window.scrollY === 0) {
+                startY = e.touches[0].pageY;
+                isPulling = true;
+            }
+        }, { passive: true });
+
+        document.addEventListener('touchmove', (e) => {
+            if (!isPulling || window.scrollY > 0) return;
+            
+            currentY = e.touches[0].pageY;
+            const distance = currentY - startY;
+            
+            if (distance > 0 && distance < threshold) {
+                pullToRefresh.style.transform = `translateX(-50%) translateY(${distance - 100}%)`;
+            } else if (distance >= threshold) {
+                pullToRefresh.classList.add('show');
+            }
+        }, { passive: true });
+
+        document.addEventListener('touchend', () => {
+            if (!isPulling) return;
+            
+            const distance = currentY - startY;
+            
+            if (distance >= threshold) {
+                // Simular recarga
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1000);
+            } else {
+                pullToRefresh.style.transform = 'translateX(-50%) translateY(-100%)';
+                pullToRefresh.classList.remove('show');
+            }
+            
+            isPulling = false;
+            startY = 0;
+            currentY = 0;
+        });
+
+        // Prevenir zoom pero permitir scroll
+        let lastTouchEnd = 0;
+        document.addEventListener('touchend', function(event) {
+            const now = Date.now();
+            if (now - lastTouchEnd <= 300) {
+                event.preventDefault();
+            }
+            lastTouchEnd = now;
+        }, false);
+
         document.addEventListener('gesturestart', function(e) {
             e.preventDefault();
         });
@@ -652,66 +1265,28 @@
             e.preventDefault();
         });
 
-        // Prevenir zoom con doble tap
-        let lastTouchEnd = 0;
-        document.addEventListener('touchend', function(event) {
-            const now = Date.now();
-            if (now - lastTouchEnd <= 300) {
-                event.preventDefault();
-            }
-            lastTouchEnd = now;
-        }, false);
-
-        // Prevenir zoom con pellizco
-        document.addEventListener('touchmove', function(event) {
-            if (event.scale !== 1) {
-                event.preventDefault();
-            }
-        }, { passive: false });
-
-        // Prevenir doble clic
-        document.addEventListener('dblclick', function(e) {
-            e.preventDefault();
-        }, { passive: false });
-
-        // Deshabilitar menú contextual
-        document.addEventListener('contextmenu', function(e) {
-            e.preventDefault();
-        }, false);
-
-        // Bloquear scroll
-        document.body.style.overflow = 'hidden';
-        document.documentElement.style.overflow = 'hidden';
-
-        // Mantener el viewport fijo
-        window.addEventListener('scroll', function() {
-            window.scrollTo(0, 0);
+        // Animación de entrada suave
+        window.addEventListener('load', () => {
+            document.body.style.opacity = '0';
+            setTimeout(() => {
+                document.body.style.transition = 'opacity 0.5s ease';
+                document.body.style.opacity = '1';
+            }, 100);
         });
 
-        // Mensaje rotativo en el loader
-        const loadingMessages = [
-            'Actualizando sistemas...',
-            'Optimizando servidores...',
-            'Implementando mejoras...',
-            'Configurando seguridad...',
-            'Preparando plataforma...'
-        ];
-
-        let messageIndex = 0;
-        const loadingText = document.querySelector('.loading-text');
-
-        setInterval(() => {
-            messageIndex = (messageIndex + 1) % loadingMessages.length;
-            loadingText.style.opacity = '0';
-            
-            setTimeout(() => {
-                loadingText.textContent = loadingMessages[messageIndex];
-                loadingText.style.opacity = '1';
-            }, 300);
-        }, 4000);
-
-        // Transición suave para el texto
-        loadingText.style.transition = 'opacity 0.3s ease';
+        // Scroll suave para enlaces internos
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
     </script>
 </body>
 </html>

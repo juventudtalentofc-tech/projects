@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>NesticoTech - Mantenimiento Programado | Sistema Empresarial</title>
+    <title>NesticoTech - Mantenimiento Programado</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -15,22 +15,20 @@
 
         :root {
             --primary: #0066ff;
-            --primary-dark: #0052cc;
             --secondary: #6366f1;
             --accent: #06b6d4;
             --background: #000814;
-            --surface: #001d3d;
             --text-primary: #ffffff;
             --text-secondary: #cbd5e1;
             --text-muted: #94a3b8;
             --border: #1e3a5f;
-            --glow-primary: rgba(0, 102, 255, 0.6);
-            --glow-secondary: rgba(99, 102, 241, 0.4);
+            --glow: rgba(0, 102, 255, 0.6);
         }
 
         html, body {
-            height: 100%;
-            width: 100%;
+            height: 100vh;
+            height: 100dvh;
+            width: 100vw;
             overflow: hidden;
             position: fixed;
             overscroll-behavior: none;
@@ -44,138 +42,88 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            position: relative;
             -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
         }
 
-        /* Fondo animado premium */
+        /* Fondo animado optimizado */
         .background-wrapper {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            inset: 0;
             z-index: 0;
             overflow: hidden;
         }
 
         .grid-background {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            inset: 0;
             background-image: 
-                linear-gradient(rgba(0, 102, 255, 0.05) 2px, transparent 2px),
-                linear-gradient(90deg, rgba(0, 102, 255, 0.05) 2px, transparent 2px),
-                linear-gradient(rgba(0, 102, 255, 0.02) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 102, 255, 0.02) 1px, transparent 1px);
-            background-size: 100px 100px, 100px 100px, 20px 20px, 20px 20px;
-            animation: gridScroll 30s linear infinite;
+                linear-gradient(rgba(0, 102, 255, 0.04) 2px, transparent 2px),
+                linear-gradient(90deg, rgba(0, 102, 255, 0.04) 2px, transparent 2px);
+            background-size: 80px 80px;
+            animation: gridMove 25s linear infinite;
         }
 
-        @keyframes gridScroll {
+        @keyframes gridMove {
             0% { transform: translate(0, 0); }
-            100% { transform: translate(100px, 100px); }
+            100% { transform: translate(80px, 80px); }
         }
 
         .gradient-sphere {
             position: absolute;
             border-radius: 50%;
-            filter: blur(120px);
-            opacity: 0.2;
-            animation: sphereFloat 25s infinite ease-in-out;
+            filter: blur(100px);
+            opacity: 0.15;
+            animation: sphereFloat 20s infinite ease-in-out;
         }
 
         .sphere-1 {
-            width: 600px;
-            height: 600px;
+            width: 500px;
+            height: 500px;
             background: radial-gradient(circle, var(--primary), transparent);
             top: -20%;
             left: -15%;
-            animation-delay: 0s;
         }
 
         .sphere-2 {
-            width: 500px;
-            height: 500px;
+            width: 400px;
+            height: 400px;
             background: radial-gradient(circle, var(--secondary), transparent);
             bottom: -20%;
             right: -15%;
-            animation-delay: 8s;
-        }
-
-        .sphere-3 {
-            width: 450px;
-            height: 450px;
-            background: radial-gradient(circle, var(--accent), transparent);
-            top: 40%;
-            right: 5%;
-            animation-delay: 16s;
+            animation-delay: 7s;
         }
 
         @keyframes sphereFloat {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            33% { transform: translate(50px, -50px) scale(1.2); }
-            66% { transform: translate(-40px, 40px) scale(0.85); }
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(30px, -30px); }
         }
 
-        .particles {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-        }
-
-        .particle {
-            position: absolute;
-            width: 3px;
-            height: 3px;
-            background: var(--primary);
-            border-radius: 50%;
-            box-shadow: 0 0 15px var(--glow-primary);
-            animation: particleFloat 20s infinite ease-in-out;
-        }
-
-        @keyframes particleFloat {
-            0%, 100% { 
-                transform: translateY(100vh) translateX(0); 
-                opacity: 0; 
-            }
-            10% { opacity: 1; }
-            50% { opacity: 0.8; }
-            90% { opacity: 1; }
-            100% { 
-                transform: translateY(-20vh) translateX(100px); 
-                opacity: 0; 
-            }
-        }
-
-        /* Contenedor principal centrado */
+        /* Contenedor principal que se ajusta a viewport */
         .main-container {
             position: relative;
             z-index: 10;
-            text-align: center;
-            padding: 2rem;
-            max-width: 1100px;
             width: 100%;
             height: 100vh;
+            height: 100dvh;
+            max-width: 1200px;
+            padding: clamp(1rem, 3vh, 2rem) clamp(1rem, 4vw, 2rem);
             display: flex;
             flex-direction: column;
-            justify-content: center;
+            justify-content: space-between;
+            align-items: center;
             overflow: hidden;
         }
 
-        /* Logo y branding */
-        .brand-section {
-            margin-bottom: 3rem;
-            animation: fadeInDown 1s ease-out;
+        /* Header compacto */
+        .header-section {
+            text-align: center;
+            animation: fadeInDown 0.8s ease-out;
         }
 
         @keyframes fadeInDown {
             from {
                 opacity: 0;
-                transform: translateY(-40px);
+                transform: translateY(-20px);
             }
             to {
                 opacity: 1;
@@ -186,70 +134,57 @@
         .logo-wrapper {
             display: inline-flex;
             align-items: center;
-            gap: 1.25rem;
-            margin-bottom: 1.5rem;
+            gap: clamp(0.5rem, 2vw, 1rem);
+            margin-bottom: clamp(0.5rem, 2vh, 1rem);
         }
 
         .logo-icon {
-            width: 90px;
-            height: 90px;
+            width: clamp(50px, 10vw, 70px);
+            height: clamp(50px, 10vw, 70px);
             background: linear-gradient(135deg, var(--primary), var(--secondary));
-            border-radius: 22px;
+            border-radius: 16px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 3rem;
+            font-size: clamp(1.5rem, 5vw, 2.5rem);
             color: white;
-            box-shadow: 0 25px 70px var(--glow-primary);
-            position: relative;
+            box-shadow: 0 20px 50px var(--glow);
             border: 2px solid rgba(255, 255, 255, 0.1);
         }
 
-        .logo-icon::before {
-            content: '';
-            position: absolute;
-            inset: -3px;
-            border-radius: 24px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            filter: blur(15px);
-            opacity: 0.6;
-            z-index: -1;
-            animation: logoGlow 3s ease-in-out infinite;
-        }
-
-        @keyframes logoGlow {
-            0%, 100% { opacity: 0.6; transform: scale(1); }
-            50% { opacity: 0.9; transform: scale(1.05); }
-        }
-
         .brand-text {
-            font-size: 3.5rem;
+            font-size: clamp(1.8rem, 6vw, 3rem);
             font-weight: 900;
-            background: linear-gradient(135deg, #ffffff 0%, #a5b4fc 100%);
+            background: linear-gradient(135deg, #ffffff, #a5b4fc);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            background-clip: text;
-            letter-spacing: -1.5px;
+            letter-spacing: -1px;
         }
 
         .company-subtitle {
-            font-size: 0.95rem;
+            font-size: clamp(0.65rem, 2vw, 0.85rem);
             color: var(--text-muted);
             font-weight: 600;
-            letter-spacing: 3px;
+            letter-spacing: 2px;
             text-transform: uppercase;
-            margin-top: 0.5rem;
         }
 
-        /* Contenido central */
+        /* Contenido central compacto */
         .content-section {
-            animation: fadeInUp 1s ease-out 0.3s backwards;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            width: 100%;
+            animation: fadeInUp 0.8s ease-out 0.2s backwards;
         }
 
         @keyframes fadeInUp {
             from {
                 opacity: 0;
-                transform: translateY(40px);
+                transform: translateY(20px);
             }
             to {
                 opacity: 1;
@@ -260,67 +195,51 @@
         .status-badge {
             display: inline-flex;
             align-items: center;
-            gap: 0.75rem;
-            background: rgba(0, 102, 255, 0.15);
-            border: 2px solid rgba(0, 102, 255, 0.4);
-            padding: 0.85rem 2rem;
+            gap: 0.5rem;
+            background: rgba(0, 102, 255, 0.12);
+            border: 2px solid rgba(0, 102, 255, 0.3);
+            padding: clamp(0.5rem, 1.5vh, 0.75rem) clamp(1rem, 3vw, 1.5rem);
             border-radius: 50px;
-            font-size: 0.95rem;
+            font-size: clamp(0.7rem, 2vw, 0.85rem);
             font-weight: 700;
             color: var(--primary);
-            margin-bottom: 2.5rem;
-            backdrop-filter: blur(15px);
-            box-shadow: 0 10px 40px var(--glow-primary);
+            margin-bottom: clamp(1rem, 2vh, 1.5rem);
             text-transform: uppercase;
-            letter-spacing: 1.5px;
+            letter-spacing: 1px;
         }
 
         .status-pulse {
-            width: 10px;
-            height: 10px;
+            width: 8px;
+            height: 8px;
             background: var(--primary);
             border-radius: 50%;
-            animation: statusPulse 2s infinite;
-            box-shadow: 0 0 15px var(--primary);
+            animation: pulse 2s infinite;
         }
 
-        @keyframes statusPulse {
-            0%, 100% { 
-                opacity: 1; 
-                transform: scale(1);
-                box-shadow: 0 0 15px var(--primary);
-            }
-            50% { 
-                opacity: 0.4; 
-                transform: scale(1.4);
-                box-shadow: 0 0 25px var(--primary);
-            }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.4; transform: scale(1.3); }
         }
 
         h1 {
-            font-size: 4.5rem;
+            font-size: clamp(1.8rem, 6vw, 3.5rem);
             font-weight: 900;
-            margin-bottom: 1.75rem;
+            margin-bottom: clamp(0.75rem, 2vh, 1.25rem);
             line-height: 1.1;
-            letter-spacing: -2px;
-            background: linear-gradient(135deg, #ffffff 0%, #94a3b8 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            letter-spacing: -1px;
         }
 
         .description {
-            font-size: 1.35rem;
+            font-size: clamp(0.9rem, 2.5vw, 1.15rem);
             color: var(--text-secondary);
-            line-height: 1.7;
-            max-width: 750px;
-            margin: 0 auto 3.5rem;
-            font-weight: 400;
+            line-height: 1.5;
+            max-width: 650px;
+            margin-bottom: clamp(1.5rem, 3vh, 2rem);
         }
 
-        /* Icono central épico */
+        /* Icono central optimizado */
         .main-visual {
-            margin: 3rem 0;
+            margin: clamp(1rem, 2vh, 1.5rem) 0;
             position: relative;
         }
 
@@ -330,56 +249,47 @@
         }
 
         .central-icon {
-            width: 200px;
-            height: 200px;
+            width: clamp(100px, 20vw, 140px);
+            height: clamp(100px, 20vw, 140px);
             background: linear-gradient(135deg, var(--primary), var(--secondary));
-            border-radius: 40px;
+            border-radius: 28px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 5.5rem;
+            font-size: clamp(2.5rem, 8vw, 4rem);
             color: white;
-            position: relative;
-            animation: iconFloat 4s ease-in-out infinite;
-            box-shadow: 0 35px 100px var(--glow-primary);
-            border: 3px solid rgba(255, 255, 255, 0.15);
+            animation: iconFloat 3s ease-in-out infinite;
+            box-shadow: 0 25px 60px var(--glow);
+            border: 2px solid rgba(255, 255, 255, 0.1);
         }
 
         @keyframes iconFloat {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            25% { transform: translateY(-25px) rotate(-3deg); }
-            75% { transform: translateY(-15px) rotate(3deg); }
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
         }
 
-        .icon-glow-effect {
+        .icon-glow {
             position: absolute;
-            inset: -25px;
+            inset: -20px;
             background: linear-gradient(135deg, var(--primary), var(--secondary));
-            border-radius: 45px;
-            filter: blur(50px);
-            opacity: 0.5;
+            border-radius: 35px;
+            filter: blur(40px);
+            opacity: 0.4;
             z-index: -1;
-            animation: glowPulse 3.5s ease-in-out infinite;
+            animation: glowPulse 3s ease-in-out infinite;
         }
 
         @keyframes glowPulse {
-            0%, 100% { 
-                opacity: 0.5; 
-                transform: scale(1); 
-            }
-            50% { 
-                opacity: 0.8; 
-                transform: scale(1.15); 
-            }
+            0%, 100% { opacity: 0.4; }
+            50% { opacity: 0.7; }
         }
 
         .rotating-ring {
             position: absolute;
-            inset: -35px;
-            border: 3px solid rgba(0, 102, 255, 0.3);
+            inset: -25px;
+            border: 2px solid rgba(0, 102, 255, 0.25);
             border-radius: 50%;
             border-top-color: var(--primary);
-            border-right-color: var(--secondary);
             animation: ringRotate 4s linear infinite;
         }
 
@@ -388,578 +298,319 @@
             to { transform: rotate(360deg); }
         }
 
-        .rotating-ring-2 {
-            position: absolute;
-            inset: -50px;
-            border: 2px solid rgba(99, 102, 241, 0.2);
-            border-radius: 50%;
-            border-bottom-color: var(--secondary);
-            animation: ringRotate 6s linear infinite reverse;
-        }
-
-        /* Loader premium */
+        /* Loader compacto */
         .loader-section {
-            margin: 3.5rem 0 2.5rem;
+            margin: clamp(1rem, 2vh, 1.5rem) 0;
         }
 
         .dots-wrapper {
             display: flex;
-            align-items: center;
+            gap: 0.6rem;
             justify-content: center;
-            gap: 1rem;
-            margin-bottom: 2rem;
+            margin-bottom: clamp(0.75rem, 1.5vh, 1rem);
         }
 
         .dot {
-            width: 18px;
-            height: 18px;
+            width: clamp(10px, 2.5vw, 14px);
+            height: clamp(10px, 2.5vw, 14px);
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             border-radius: 50%;
-            animation: dotBounce 1.8s infinite ease-in-out;
-            box-shadow: 0 0 30px var(--glow-primary);
+            animation: dotBounce 1.6s infinite ease-in-out;
+            box-shadow: 0 0 20px var(--glow);
         }
 
-        .dot:nth-child(1) { animation-delay: -0.40s; }
-        .dot:nth-child(2) { animation-delay: -0.30s; }
-        .dot:nth-child(3) { animation-delay: -0.20s; }
-        .dot:nth-child(4) { animation-delay: -0.10s; }
-        .dot:nth-child(5) { animation-delay: 0s; }
+        .dot:nth-child(1) { animation-delay: -0.32s; }
+        .dot:nth-child(2) { animation-delay: -0.16s; }
+        .dot:nth-child(3) { animation-delay: 0s; }
 
         @keyframes dotBounce {
             0%, 80%, 100% {
-                transform: scale(0.6) translateY(0);
-                opacity: 0.4;
+                transform: scale(0.7) translateY(0);
+                opacity: 0.5;
             }
             40% {
-                transform: scale(1.4) translateY(-15px);
+                transform: scale(1.3) translateY(-8px);
                 opacity: 1;
-                box-shadow: 0 0 50px var(--glow-primary);
             }
         }
 
         .loading-text {
-            font-size: 1.2rem;
+            font-size: clamp(0.85rem, 2.5vw, 1.05rem);
             color: var(--text-secondary);
-            font-weight: 700;
-            letter-spacing: 3px;
+            font-weight: 600;
+            letter-spacing: 1.5px;
             text-transform: uppercase;
-            margin-bottom: 0.75rem;
         }
 
-        .loading-subtext {
-            font-size: 1rem;
-            color: var(--text-muted);
-            font-weight: 500;
-        }
-
-        /* Tarjetas de información */
-        .info-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1.75rem;
-            margin-top: 3rem;
-            max-width: 1000px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .info-card {
-            background: rgba(0, 53, 102, 0.35);
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            padding: 2rem 1.5rem;
-            backdrop-filter: blur(15px);
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .info-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, transparent, rgba(0, 102, 255, 0.1));
-            opacity: 0;
-            transition: opacity 0.4s ease;
-        }
-
-        .info-card:hover {
-            transform: translateY(-10px);
-            border-color: var(--primary);
-            box-shadow: 0 25px 70px var(--glow-primary);
-        }
-
-        .info-card:hover::before {
-            opacity: 1;
-        }
-
-        .card-icon {
-            width: 65px;
-            height: 65px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            border-radius: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2rem;
-            margin: 0 auto 1.5rem;
-            box-shadow: 0 10px 35px var(--glow-primary);
-            color: white;
-        }
-
-        .card-title {
-            font-size: 1.2rem;
-            font-weight: 700;
-            margin-bottom: 0.75rem;
-            color: var(--text-primary);
-        }
-
-        .card-description {
-            font-size: 0.95rem;
-            color: var(--text-secondary);
-            line-height: 1.6;
-        }
-
-        /* Footer minimalista */
+        /* Footer compacto */
         .footer-section {
-            margin-top: 3.5rem;
-            padding-top: 2rem;
+            text-align: center;
+            padding-top: clamp(1rem, 2vh, 1.5rem);
             border-top: 1px solid var(--border);
-        }
-
-        .contact-info {
-            margin-bottom: 2rem;
+            width: 100%;
         }
 
         .contact-text {
-            font-size: 1rem;
+            font-size: clamp(0.8rem, 2vw, 0.95rem);
             color: var(--text-secondary);
-            margin-bottom: 1rem;
-            font-weight: 500;
+            margin-bottom: clamp(0.5rem, 1vh, 0.75rem);
         }
 
         .contact-email {
             color: var(--primary);
             text-decoration: none;
             font-weight: 700;
-            font-size: 1.1rem;
-            transition: all 0.3s ease;
+            font-size: clamp(0.85rem, 2.5vw, 1rem);
             display: inline-flex;
             align-items: center;
-            gap: 0.75rem;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
         }
 
         .contact-email:hover {
             color: var(--accent);
-            transform: translateY(-2px);
         }
 
         .social-links {
             display: flex;
             justify-content: center;
-            gap: 1.25rem;
+            gap: clamp(0.5rem, 2vw, 0.75rem);
+            margin-top: clamp(0.75rem, 1.5vh, 1rem);
         }
 
         .social-link {
-            width: 55px;
-            height: 55px;
-            background: rgba(0, 53, 102, 0.5);
+            width: clamp(38px, 8vw, 45px);
+            height: clamp(38px, 8vw, 45px);
+            background: rgba(0, 53, 102, 0.4);
             border: 1px solid var(--border);
-            border-radius: 14px;
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
             color: var(--text-secondary);
-            font-size: 1.4rem;
+            font-size: clamp(1rem, 3vw, 1.2rem);
             transition: all 0.3s ease;
             text-decoration: none;
-            backdrop-filter: blur(10px);
         }
 
         .social-link:hover {
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: white;
-            border-color: var(--primary);
-            transform: translateY(-5px);
-            box-shadow: 0 15px 40px var(--glow-primary);
+            transform: translateY(-3px);
         }
 
         .copyright {
-            margin-top: 2rem;
-            font-size: 0.85rem;
+            margin-top: clamp(0.5rem, 1vh, 0.75rem);
+            font-size: clamp(0.7rem, 1.8vw, 0.8rem);
             color: var(--text-muted);
-            font-weight: 500;
         }
 
-        /* Responsive mejorado */
-        @media (max-width: 1024px) {
-            .info-grid {
-                grid-template-columns: 1fr;
-                gap: 1.25rem;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .main-container {
-                padding: 1.5rem;
-            }
-
-            .brand-text {
-                font-size: 2.75rem;
-            }
-
-            h1 {
-                font-size: 3rem;
-            }
-
-            .description {
-                font-size: 1.1rem;
-            }
-
-            .central-icon {
-                width: 160px;
-                height: 160px;
-                font-size: 4rem;
-            }
-
-            .info-grid {
-                gap: 1rem;
-            }
-        }
-
-        @media (max-width: 480px) {
+        /* Responsive específico */
+        @media (max-height: 700px) {
             .logo-wrapper {
-                flex-direction: column;
-                gap: 1rem;
+                margin-bottom: 0.25rem;
             }
-
-            .logo-icon {
-                width: 75px;
-                height: 75px;
-                font-size: 2.25rem;
+            .company-subtitle {
+                display: none;
             }
-
-            .brand-text {
-                font-size: 2.25rem;
+            h1 br {
+                display: none;
             }
-
-            h1 {
-                font-size: 2.25rem;
-            }
-
             .description {
-                font-size: 1rem;
-            }
-
-            .central-icon {
-                width: 130px;
-                height: 130px;
-                font-size: 3.25rem;
-            }
-
-            .info-card {
-                padding: 1.75rem 1.25rem;
+                margin-bottom: 1rem;
             }
         }
 
-        /* Prevenir todas las interacciones no deseadas */
+        @media (max-width: 480px) and (max-height: 800px) {
+            .main-container {
+                padding: 1rem;
+            }
+        }
+
+        /* Prevenir interacciones */
         * {
             -webkit-user-select: none;
             -moz-user-select: none;
-            -ms-user-select: none;
             user-select: none;
             -webkit-touch-callout: none;
         }
 
         a {
             -webkit-user-select: auto;
-            -moz-user-select: auto;
-            user-select: auto;
         }
     </style>
 </head>
 <body>
-    <!-- Fondo animado -->
+    <!-- Fondo -->
     <div class="background-wrapper">
         <div class="grid-background"></div>
         <div class="gradient-sphere sphere-1"></div>
         <div class="gradient-sphere sphere-2"></div>
-        <div class="gradient-sphere sphere-3"></div>
-        <div class="particles" id="particles"></div>
     </div>
 
-    <!-- Contenedor principal fijo -->
+    <!-- Contenedor principal -->
     <div class="main-container">
-        <!-- Branding -->
-        <div class="brand-section">
+        <!-- Header -->
+        <div class="header-section">
             <div class="logo-wrapper">
                 <div class="logo-icon">
                     <i class="fas fa-code"></i>
                 </div>
                 <div class="brand-text">NesticoTech</div>
             </div>
-            <div class="company-subtitle">Enterprise Solutions & Technology</div>
+            <div class="company-subtitle">Enterprise Solutions</div>
         </div>
 
-        <!-- Contenido principal -->
+        <!-- Contenido central -->
         <div class="content-section">
             <div class="status-badge">
                 <div class="status-pulse"></div>
-                Sistema en Mantenimiento
+                Mantenimiento Activo
             </div>
 
-            <h1>Actualizando Nuestra<br>Infraestructura</h1>
+            <h1>Actualizando<br>Nuestra Plataforma</h1>
             
             <p class="description">
-                Estamos implementando mejoras significativas en nuestros sistemas empresariales para ofrecerle una experiencia más rápida, segura y eficiente con tecnología de última generación.
+                Estamos implementando mejoras significativas para ofrecerle una experiencia más rápida, segura y eficiente con tecnología de última generación.
             </p>
 
-            <!-- Icono central épico -->
+            <!-- Icono central -->
             <div class="main-visual">
                 <div class="icon-container">
-                    <div class="icon-glow-effect"></div>
+                    <div class="icon-glow"></div>
                     <div class="rotating-ring"></div>
-                    <div class="rotating-ring-2"></div>
                     <div class="central-icon">
                         <i class="fas fa-server"></i>
                     </div>
                 </div>
             </div>
 
-            <!-- Loader premium -->
+            <!-- Loader -->
             <div class="loader-section">
                 <div class="dots-wrapper">
                     <div class="dot"></div>
                     <div class="dot"></div>
                     <div class="dot"></div>
-                    <div class="dot"></div>
-                    <div class="dot"></div>
                 </div>
                 <div class="loading-text" id="loadingText">Optimizando Sistemas</div>
-                <div class="loading-subtext">Por favor espere mientras completamos las actualizaciones</div>
-            </div>
-
-            <!-- Tarjetas de información -->
-            <div class="info-grid">
-                <div class="info-card">
-                    <div class="card-icon">
-                        <i class="fas fa-shield-alt"></i>
-                    </div>
-                    <h3 class="card-title">Seguridad Avanzada</h3>
-                    <p class="card-description">
-                        Protocolos de seguridad de última generación para proteger sus datos
-                    </p>
-                </div>
-
-                <div class="info-card">
-                    <div class="card-icon">
-                        <i class="fas fa-rocket"></i>
-                    </div>
-                    <h3 class="card-title">Alto Rendimiento</h3>
-                    <p class="card-description">
-                        Infraestructura optimizada para velocidad y eficiencia máxima
-                    </p>
-                </div>
-
-                <div class="info-card">
-                    <div class="card-icon">
-                        <i class="fas fa-sparkles"></i>
-                    </div>
-                    <h3 class="card-title">Nuevas Funciones</h3>
-                    <p class="card-description">
-                        Características innovadoras para mejorar su experiencia
-                    </p>
-                </div>
             </div>
         </div>
 
         <!-- Footer -->
         <div class="footer-section">
-            <div class="contact-info">
-                <p class="contact-text">¿Necesita asistencia inmediata?</p>
-                <a href="mailto:soporte@nesticotech.com" class="contact-email">
-                    <i class="fas fa-envelope"></i>
-                    soporte@nesticotech.com
-                </a>
-            </div>
+            <p class="contact-text">¿Necesita asistencia?</p>
+            <a href="mailto:soporte@nesticotech.com" class="contact-email">
+                <i class="fas fa-envelope"></i>
+                soporte@nesticotech.com
+            </a>
 
             <div class="social-links">
-                <a href="#" class="social-link" aria-label="Twitter">
+                <a href="#" class="social-link">
                     <i class="fab fa-twitter"></i>
                 </a>
-                <a href="#" class="social-link" aria-label="LinkedIn">
+                <a href="#" class="social-link">
                     <i class="fab fa-linkedin-in"></i>
                 </a>
-                <a href="#" class="social-link" aria-label="GitHub">
+                <a href="#" class="social-link">
                     <i class="fab fa-github"></i>
                 </a>
-                <a href="#" class="social-link" aria-label="Discord">
+                <a href="#" class="social-link">
                     <i class="fab fa-discord"></i>
                 </a>
             </div>
 
             <div class="copyright">
-                © 2024 NesticoTech - Enterprise Solutions. Todos los derechos reservados.
+                © 2024 NesticoTech. Todos los derechos reservados.
             </div>
         </div>
     </div>
 
     <script>
-        // Crear partículas flotantes
-        const particlesContainer = document.getElementById('particles');
-        for (let i = 0; i < 40; i++) {
-            const particle = document.createElement('div');
-            particle.classList.add('particle');
-            particle.style.left = `${Math.random() * 100}%`;
-            particle.style.animationDuration = `${Math.random() * 15 + 15}s`;
-            particle.style.animationDelay = `${Math.random() * 10}s`;
-            particlesContainer.appendChild(particle);
-        }
-
-        // Mensajes rotativos premium
-        const loadingMessages = [
+        // Mensajes rotativos
+        const messages = [
             'Optimizando Sistemas',
             'Actualizando Servidores',
             'Mejorando Seguridad',
             'Configurando Cloud',
             'Migrando Datos',
-            'Optimizando Rendimiento',
-            'Verificando Integridad',
-            'Aplicando Actualizaciones'
+            'Verificando Integridad'
         ];
 
-        let messageIndex = 0;
+        let index = 0;
         const loadingText = document.getElementById('loadingText');
 
         setInterval(() => {
-            messageIndex = (messageIndex + 1) % loadingMessages.length;
+            index = (index + 1) % messages.length;
             loadingText.style.opacity = '0';
-            loadingText.style.transform = 'translateY(-10px)';
-            
             setTimeout(() => {
-                loadingText.textContent = loadingMessages[messageIndex];
+                loadingText.textContent = messages[index];
                 loadingText.style.opacity = '1';
-                loadingText.style.transform = 'translateY(0)';
             }, 300);
-        }, 4000);
+        }, 3500);
 
-        loadingText.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+        loadingText.style.transition = 'opacity 0.3s ease';
 
-        // BLOQUEO TOTAL DE ZOOM Y SCROLL
-        
-        // Prevenir gestos de zoom
-        document.addEventListener('gesturestart', function(e) {
-            e.preventDefault();
-        }, { passive: false });
+        // BLOQUEO TOTAL
+        document.addEventListener('gesturestart', e => e.preventDefault(), { passive: false });
+        document.addEventListener('gesturechange', e => e.preventDefault(), { passive: false });
+        document.addEventListener('gestureend', e => e.preventDefault(), { passive: false });
 
-        document.addEventListener('gesturechange', function(e) {
-            e.preventDefault();
-        }, { passive: false });
-
-        document.addEventListener('gestureend', function(e) {
-            e.preventDefault();
-        }, { passive: false });
-
-        // Prevenir zoom con doble tap
-        let lastTouchEnd = 0;
-        document.addEventListener('touchend', function(event) {
+        let lastTouch = 0;
+        document.addEventListener('touchend', e => {
             const now = Date.now();
-            if (now - lastTouchEnd <= 300) {
-                event.preventDefault();
-            }
-            lastTouchEnd = now;
+            if (now - lastTouch <= 300) e.preventDefault();
+            lastTouch = now;
         }, { passive: false });
 
-        // Prevenir zoom con pellizco
-        document.addEventListener('touchmove', function(event) {
-            if (event.scale && event.scale !== 1) {
-                event.preventDefault();
-            }
+        document.addEventListener('touchmove', e => {
+            if (e.scale && e.scale !== 1) e.preventDefault();
         }, { passive: false });
 
-        // Prevenir doble clic en desktop
-        document.addEventListener('dblclick', function(e) {
-            e.preventDefault();
+        document.addEventListener('dblclick', e => e.preventDefault(), { passive: false });
+        document.addEventListener('contextmenu', e => e.preventDefault());
+        document.addEventListener('wheel', e => e.preventDefault(), { passive: false });
+        
+        document.addEventListener('touchstart', e => {
+            if (e.touches.length > 1) e.preventDefault();
         }, { passive: false });
 
-        // Bloquear scroll completamente
-        document.body.style.overflow = 'hidden';
-        document.documentElement.style.overflow = 'hidden';
-
-        // Forzar viewport fijo
-        window.addEventListener('scroll', function(e) {
-            e.preventDefault();
-            window.scrollTo(0, 0);
-        }, { passive: false });
-
-        window.addEventListener('wheel', function(e) {
-            e.preventDefault();
-        }, { passive: false });
-
-        window.addEventListener('touchstart', function(e) {
-            if (e.touches.length > 1) {
+        document.addEventListener('keydown', e => {
+            if(['Space', 'PageUp', 'PageDown', 'End', 'Home', 'ArrowUp', 'ArrowDown'].includes(e.code)) {
                 e.preventDefault();
             }
-        }, { passive: false });
-
-        // Bloquear menú contextual
-        document.addEventListener('contextmenu', function(e) {
-            e.preventDefault();
-        }, false);
-
-        // Bloquear teclas de navegación
-        document.addEventListener('keydown', function(e) {
-            // Bloquear scroll con teclas
-            if(['Space', 'PageUp', 'PageDown', 'End', 'Home', 'ArrowUp', 'ArrowDown'].indexOf(e.code) > -1) {
-                e.preventDefault();
-            }
-            // Bloquear zoom con Ctrl/Cmd + +/-/0
             if ((e.ctrlKey || e.metaKey) && (e.key === '+' || e.key === '-' || e.key === '=' || e.key === '0')) {
                 e.preventDefault();
             }
-        }, false);
+        });
 
-        // Forzar tamaño de viewport
+        window.addEventListener('scroll', () => window.scrollTo(0, 0), { passive: false });
+
+        if ('scrollRestoration' in history) {
+            history.scrollRestoration = 'manual';
+        }
+
+        // Forzar viewport fijo
         function lockViewport() {
-            const viewportMeta = document.querySelector('meta[name="viewport"]');
-            if (viewportMeta) {
-                viewportMeta.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no');
+            const meta = document.querySelector('meta[name="viewport"]');
+            if (meta) {
+                meta.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no');
             }
+            document.body.style.overflow = 'hidden';
+            document.documentElement.style.overflow = 'hidden';
         }
 
         lockViewport();
         window.addEventListener('resize', lockViewport);
+        window.addEventListener('orientationchange', lockViewport);
 
         // Animación de entrada
         window.addEventListener('load', () => {
             document.body.style.opacity = '0';
             setTimeout(() => {
-                document.body.style.transition = 'opacity 0.6s ease';
+                document.body.style.transition = 'opacity 0.5s ease';
                 document.body.style.opacity = '1';
             }, 100);
         });
-
-        // Mantener la página siempre visible y fija
-        document.addEventListener('visibilitychange', function() {
-            if (document.hidden) {
-                document.title = 'NesticoTech - Vuelva pronto';
-            } else {
-                document.title = 'NesticoTech - Mantenimiento Programado | Sistema Empresarial';
-            }
-        });
-
-        // Prevenir que el navegador guarde la posición del scroll
-        if ('scrollRestoration' in history) {
-            history.scrollRestoration = 'manual';
-        }
-
-        // Asegurar que la página siempre esté en la parte superior
-        window.onbeforeunload = function() {
-            window.scrollTo(0, 0);
-        };
     </script>
 </body>
 </html>

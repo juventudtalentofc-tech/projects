@@ -3,743 +3,722 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Libro de Amor para Alix</title>
+    <title>NesticoTech - Sistema en Mantenimiento</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Georgia', serif;
-            -webkit-tap-highlight-color: transparent;
         }
-        
+
+        :root {
+            --primary: #0066ff;
+            --secondary: #6366f1;
+            --accent: #06b6d4;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --background: #000814;
+            --surface: #001d3d;
+            --text-primary: #ffffff;
+            --text-secondary: #cbd5e1;
+            --text-muted: #94a3b8;
+            --border: #1e3a5f;
+            --glow: rgba(0, 102, 255, 0.5);
+        }
+
         body {
-            background: linear-gradient(135deg, #ffafbd, #ffc3a0);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--background);
+            color: var(--text-primary);
             min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Fondo animado premium */
+        .background-wrapper {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
             overflow: hidden;
-            padding: 20px;
         }
-        
-        .container {
-            position: relative;
-            width: 100%;
-            max-width: 500px;
-            height: 80vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            margin: 0 auto;
-        }
-        
-        .book-container {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            perspective: 1200px;
-            margin-bottom: 20px;
-        }
-        
-        .book {
+
+        .grid-background {
             position: absolute;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            transform-style: preserve-3d;
-            transition: transform 1.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+            inset: 0;
+            background-image: 
+                linear-gradient(rgba(0, 102, 255, 0.05) 2px, transparent 2px),
+                linear-gradient(90deg, rgba(0, 102, 255, 0.05) 2px, transparent 2px);
+            background-size: 60px 60px;
+            animation: gridMove 30s linear infinite;
         }
-        
-        .page {
+
+        @keyframes gridMove {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(60px, 60px); }
+        }
+
+        .gradient-sphere {
             position: absolute;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            background: #fff;
-            border-radius: 8px;
-            box-shadow: 
-                0 0 15px rgba(0, 0, 0, 0.1),
-                inset 0 0 10px rgba(0, 0, 0, 0.05);
-            transform-origin: left center;
-            transform-style: preserve-3d;
-            transition: transform 1s cubic-bezier(0.645, 0.045, 0.355, 1);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 25px;
-            overflow: hidden;
-            backface-visibility: hidden;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.15;
+            animation: sphereFloat 25s infinite ease-in-out;
         }
-        
-        .page-front {
-            background: linear-gradient(135deg, #ff7eb3, #ff758c);
-            color: white;
-            text-align: center;
+
+        .sphere-1 {
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, var(--primary), transparent);
+            top: -20%;
+            left: -15%;
+        }
+
+        .sphere-2 {
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, var(--secondary), transparent);
+            bottom: -20%;
+            right: -15%;
+            animation-delay: 8s;
+        }
+
+        .sphere-3 {
+            width: 350px;
+            height: 350px;
+            background: radial-gradient(circle, var(--accent), transparent);
+            top: 50%;
+            left: 50%;
+            animation-delay: 16s;
+        }
+
+        @keyframes sphereFloat {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(40px, -40px); }
+        }
+
+        /* Contenedor principal */
+        .main-container {
+            position: relative;
             z-index: 10;
-        }
-        
-        .page-content {
-            background: #fff;
-            color: #333;
-            z-index: 9;
-        }
-        
-        .page-back {
-            background: linear-gradient(135deg, #a8edea, #fed6e3);
-            color: #333;
-            z-index: 8;
-        }
-        
-        .page h1 {
-            font-size: 2.2rem;
-            margin-bottom: 20px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
-            text-align: center;
-        }
-        
-        .page h2 {
-            font-size: 1.8rem;
-            margin-bottom: 15px;
-            color: #ff758c;
-            text-align: center;
-        }
-        
-        .page p {
-            font-size: 1.1rem;
-            line-height: 1.6;
-            text-align: center;
-            margin-bottom: 15px;
-        }
-        
-        .heart {
-            color: #ff4d6d;
-            font-size: 2rem;
-            animation: heartbeat 1.5s infinite;
-            margin: 10px 0;
-        }
-        
-        @keyframes heartbeat {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.2); }
-            100% { transform: scale(1); }
-        }
-        
-        .floating-hearts {
-            position: absolute;
             width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            pointer-events: none;
-            z-index: -1;
+            max-width: 1400px;
+            margin: 0 auto;
+            min-height: 100vh;
+            padding: clamp(1rem, 2vh, 2rem) clamp(1rem, 3vw, 2rem);
+            display: grid;
+            grid-template-rows: auto 1fr auto;
+            gap: clamp(1rem, 2vh, 2rem);
         }
-        
-        .floating-heart {
-            position: absolute;
-            font-size: 1.5rem;
-            color: #ff4d6d;
-            opacity: 0.7;
-            animation: float 8s ease-in-out infinite;
-        }
-        
-        @keyframes float {
-            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
-            10% { opacity: 0.7; }
-            90% { opacity: 0.7; }
-            100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
-        }
-        
-        .controls {
-            position: absolute;
-            bottom: 10px;
+
+        /* Header profesional */
+        .header-section {
             display: flex;
-            gap: 15px;
-            z-index: 100;
-            width: 100%;
-            justify-content: center;
+            justify-content: space-between;
+            align-items: center;
+            animation: fadeInDown 0.8s ease-out;
+            flex-wrap: wrap;
+            gap: 1rem;
         }
-        
-        button {
-            padding: 12px 20px;
-            background: #ff758c;
-            color: white;
-            border: none;
-            border-radius: 25px;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: all 0.3s;
-            box-shadow: 0 4px 10px rgba(255, 117, 140, 0.4);
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .brand-container {
             display: flex;
             align-items: center;
-            gap: 8px;
-            min-width: 130px;
+            gap: clamp(0.75rem, 2vw, 1rem);
+        }
+
+        .logo-icon {
+            width: clamp(50px, 8vw, 65px);
+            height: clamp(50px, 8vw, 65px);
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
             justify-content: center;
+            font-size: clamp(1.5rem, 4vw, 2.2rem);
+            color: white;
+            box-shadow: 0 15px 40px var(--glow);
+            border: 2px solid rgba(255, 255, 255, 0.1);
         }
-        
-        button:hover {
-            background: #ff4d6d;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 15px rgba(255, 117, 140, 0.6);
+
+        .brand-info {
+            display: flex;
+            flex-direction: column;
         }
-        
-        button:active {
-            transform: translateY(0);
+
+        .brand-name {
+            font-size: clamp(1.5rem, 4vw, 2.2rem);
+            font-weight: 900;
+            background: linear-gradient(135deg, #ffffff, #94a3b8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.5px;
+            line-height: 1;
         }
-        
-        button:disabled {
-            background: #cccccc;
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
+
+        .brand-tagline {
+            font-size: clamp(0.7rem, 1.5vw, 0.85rem);
+            color: var(--text-muted);
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            margin-top: 0.35rem;
         }
-        
-        .book-cover {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, #ff7eb3, #ff758c);
-            border-radius: 8px;
-            box-shadow: 
-                0 8px 25px rgba(0, 0, 0, 0.2),
-                inset 0 -5px 10px rgba(0, 0, 0, 0.1);
+
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            background: rgba(245, 158, 11, 0.12);
+            border: 1.5px solid rgba(245, 158, 11, 0.3);
+            padding: clamp(0.5rem, 1vh, 0.7rem) clamp(1rem, 2vw, 1.5rem);
+            border-radius: 50px;
+            font-size: clamp(0.7rem, 1.8vw, 0.85rem);
+            font-weight: 700;
+            color: var(--warning);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            white-space: nowrap;
+        }
+
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            background: var(--warning);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); box-shadow: 0 0 10px var(--warning); }
+            50% { opacity: 0.5; transform: scale(1.3); box-shadow: 0 0 20px var(--warning); }
+        }
+
+        /* Contenido central */
+        .content-section {
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            color: white;
             text-align: center;
-            transform-origin: left center;
-            transition: transform 1.2s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-            z-index: 20;
-            cursor: pointer;
-            backface-visibility: hidden;
-            padding: 20px;
+            animation: fadeInUp 0.8s ease-out 0.2s backwards;
+            gap: clamp(1rem, 2vh, 1.5rem);
+            padding: 2rem 0;
         }
-        
-        .book-cover h1 {
-            font-size: 2.5rem;
-            margin-bottom: 15px;
-            text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.3);
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
-        
-        .book-cover p {
-            font-size: 1.3rem;
-            margin-bottom: 10px;
+
+        .main-title {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 900;
+            line-height: 1.1;
+            letter-spacing: -1px;
+            margin-bottom: clamp(0.5rem, 1vh, 1rem);
         }
-        
-        .book-cover .instruction {
-            font-size: 1.1rem;
-            margin-top: 20px;
-            opacity: 0.9;
+
+        .subtitle {
+            font-size: clamp(0.95rem, 2.2vw, 1.2rem);
+            color: var(--text-secondary);
+            line-height: 1.6;
+            max-width: 650px;
         }
-        
-        .book-opened .book-cover {
-            transform: rotateY(-180deg);
+
+        /* Sistema de iconos mejorado */
+        .visual-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: clamp(1.5rem, 3vw, 2.5rem);
+            margin: clamp(1rem, 2vh, 1.5rem) 0;
         }
-        
-        .book-opened .page:nth-child(2) {
-            transform: rotateY(-180deg);
-            z-index: 9;
+
+        .side-icon {
+            width: clamp(60px, 10vw, 80px);
+            height: clamp(60px, 10vw, 80px);
+            background: rgba(0, 53, 102, 0.3);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: clamp(1.5rem, 3vw, 2rem);
+            color: var(--primary);
+            backdrop-filter: blur(10px);
+            animation: sideIconFloat 3s ease-in-out infinite;
         }
-        
-        .book-opened .page:nth-child(3) {
-            transform: rotateY(-160deg);
-            z-index: 8;
+
+        .side-icon:nth-child(1) { animation-delay: 0s; }
+        .side-icon:nth-child(3) { animation-delay: 1.5s; }
+
+        @keyframes sideIconFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
         }
-        
-        .book-opened .page:nth-child(4) {
-            transform: rotateY(-140deg);
-            z-index: 7;
+
+        .central-icon-wrapper {
+            position: relative;
         }
-        
-        .book-opened .page:nth-child(5) {
-            transform: rotateY(-120deg);
-            z-index: 6;
-        }
-        
-        .book-opened .page:nth-child(6) {
-            transform: rotateY(-100deg);
-            z-index: 5;
-        }
-        
-        .book-opened .page:nth-child(7) {
-            transform: rotateY(-80deg);
-            z-index: 4;
-        }
-        
-        .book-opened .page:nth-child(8) {
-            transform: rotateY(-60deg);
-            z-index: 3;
-        }
-        
-        .book-opened .page:nth-child(9) {
-            transform: rotateY(-40deg);
+
+        .central-icon {
+            width: clamp(100px, 18vw, 140px);
+            height: clamp(100px, 18vw, 140px);
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: clamp(3rem, 6vw, 4rem);
+            color: white;
+            animation: iconFloat 3s ease-in-out infinite;
+            box-shadow: 0 25px 60px var(--glow);
+            border: 2px solid rgba(255, 255, 255, 0.15);
+            position: relative;
             z-index: 2;
         }
-        
-        .book-opened .page:nth-child(10) {
-            transform: rotateY(-20deg);
+
+        @keyframes iconFloat {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-12px) scale(1.05); }
+        }
+
+        .icon-glow {
+            position: absolute;
+            inset: -20px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 35px;
+            filter: blur(35px);
+            opacity: 0.5;
             z-index: 1;
+            animation: glowPulse 3s ease-in-out infinite;
         }
-        
-        .photo-frame {
-            width: 200px;
-            height: 140px;
-            border: 8px solid #ff758c;
-            border-radius: 8px;
-            margin: 15px 0;
-            background: #f8f8f8;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: #ff758c;
-            font-style: italic;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
+
+        @keyframes glowPulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 0.8; }
         }
-        
-        .photo-frame img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: none;
-        }
-        
-        .photo-frame .placeholder {
-            padding: 10px;
-            text-align: center;
-        }
-        
-        .page-number {
+
+        .rotating-ring {
             position: absolute;
-            bottom: 15px;
-            right: 20px;
-            font-size: 0.9rem;
-            color: #999;
+            inset: -25px;
+            border: 2px solid rgba(0, 102, 255, 0.2);
+            border-radius: 50%;
+            border-top-color: var(--primary);
+            animation: ringRotate 4s linear infinite;
+            z-index: 0;
         }
-        
-        .love-list {
-            list-style: none;
-            width: 100%;
-            padding: 0 15px;
+
+        @keyframes ringRotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
         }
-        
-        .love-list li {
-            font-size: 1rem;
-            margin-bottom: 12px;
-            padding-left: 25px;
-            position: relative;
-            text-align: left;
-        }
-        
-        .love-list li:before {
-            content: "❤️";
-            position: absolute;
-            left: 0;
-            top: 0;
-        }
-        
-        .signature {
-            margin-top: 20px;
-            font-style: italic;
-            font-size: 1.2rem;
-            color: #ff758c;
-            text-align: center;
-        }
-        
-        .swipe-indicator {
-            position: absolute;
-            bottom: 70px;
+
+        /* Loader mejorado */
+        .loader-container {
             display: flex;
             flex-direction: column;
             align-items: center;
-            color: #ff758c;
-            font-size: 0.9rem;
-            opacity: 0.8;
-            animation: pulse 2s infinite;
-            background: rgba(255, 255, 255, 0.7);
-            padding: 8px 15px;
-            border-radius: 20px;
+            gap: clamp(0.75rem, 1.5vh, 1rem);
         }
-        
-        .swipe-indicator i {
-            font-size: 1.5rem;
-            margin-bottom: 5px;
+
+        .dots-wrapper {
+            display: flex;
+            gap: 0.6rem;
         }
-        
-        @keyframes pulse {
-            0% { opacity: 0.5; }
-            50% { opacity: 1; }
-            100% { opacity: 0.5; }
+
+        .dot {
+            width: clamp(10px, 2vw, 14px);
+            height: clamp(10px, 2vw, 14px);
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 50%;
+            animation: dotBounce 1.6s infinite ease-in-out;
+            box-shadow: 0 0 15px var(--glow);
         }
-        
-        .hidden {
-            display: none !important;
+
+        .dot:nth-child(1) { animation-delay: -0.32s; }
+        .dot:nth-child(2) { animation-delay: -0.16s; }
+        .dot:nth-child(3) { animation-delay: 0s; }
+
+        @keyframes dotBounce {
+            0%, 80%, 100% { transform: scale(0.7) translateY(0); opacity: 0.5; }
+            40% { transform: scale(1.3) translateY(-10px); opacity: 1; }
         }
-        
-        /* Estilos específicos para móviles */
+
+        .loading-text {
+            font-size: clamp(0.85rem, 2vw, 1rem);
+            color: var(--text-secondary);
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+
+        /* Métricas en tiempo real */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: clamp(0.75rem, 1.5vw, 1rem);
+            width: 100%;
+            max-width: 700px;
+            margin-top: clamp(1rem, 2vh, 1.5rem);
+        }
+
+        .metric-card {
+            background: rgba(0, 53, 102, 0.25);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: clamp(0.75rem, 1.5vh, 1rem);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .metric-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0, 102, 255, 0.2);
+        }
+
+        .metric-icon {
+            font-size: clamp(1.2rem, 3vw, 1.6rem);
+            margin-bottom: clamp(0.4rem, 0.8vh, 0.6rem);
+        }
+
+        .metric-card:nth-child(1) .metric-icon { color: var(--success); }
+        .metric-card:nth-child(2) .metric-icon { color: var(--warning); }
+        .metric-card:nth-child(3) .metric-icon { color: var(--accent); }
+
+        .metric-label {
+            font-size: clamp(0.7rem, 1.6vw, 0.8rem);
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+        }
+
+        .metric-value {
+            font-size: clamp(0.9rem, 2vw, 1.1rem);
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-top: 0.25rem;
+        }
+
+        /* Footer profesional mejorado */
+        .footer-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: clamp(1rem, 2vh, 1.5rem);
+            border-top: 1px solid var(--border);
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .contact-group {
+            display: flex;
+            align-items: center;
+            gap: clamp(0.75rem, 2vw, 1.25rem);
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: clamp(0.75rem, 1.8vw, 0.9rem);
+            color: var(--text-secondary);
+        }
+
+        .contact-item i {
+            color: var(--primary);
+            font-size: clamp(0.9rem, 2vw, 1.05rem);
+        }
+
+        .contact-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .contact-link:hover {
+            color: var(--primary);
+        }
+
+        .social-links {
+            display: flex;
+            gap: clamp(0.5rem, 1.5vw, 0.75rem);
+        }
+
+        .social-link {
+            width: clamp(36px, 6vw, 44px);
+            height: clamp(36px, 6vw, 44px);
+            background: rgba(0, 53, 102, 0.3);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            font-size: clamp(0.95rem, 2.5vw, 1.15rem);
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .social-link:hover {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px var(--glow);
+        }
+
+        .copyright {
+            font-size: clamp(0.7rem, 1.6vw, 0.8rem);
+            color: var(--text-muted);
+            text-align: center;
+            width: 100%;
+        }
+
+        /* Responsive mejorado */
+        @media (max-width: 768px) {
+            .header-section {
+                justify-content: center;
+            }
+            
+            .status-indicator {
+                order: -1;
+                width: 100%;
+                justify-content: center;
+            }
+
+            .visual-container {
+                gap: clamp(1rem, 2vw, 1.5rem);
+            }
+
+            .metrics-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-section {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .contact-group {
+                flex-direction: column;
+                gap: 0.75rem;
+            }
+        }
+
         @media (max-width: 480px) {
-            .container {
-                height: 75vh;
-                max-width: 95%;
-            }
-            
-            .page {
-                padding: 20px;
-            }
-            
-            .page h1 {
-                font-size: 1.8rem;
-            }
-            
-            .page h2 {
-                font-size: 1.5rem;
-            }
-            
-            .page p {
-                font-size: 1rem;
-            }
-            
-            .book-cover h1 {
-                font-size: 2rem;
-            }
-            
-            .book-cover p {
-                font-size: 1.1rem;
-            }
-            
-            .photo-frame {
-                width: 160px;
-                height: 120px;
-            }
-            
-            button {
-                padding: 10px 15px;
-                font-size: 0.9rem;
-                min-width: 110px;
-            }
-            
-            .swipe-indicator {
-                bottom: 60px;
-                font-size: 0.8rem;
+            .side-icon {
+                width: 50px;
+                height: 50px;
+                font-size: 1.25rem;
             }
         }
-        
-        @media (max-height: 700px) {
-            .container {
-                height: 85vh;
-            }
-            
-            .page {
-                padding: 15px;
-            }
-            
-            .page h1 {
-                font-size: 1.6rem;
-                margin-bottom: 10px;
-            }
-            
-            .page h2 {
-                font-size: 1.3rem;
-                margin-bottom: 10px;
-            }
-            
-            .page p {
-                font-size: 0.9rem;
-                margin-bottom: 8px;
-            }
-            
-            .photo-frame {
-                width: 140px;
-                height: 100px;
-                margin: 10px 0;
-            }
+
+        /* Animación de entrada */
+        @keyframes pageEntrance {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
-        
-        /* Prevenir zoom en inputs en iOS */
-        @media screen and (max-width: 767px) {
-            input, select, textarea {
-                font-size: 16px;
-            }
+
+        body {
+            animation: pageEntrance 0.6s ease-out;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="floating-hearts" id="hearts-container"></div>
-        
-        <div class="book-container" id="book-container">
-            <div class="book" id="book">
-                <div class="book-cover" id="cover">
-                    <h1>Para Alix</h1>
-                    <p>Mi Amor Eterno</p>
-                    <div class="heart">❤️</div>
-                    <p class="instruction">Toca para abrir</p>
+    <!-- Fondo -->
+    <div class="background-wrapper">
+        <div class="grid-background"></div>
+        <div class="gradient-sphere sphere-1"></div>
+        <div class="gradient-sphere sphere-2"></div>
+        <div class="gradient-sphere sphere-3"></div>
+    </div>
+
+    <!-- Contenedor principal -->
+    <div class="main-container">
+        <!-- Header -->
+        <div class="header-section">
+            <div class="brand-container">
+                <div class="logo-icon">
+                    <i class="fas fa-code"></i>
+                </div>
+                <div class="brand-info">
+                    <div class="brand-name">NesticoTech</div>
+                    <div class="brand-tagline">Soluciones Tecnológicas Avanzadas</div>
+                </div>
+            </div>
+            
+            <div class="status-indicator">
+                <div class="status-dot"></div>
+                <span>Mantenimiento Activo</span>
+            </div>
+        </div>
+
+        <!-- Contenido central -->
+        <div class="content-section">
+            <h1 class="main-title">Sistema en Mantenimiento</h1>
+            
+            <p class="subtitle">
+                Estamos realizando ajustes y mejoras importantes en nuestro sistema para brindarte una mejor experiencia
+            </p>
+
+            <!-- Sistema de iconos -->
+            <div class="visual-container">
+                <div class="side-icon">
+                    <i class="fas fa-shield-alt"></i>
                 </div>
                 
-                <div class="page page-front">
-                    <h1>Para Alix</h1>
-                    <div class="heart">❤️</div>
-                    <p>Cada día a tu lado es un regalo que atesoro con todo mi ser.</p>
-                    <p>Te amo más de lo que las palabras pueden expresar.</p>
-                    <div class="page-number">1</div>
-                </div>
-                
-                <div class="page page-content">
-                    <h2>Nuestro Primer Encuentro</h2>
-                    <div class="photo-frame">
-                        <div class="placeholder">Nuestra primera foto juntos</div>
+                <div class="central-icon-wrapper">
+                    <div class="icon-glow"></div>
+                    <div class="rotating-ring"></div>
+                    <div class="central-icon">
+                        <i class="fas fa-tools"></i>
                     </div>
-                    <p>Recuerdo el momento en que te vi por primera vez. Mi corazón supo que eras especial.</p>
-                    <div class="heart">💖</div>
-                    <div class="page-number">2</div>
                 </div>
                 
-                <div class="page page-content">
-                    <h2>Tu Sonrisa</h2>
-                    <p>Tu sonrisa ilumina mis días. Es el faro que guía mi corazón hacia ti.</p>
-                    <div class="heart">😊</div>
-                    <p>Eres la razón por la que creo en la magia del amor.</p>
-                    <div class="page-number">3</div>
+                <div class="side-icon">
+                    <i class="fas fa-cog"></i>
                 </div>
-                
-                <div class="page page-content">
-                    <h2>Razones por las que te Amo</h2>
-                    <ul class="love-list">
-                        <li>Tu bondad infinita</li>
-                        <li>Tu inteligencia brillante</li>
-                        <li>Tu sentido del humor</li>
-                        <li>Tu forma de entender mi alma</li>
-                        <li>Tu fuerza interior</li>
-                    </ul>
-                    <div class="heart">🌟</div>
-                    <div class="page-number">4</div>
+            </div>
+
+            <!-- Loader -->
+            <div class="loader-container">
+                <div class="dots-wrapper">
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
                 </div>
-                
-                <div class="page page-content">
-                    <h2>Nuestros Sueños</h2>
-                    <p>Juntos soñamos con un futuro lleno de amor y aventuras.</p>
-                    <div class="photo-frame">
-                        <div class="placeholder">Nuestro próximo viaje soñado</div>
+                <div class="loading-text" id="loadingText">Aplicando Actualizaciones</div>
+            </div>
+
+            <!-- Métricas -->
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-icon">
+                        <i class="fas fa-check-circle"></i>
                     </div>
-                    <p>No puedo esperar para construir una vida a tu lado.</p>
-                    <div class="page-number">5</div>
+                    <div class="metric-label">Seguridad</div>
+                    <div class="metric-value">100%</div>
                 </div>
-                
-                <div class="page page-back">
-                    <h1>Para Siempre</h1>
-                    <div class="heart">💑</div>
-                    <p>Eres mi hoy y todos mis mañanas.</p>
-                    <p>Te amaré por toda la eternidad.</p>
-                    <div class="signature">
-                        <p>Con todo mi corazón,</p>
-                        <p style="margin-top: 10px; font-weight: bold;">[Tu Nombre]</p>
+
+                <div class="metric-card">
+                    <div class="metric-icon">
+                        <i class="fas fa-sync-alt fa-spin"></i>
                     </div>
-                    <div class="page-number">6</div>
+                    <div class="metric-label">Progreso</div>
+                    <div class="metric-value" id="progressValue">73%</div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-icon">
+                        <i class="fas fa-server"></i>
+                    </div>
+                    <div class="metric-label">Disponibilidad</div>
+                    <div class="metric-value">24/7</div>
                 </div>
             </div>
         </div>
-        
-        <div class="swipe-indicator hidden" id="swipe-indicator">
-            <i class="fas fa-arrow-up"></i>
-            <span>Desliza para cambiar páginas</span>
-        </div>
-        
-        <div class="controls">
-            <button id="prev-btn" disabled>
-                <i class="fas fa-arrow-left"></i> Anterior
-            </button>
-            <button id="next-btn">
-                Siguiente <i class="fas fa-arrow-right"></i>
-            </button>
+
+        <!-- Footer -->
+        <div class="footer-section">
+            <div class="contact-group">
+                <div class="contact-item">
+                    <i class="fas fa-envelope"></i>
+                    <a href="mailto:soporte@nesticotech.com" class="contact-link">soporte@nesticotech.com</a>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-phone"></i>
+                    <span>+57 300 123 4567</span>
+                </div>
+            </div>
+
+            <div class="social-links">
+                <a href="#" class="social-link" aria-label="Twitter">
+                    <i class="fab fa-twitter"></i>
+                </a>
+                <a href="#" class="social-link" aria-label="LinkedIn">
+                    <i class="fab fa-linkedin-in"></i>
+                </a>
+                <a href="#" class="social-link" aria-label="GitHub">
+                    <i class="fab fa-github"></i>
+                </a>
+                <a href="#" class="social-link" aria-label="Discord">
+                    <i class="fab fa-discord"></i>
+                </a>
+            </div>
+
+            <div class="copyright">
+                © 2024 NesticoTech | Todos los derechos reservados
+            </div>
         </div>
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const bookContainer = document.getElementById('book-container');
-            const book = document.getElementById('book');
-            const cover = document.getElementById('cover');
-            const prevBtn = document.getElementById('prev-btn');
-            const nextBtn = document.getElementById('next-btn');
-            const heartsContainer = document.getElementById('hearts-container');
-            const swipeIndicator = document.getElementById('swipe-indicator');
-            
-            let currentPage = 0;
-            const totalPages = document.querySelectorAll('.page').length;
-            let isBookOpen = false;
-            let startY = 0;
-            let isSwiping = false;
-            
-            // Crear corazones flotantes
-            function createHearts() {
-                for (let i = 0; i < 15; i++) {
-                    const heart = document.createElement('div');
-                    heart.classList.add('floating-heart');
-                    heart.innerHTML = getRandomHeart();
-                    heart.style.left = Math.random() * 100 + 'vw';
-                    heart.style.animationDelay = Math.random() * 8 + 's';
-                    heart.style.fontSize = (Math.random() * 1 + 1) + 'rem';
-                    heartsContainer.appendChild(heart);
-                }
-            }
-            
-            function getRandomHeart() {
-                const hearts = ['❤️', '💖', '💕', '💗', '💓', '💞', '💘'];
-                return hearts[Math.floor(Math.random() * hearts.length)];
-            }
-            
-            // Abrir el libro
-            cover.addEventListener('click', openBook);
-            cover.addEventListener('touchstart', openBook);
-            
-            function openBook(e) {
-                if (e.type === 'touchstart') e.preventDefault();
-                if (!isBookOpen) {
-                    bookContainer.classList.add('book-opened');
-                    isBookOpen = true;
-                    currentPage = 0;
-                    updateButtons();
-                    playPageTurnSound();
-                    swipeIndicator.classList.remove('hidden');
-                }
-            }
-            
-            // Navegación entre páginas con botones
-            prevBtn.addEventListener('click', goToPrevPage);
-            prevBtn.addEventListener('touchstart', goToPrevPage);
-            
-            nextBtn.addEventListener('click', goToNextPage);
-            nextBtn.addEventListener('touchstart', goToNextPage);
-            
-            function goToPrevPage(e) {
-                if (e.type === 'touchstart') e.preventDefault();
-                if (currentPage > 0) {
-                    currentPage--;
-                    updateBook();
-                    playPageTurnSound();
-                }
-            }
-            
-            function goToNextPage(e) {
-                if (e.type === 'touchstart') e.preventDefault();
-                if (currentPage < totalPages - 1) {
-                    currentPage++;
-                    updateBook();
-                    playPageTurnSound();
-                }
-            }
-            
-            // Navegación con deslizamiento táctil
-            bookContainer.addEventListener('touchstart', function(e) {
-                if (!isBookOpen) return;
-                startY = e.touches[0].clientY;
-                isSwiping = true;
-            });
-            
-            bookContainer.addEventListener('touchmove', function(e) {
-                if (!isSwiping || !isBookOpen) return;
-                
-                const currentY = e.touches[0].clientY;
-                const diffY = startY - currentY;
-                
-                // Si el deslizamiento es significativo
-                if (Math.abs(diffY) > 50) {
-                    if (diffY > 0 && currentPage < totalPages - 1) {
-                        // Deslizar hacia arriba - página siguiente
-                        goToNextPage(e);
-                    } else if (diffY < 0 && currentPage > 0) {
-                        // Deslizar hacia abajo - página anterior
-                        goToPrevPage(e);
-                    }
-                    isSwiping = false;
-                }
-            });
-            
-            bookContainer.addEventListener('touchend', function() {
-                isSwiping = false;
-            });
-            
-            // Navegación con rueda del mouse
-            bookContainer.addEventListener('wheel', function(e) {
-                if (!isBookOpen) return;
-                
+        // Mensajes rotativos sobre el mantenimiento
+        const messages = [
+            'Aplicando Actualizaciones',
+            'Optimizando Rendimiento',
+            'Mejorando Seguridad',
+            'Realizando Ajustes',
+            'Configurando Sistemas',
+            'Verificando Integridad',
+            'Actualizando Componentes',
+            'Refinando Funcionalidades'
+        ];
+
+        let msgIndex = 0;
+        const loadingText = document.getElementById('loadingText');
+
+        setInterval(() => {
+            msgIndex = (msgIndex + 1) % messages.length;
+            loadingText.style.opacity = '0';
+            setTimeout(() => {
+                loadingText.textContent = messages[msgIndex];
+                loadingText.style.opacity = '1';
+            }, 300);
+        }, 3500);
+
+        loadingText.style.transition = 'opacity 0.3s ease';
+
+        // Progreso dinámico
+        const progressValue = document.getElementById('progressValue');
+        let progress = 73;
+
+        setInterval(() => {
+            progress = progress >= 99 ? 73 : progress + 1;
+            progressValue.textContent = progress + '%';
+        }, 5000);
+
+        // Prevenir zoom con gestos táctiles pero permitir scroll
+        document.addEventListener('gesturestart', e => e.preventDefault());
+        document.addEventListener('gesturechange', e => e.preventDefault());
+        document.addEventListener('gestureend', e => e.preventDefault());
+
+        // Prevenir doble tap para zoom
+        let lastTouch = 0;
+        document.addEventListener('touchend', e => {
+            const now = Date.now();
+            if (now - lastTouch <= 300) {
                 e.preventDefault();
-                
-                if (e.deltaY > 0 && currentPage < totalPages - 1) {
-                    // Desplazar hacia abajo - página siguiente
-                    goToNextPage(e);
-                } else if (e.deltaY < 0 && currentPage > 0) {
-                    // Desplazar hacia arriba - página anterior
-                    goToPrevPage(e);
-                }
-            });
-            
-            // Actualizar la posición del libro
-            function updateBook() {
-                const rotation = -180 + (currentPage * 20);
-                book.style.transform = `rotateY(${rotation}deg)`;
-                updateButtons();
-                updateSwipeIndicator();
             }
-            
-            // Actualizar estado de los botones
-            function updateButtons() {
-                prevBtn.disabled = currentPage === 0;
-                nextBtn.disabled = currentPage === totalPages - 1;
+            lastTouch = now;
+        }, false);
+
+        // Prevenir pinch zoom
+        document.addEventListener('touchmove', e => {
+            if (e.scale && e.scale !== 1) {
+                e.preventDefault();
             }
-            
-            // Actualizar indicador de deslizamiento
-            function updateSwipeIndicator() {
-                if (currentPage === totalPages - 1) {
-                    swipeIndicator.innerHTML = '<i class="fas fa-arrow-down"></i><span>Desliza hacia abajo para volver</span>';
-                } else {
-                    swipeIndicator.innerHTML = '<i class="fas fa-arrow-up"></i><span>Desliza para cambiar páginas</span>';
-                }
-            }
-            
-            // Efecto de sonido al pasar páginas
-            function playPageTurnSound() {
-                // Crear un sonido de página girando usando el audio API
-                try {
-                    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-                    const oscillator = audioContext.createOscillator();
-                    const gainNode = audioContext.createGain();
-                    
-                    oscillator.connect(gainNode);
-                    gainNode.connect(audioContext.destination);
-                    
-                    oscillator.type = 'sine';
-                    oscillator.frequency.setValueAtTime(200, audioContext.currentTime);
-                    oscillator.frequency.exponentialRampToValueAtTime(50, audioContext.currentTime + 0.3);
-                    
-                    gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
-                    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
-                    
-                    oscillator.start(audioContext.currentTime);
-                    oscillator.stop(audioContext.currentTime + 0.3);
-                } catch (e) {
-                    // El audio no es crítico, podemos continuar sin él
-                }
-            }
-            
-            // Inicializar
-            createHearts();
-            updateButtons();
-            
-            // Prevenir comportamiento por defecto en gestos táctiles
-            document.addEventListener('touchmove', function(e) {
-                if (e.target.closest('.book-container')) {
-                    e.preventDefault();
-                }
-            }, { passive: false });
-        });
+        }, { passive: false });
     </script>
 </body>
 </html>
+

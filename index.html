@@ -2,853 +2,723 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Libro de Amor para Alix</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NesticoTech - Sistema en Mantenimiento</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'SF Pro Display', sans-serif;
-            -webkit-tap-highlight-color: transparent;
         }
-        
+
+        :root {
+            --primary: #0066ff;
+            --secondary: #6366f1;
+            --accent: #06b6d4;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --background: #000814;
+            --surface: #001d3d;
+            --text-primary: #ffffff;
+            --text-secondary: #cbd5e1;
+            --text-muted: #94a3b8;
+            --border: #1e3a5f;
+            --glow: rgba(0, 102, 255, 0.5);
+        }
+
         body {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--background);
+            color: var(--text-primary);
             min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-            padding: 0;
-            position: relative;
-        }
-        
-        body::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: 
-                radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
-            pointer-events: none;
-        }
-        
-        .particles {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 1;
-        }
-        
-        .particle {
-            position: absolute;
-            background: radial-gradient(circle, rgba(255, 255, 255, 0.8) 0%, transparent 70%);
-            border-radius: 50%;
-            animation: float-particle 15s infinite ease-in-out;
-        }
-        
-        @keyframes float-particle {
-            0%, 100% {
-                transform: translate(0, 0) scale(1);
-                opacity: 0;
-            }
-            10% {
-                opacity: 0.6;
-            }
-            50% {
-                transform: translate(var(--tx), var(--ty)) scale(1.5);
-                opacity: 0.3;
-            }
-            90% {
-                opacity: 0.6;
-            }
-        }
-        
-        .container {
-            position: relative;
-            width: 100%;
-            max-width: 450px;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 10;
-            padding: 20px 10px;
-        }
-        
-        .book-wrapper {
-            position: relative;
-            width: 100%;
-            height: 75vh;
-            max-height: 650px;
-            perspective: 2000px;
-            perspective-origin: 50% 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        
-        .book {
-            position: relative;
-            width: 90%;
-            max-width: 380px;
-            height: 95%;
-            transform-style: preserve-3d;
-            transition: transform 0.8s cubic-bezier(0.645, 0.045, 0.355, 1);
-        }
-        
-        .page {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(to right, #fafafa 0%, #ffffff 5%, #ffffff 95%, #f5f5f5 100%);
-            border-radius: 0 12px 12px 0;
-            transform-origin: left center;
-            transform-style: preserve-3d;
-            transition: transform 0.8s cubic-bezier(0.645, 0.045, 0.355, 1);
-            box-shadow: 
-                0 0 0 1px rgba(0, 0, 0, 0.1),
-                5px 5px 20px rgba(0, 0, 0, 0.2),
-                inset -3px 0 10px rgba(0, 0, 0, 0.1);
-            backface-visibility: hidden;
-        }
-        
-        .page::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0;
-            bottom: 0;
-            width: 20px;
-            background: linear-gradient(to right, 
-                rgba(0, 0, 0, 0.1) 0%, 
-                rgba(0, 0, 0, 0.05) 50%, 
-                transparent 100%);
-        }
-        
-        .page-content {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            padding: 40px 30px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            overflow-y: auto;
             overflow-x: hidden;
-            background: transparent;
+            -webkit-font-smoothing: antialiased;
         }
-        
-        .page-front, .page-back {
+
+        /* Fondo animado premium */
+        .background-wrapper {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .grid-background {
             position: absolute;
-            width: 100%;
-            height: 100%;
-            backface-visibility: hidden;
+            inset: 0;
+            background-image: 
+                linear-gradient(rgba(0, 102, 255, 0.05) 2px, transparent 2px),
+                linear-gradient(90deg, rgba(0, 102, 255, 0.05) 2px, transparent 2px);
+            background-size: 60px 60px;
+            animation: gridMove 30s linear infinite;
         }
-        
-        .page-back {
-            transform: rotateY(180deg);
+
+        @keyframes gridMove {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(60px, 60px); }
         }
-        
-        .cover {
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            border-radius: 0 12px 12px 0;
-            box-shadow: 
-                0 0 0 2px rgba(255, 255, 255, 0.2),
-                8px 8px 30px rgba(0, 0, 0, 0.3),
-                inset 0 0 30px rgba(255, 255, 255, 0.2);
-        }
-        
-        .cover::after {
-            content: '';
+
+        .gradient-sphere {
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: 
-                linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.1) 50%, transparent 70%);
-            border-radius: 0 12px 12px 0;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.15;
+            animation: sphereFloat 25s infinite ease-in-out;
         }
-        
-        .page:nth-child(1) { z-index: 20; }
-        .page:nth-child(2) { z-index: 19; }
-        .page:nth-child(3) { z-index: 18; }
-        .page:nth-child(4) { z-index: 17; }
-        .page:nth-child(5) { z-index: 16; }
-        .page:nth-child(6) { z-index: 15; }
-        .page:nth-child(7) { z-index: 14; }
-        .page:nth-child(8) { z-index: 13; }
-        .page:nth-child(9) { z-index: 12; }
-        .page:nth-child(10) { z-index: 11; }
-        .page:nth-child(11) { z-index: 10; }
-        .page:nth-child(12) { z-index: 9; }
-        
-        .page.turned {
-            transform: rotateY(-180deg);
+
+        .sphere-1 {
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, var(--primary), transparent);
+            top: -20%;
+            left: -15%;
         }
-        
-        .page.turning {
-            animation: pageTurn 0.8s cubic-bezier(0.645, 0.045, 0.355, 1) forwards;
+
+        .sphere-2 {
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, var(--secondary), transparent);
+            bottom: -20%;
+            right: -15%;
+            animation-delay: 8s;
         }
-        
-        .page.turning-back {
-            animation: pageTurnBack 0.8s cubic-bezier(0.645, 0.045, 0.355, 1) forwards;
+
+        .sphere-3 {
+            width: 350px;
+            height: 350px;
+            background: radial-gradient(circle, var(--accent), transparent);
+            top: 50%;
+            left: 50%;
+            animation-delay: 16s;
         }
-        
-        @keyframes pageTurn {
-            0% { transform: rotateY(0deg); }
-            100% { transform: rotateY(-180deg); }
+
+        @keyframes sphereFloat {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(40px, -40px); }
         }
-        
-        @keyframes pageTurnBack {
-            0% { transform: rotateY(-180deg); }
-            100% { transform: rotateY(0deg); }
-        }
-        
-        h1 {
-            font-size: 2.5rem;
-            font-weight: 800;
-            margin-bottom: 20px;
-            text-align: center;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            letter-spacing: -1px;
-        }
-        
-        .cover h1 {
-            color: white;
-            -webkit-text-fill-color: white;
-            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-            font-size: 3rem;
-        }
-        
-        h2 {
-            font-size: 1.8rem;
-            font-weight: 700;
-            margin-bottom: 20px;
-            text-align: center;
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            letter-spacing: -0.5px;
-        }
-        
-        p {
-            font-size: 1.1rem;
-            line-height: 1.8;
-            text-align: center;
-            margin-bottom: 15px;
-            color: #333;
-            font-weight: 400;
-        }
-        
-        .cover p {
-            color: white;
-            font-size: 1.3rem;
-            font-weight: 500;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-        }
-        
-        .heart {
-            font-size: 3rem;
-            margin: 20px 0;
-            animation: heartbeat 1.5s ease-in-out infinite;
-            filter: drop-shadow(0 4px 10px rgba(255, 77, 109, 0.4));
-        }
-        
-        @keyframes heartbeat {
-            0%, 100% { transform: scale(1); }
-            25% { transform: scale(1.1); }
-            50% { transform: scale(1); }
-            75% { transform: scale(1.15); }
-        }
-        
-        .photo-frame {
+
+        /* Contenedor principal */
+        .main-container {
+            position: relative;
+            z-index: 10;
             width: 100%;
-            max-width: 240px;
-            height: 180px;
-            border-radius: 16px;
-            margin: 20px 0;
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            max-width: 1400px;
+            margin: 0 auto;
+            min-height: 100vh;
+            padding: clamp(1rem, 2vh, 2rem) clamp(1rem, 3vw, 2rem);
+            display: grid;
+            grid-template-rows: auto 1fr auto;
+            gap: clamp(1rem, 2vh, 2rem);
+        }
+
+        /* Header profesional */
+        .header-section {
             display: flex;
+            justify-content: space-between;
+            align-items: center;
+            animation: fadeInDown 0.8s ease-out;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .brand-container {
+            display: flex;
+            align-items: center;
+            gap: clamp(0.75rem, 2vw, 1rem);
+        }
+
+        .logo-icon {
+            width: clamp(50px, 8vw, 65px);
+            height: clamp(50px, 8vw, 65px);
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: clamp(1.5rem, 4vw, 2.2rem);
+            color: white;
+            box-shadow: 0 15px 40px var(--glow);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .brand-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .brand-name {
+            font-size: clamp(1.5rem, 4vw, 2.2rem);
+            font-weight: 900;
+            background: linear-gradient(135deg, #ffffff, #94a3b8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.5px;
+            line-height: 1;
+        }
+
+        .brand-tagline {
+            font-size: clamp(0.7rem, 1.5vw, 0.85rem);
+            color: var(--text-muted);
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            margin-top: 0.35rem;
+        }
+
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            background: rgba(245, 158, 11, 0.12);
+            border: 1.5px solid rgba(245, 158, 11, 0.3);
+            padding: clamp(0.5rem, 1vh, 0.7rem) clamp(1rem, 2vw, 1.5rem);
+            border-radius: 50px;
+            font-size: clamp(0.7rem, 1.8vw, 0.85rem);
+            font-weight: 700;
+            color: var(--warning);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            white-space: nowrap;
+        }
+
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            background: var(--warning);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); box-shadow: 0 0 10px var(--warning); }
+            50% { opacity: 0.5; transform: scale(1.3); box-shadow: 0 0 20px var(--warning); }
+        }
+
+        /* Contenido central */
+        .content-section {
+            display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
-            font-style: italic;
-            box-shadow: 
-                0 10px 30px rgba(0, 0, 0, 0.15),
-                inset 0 1px 0 rgba(255, 255, 255, 0.6);
-            overflow: hidden;
-            position: relative;
-        }
-        
-        .photo-frame::before {
-            content: '';
-            position: absolute;
-            inset: 8px;
-            border: 2px solid rgba(255, 255, 255, 0.5);
-            border-radius: 12px;
-        }
-        
-        .photo-frame .placeholder {
-            padding: 20px;
             text-align: center;
-            font-size: 1rem;
-            color: #667eea;
-            font-weight: 500;
+            animation: fadeInUp 0.8s ease-out 0.2s backwards;
+            gap: clamp(1rem, 2vh, 1.5rem);
+            padding: 2rem 0;
         }
-        
-        .love-list {
-            list-style: none;
-            width: 100%;
-            max-width: 320px;
-            padding: 0;
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
-        
-        .love-list li {
-            font-size: 1.1rem;
-            margin-bottom: 18px;
-            padding: 15px 20px 15px 50px;
-            position: relative;
-            text-align: left;
-            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
-            border-radius: 12px;
-            backdrop-filter: blur(10px);
-            line-height: 1.5;
-            font-weight: 500;
-            color: #333;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+
+        .main-title {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 900;
+            line-height: 1.1;
+            letter-spacing: -1px;
+            margin-bottom: clamp(0.5rem, 1vh, 1rem);
         }
-        
-        .love-list li:before {
-            content: "❤️";
-            position: absolute;
-            left: 18px;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 1.4rem;
+
+        .subtitle {
+            font-size: clamp(0.95rem, 2.2vw, 1.2rem);
+            color: var(--text-secondary);
+            line-height: 1.6;
+            max-width: 650px;
         }
-        
-        .signature {
-            margin-top: 30px;
-            text-align: center;
-        }
-        
-        .signature p {
-            font-style: italic;
-            font-size: 1.2rem;
-            color: #667eea;
-            margin-bottom: 10px;
-        }
-        
-        .signature .name {
-            font-weight: 800;
-            font-size: 1.6rem;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-top: 5px;
-        }
-        
-        .controls {
-            position: fixed;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            gap: 20px;
-            z-index: 100;
-        }
-        
-        button {
-            padding: 16px 32px;
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.85));
-            color: #667eea;
-            border: none;
-            border-radius: 50px;
-            font-size: 1rem;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 
-                0 8px 25px rgba(0, 0, 0, 0.15),
-                inset 0 1px 0 rgba(255, 255, 255, 1);
+
+        /* Sistema de iconos mejorado */
+        .visual-container {
             display: flex;
             align-items: center;
-            gap: 10px;
-            backdrop-filter: blur(10px);
-            border: 2px solid rgba(255, 255, 255, 0.5);
+            justify-content: center;
+            gap: clamp(1.5rem, 3vw, 2.5rem);
+            margin: clamp(1rem, 2vh, 1.5rem) 0;
         }
-        
-        button:active {
-            transform: scale(0.95);
-            box-shadow: 
-                0 4px 15px rgba(0, 0, 0, 0.2),
-                inset 0 1px 0 rgba(255, 255, 255, 1);
-        }
-        
-        button:disabled {
-            opacity: 0.4;
-            cursor: not-allowed;
-            transform: none;
-        }
-        
-        button i {
-            font-size: 1.1rem;
-        }
-        
-        .page-indicator {
-            position: fixed;
-            top: 30px;
-            left: 50%;
-            transform: translateX(-50%);
+
+        .side-icon {
+            width: clamp(60px, 10vw, 80px);
+            height: clamp(60px, 10vw, 80px);
+            background: rgba(0, 53, 102, 0.3);
+            border: 1px solid var(--border);
+            border-radius: 18px;
             display: flex;
-            gap: 10px;
-            z-index: 100;
-            padding: 12px 20px;
-            background: rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(20px);
-            border-radius: 50px;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            align-items: center;
+            justify-content: center;
+            font-size: clamp(1.5rem, 3vw, 2rem);
+            color: var(--primary);
+            backdrop-filter: blur(10px);
+            animation: sideIconFloat 3s ease-in-out infinite;
         }
-        
-        .dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.5);
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+
+        .side-icon:nth-child(1) { animation-delay: 0s; }
+        .side-icon:nth-child(3) { animation-delay: 1.5s; }
+
+        @keyframes sideIconFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
         }
-        
-        .dot.active {
-            background: white;
-            width: 32px;
-            border-radius: 4px;
-            box-shadow: 0 2px 10px rgba(255, 255, 255, 0.5);
+
+        .central-icon-wrapper {
+            position: relative;
         }
-        
-        .instruction {
-            font-size: 1.1rem;
-            margin-top: 30px;
-            opacity: 0.9;
-            animation: pulse 2s ease-in-out infinite;
+
+        .central-icon {
+            width: clamp(100px, 18vw, 140px);
+            height: clamp(100px, 18vw, 140px);
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: clamp(3rem, 6vw, 4rem);
             color: white;
+            animation: iconFloat 3s ease-in-out infinite;
+            box-shadow: 0 25px 60px var(--glow);
+            border: 2px solid rgba(255, 255, 255, 0.15);
+            position: relative;
+            z-index: 2;
         }
-        
-        @keyframes pulse {
-            0%, 100% { opacity: 0.6; transform: scale(1); }
-            50% { opacity: 1; transform: scale(1.05); }
+
+        @keyframes iconFloat {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-12px) scale(1.05); }
         }
-        
-        .page-number {
+
+        .icon-glow {
             position: absolute;
-            bottom: 20px;
-            right: 25px;
-            font-size: 0.9rem;
+            inset: -20px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 35px;
+            filter: blur(35px);
+            opacity: 0.5;
+            z-index: 1;
+            animation: glowPulse 3s ease-in-out infinite;
+        }
+
+        @keyframes glowPulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 0.8; }
+        }
+
+        .rotating-ring {
+            position: absolute;
+            inset: -25px;
+            border: 2px solid rgba(0, 102, 255, 0.2);
+            border-radius: 50%;
+            border-top-color: var(--primary);
+            animation: ringRotate 4s linear infinite;
+            z-index: 0;
+        }
+
+        @keyframes ringRotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* Loader mejorado */
+        .loader-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: clamp(0.75rem, 1.5vh, 1rem);
+        }
+
+        .dots-wrapper {
+            display: flex;
+            gap: 0.6rem;
+        }
+
+        .dot {
+            width: clamp(10px, 2vw, 14px);
+            height: clamp(10px, 2vw, 14px);
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 50%;
+            animation: dotBounce 1.6s infinite ease-in-out;
+            box-shadow: 0 0 15px var(--glow);
+        }
+
+        .dot:nth-child(1) { animation-delay: -0.32s; }
+        .dot:nth-child(2) { animation-delay: -0.16s; }
+        .dot:nth-child(3) { animation-delay: 0s; }
+
+        @keyframes dotBounce {
+            0%, 80%, 100% { transform: scale(0.7) translateY(0); opacity: 0.5; }
+            40% { transform: scale(1.3) translateY(-10px); opacity: 1; }
+        }
+
+        .loading-text {
+            font-size: clamp(0.85rem, 2vw, 1rem);
+            color: var(--text-secondary);
             font-weight: 600;
-            color: #999;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
         }
-        
-        /* Responsive */
-        @media (max-width: 400px) {
-            h1 { font-size: 2rem; }
-            .cover h1 { font-size: 2.5rem; }
-            h2 { font-size: 1.5rem; }
-            p { font-size: 1rem; }
-            .page-content { padding: 30px 20px; }
-            .photo-frame { max-width: 200px; height: 150px; }
-            button { padding: 14px 28px; font-size: 0.95rem; }
-            .love-list li { font-size: 1rem; padding: 12px 15px 12px 45px; }
+
+        /* Métricas en tiempo real */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: clamp(0.75rem, 1.5vw, 1rem);
+            width: 100%;
+            max-width: 700px;
+            margin-top: clamp(1rem, 2vh, 1.5rem);
         }
-        
-        @media (max-height: 700px) {
-            .book-wrapper { height: 70vh; max-height: 550px; }
-            .page-content { padding: 25px 20px; }
-            h1 { font-size: 1.8rem; margin-bottom: 15px; }
-            h2 { font-size: 1.4rem; margin-bottom: 15px; }
-            p { font-size: 0.95rem; margin-bottom: 10px; }
-            .heart { font-size: 2.5rem; margin: 15px 0; }
-            .photo-frame { max-width: 180px; height: 135px; margin: 15px 0; }
+
+        .metric-card {
+            background: rgba(0, 53, 102, 0.25);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: clamp(0.75rem, 1.5vh, 1rem);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .metric-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0, 102, 255, 0.2);
+        }
+
+        .metric-icon {
+            font-size: clamp(1.2rem, 3vw, 1.6rem);
+            margin-bottom: clamp(0.4rem, 0.8vh, 0.6rem);
+        }
+
+        .metric-card:nth-child(1) .metric-icon { color: var(--success); }
+        .metric-card:nth-child(2) .metric-icon { color: var(--warning); }
+        .metric-card:nth-child(3) .metric-icon { color: var(--accent); }
+
+        .metric-label {
+            font-size: clamp(0.7rem, 1.6vw, 0.8rem);
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+        }
+
+        .metric-value {
+            font-size: clamp(0.9rem, 2vw, 1.1rem);
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-top: 0.25rem;
+        }
+
+        /* Footer profesional mejorado */
+        .footer-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: clamp(1rem, 2vh, 1.5rem);
+            border-top: 1px solid var(--border);
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .contact-group {
+            display: flex;
+            align-items: center;
+            gap: clamp(0.75rem, 2vw, 1.25rem);
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: clamp(0.75rem, 1.8vw, 0.9rem);
+            color: var(--text-secondary);
+        }
+
+        .contact-item i {
+            color: var(--primary);
+            font-size: clamp(0.9rem, 2vw, 1.05rem);
+        }
+
+        .contact-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .contact-link:hover {
+            color: var(--primary);
+        }
+
+        .social-links {
+            display: flex;
+            gap: clamp(0.5rem, 1.5vw, 0.75rem);
+        }
+
+        .social-link {
+            width: clamp(36px, 6vw, 44px);
+            height: clamp(36px, 6vw, 44px);
+            background: rgba(0, 53, 102, 0.3);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            font-size: clamp(0.95rem, 2.5vw, 1.15rem);
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .social-link:hover {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px var(--glow);
+        }
+
+        .copyright {
+            font-size: clamp(0.7rem, 1.6vw, 0.8rem);
+            color: var(--text-muted);
+            text-align: center;
+            width: 100%;
+        }
+
+        /* Responsive mejorado */
+        @media (max-width: 768px) {
+            .header-section {
+                justify-content: center;
+            }
+            
+            .status-indicator {
+                order: -1;
+                width: 100%;
+                justify-content: center;
+            }
+
+            .visual-container {
+                gap: clamp(1rem, 2vw, 1.5rem);
+            }
+
+            .metrics-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-section {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .contact-group {
+                flex-direction: column;
+                gap: 0.75rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .side-icon {
+                width: 50px;
+                height: 50px;
+                font-size: 1.25rem;
+            }
+        }
+
+        /* Animación de entrada */
+        @keyframes pageEntrance {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        body {
+            animation: pageEntrance 0.6s ease-out;
         }
     </style>
 </head>
 <body>
-    <div class="particles" id="particles"></div>
-    
-    <div class="page-indicator" id="page-indicator"></div>
-    
-    <div class="container">
-        <div class="book-wrapper">
-            <div class="book" id="book">
-                <!-- Portada -->
-                <div class="page" data-page="0">
-                    <div class="page-front cover">
-                        <div class="page-content">
-                            <h1>Para Alix</h1>
-                            <p>Mi Amor Eterno</p>
-                            <div class="heart">❤️</div>
-                            <p class="instruction">Toca "Siguiente" para abrir</p>
-                        </div>
+    <!-- Fondo -->
+    <div class="background-wrapper">
+        <div class="grid-background"></div>
+        <div class="gradient-sphere sphere-1"></div>
+        <div class="gradient-sphere sphere-2"></div>
+        <div class="gradient-sphere sphere-3"></div>
+    </div>
+
+    <!-- Contenedor principal -->
+    <div class="main-container">
+        <!-- Header -->
+        <div class="header-section">
+            <div class="brand-container">
+                <div class="logo-icon">
+                    <i class="fas fa-code"></i>
+                </div>
+                <div class="brand-info">
+                    <div class="brand-name">NesticoTech</div>
+                    <div class="brand-tagline">Soluciones Tecnológicas Avanzadas</div>
+                </div>
+            </div>
+            
+            <div class="status-indicator">
+                <div class="status-dot"></div>
+                <span>Mantenimiento Activo</span>
+            </div>
+        </div>
+
+        <!-- Contenido central -->
+        <div class="content-section">
+            <h1 class="main-title">Sistema en Mantenimiento</h1>
+            
+            <p class="subtitle">
+                Estamos realizando ajustes y mejoras importantes en nuestro sistema para brindarte una mejor experiencia
+            </p>
+
+            <!-- Sistema de iconos -->
+            <div class="visual-container">
+                <div class="side-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                
+                <div class="central-icon-wrapper">
+                    <div class="icon-glow"></div>
+                    <div class="rotating-ring"></div>
+                    <div class="central-icon">
+                        <i class="fas fa-tools"></i>
                     </div>
                 </div>
                 
-                <!-- Página 1 -->
-                <div class="page" data-page="1">
-                    <div class="page-front">
-                        <div class="page-content">
-                            <h1>Para Ti, Mi Amor</h1>
-                            <div class="heart">❤️</div>
-                            <p>Cada día a tu lado es un regalo que atesoro con todo mi corazón.</p>
-                            <p>Este libro es una pequeña muestra del inmenso amor que siento por ti.</p>
-                            <div class="page-number">1</div>
-                        </div>
-                    </div>
+                <div class="side-icon">
+                    <i class="fas fa-cog"></i>
                 </div>
-                
-                <!-- Página 2 -->
-                <div class="page" data-page="2">
-                    <div class="page-front">
-                        <div class="page-content">
-                            <h2>El Día Que Te Conocí</h2>
-                            <div class="photo-frame">
-                                <div class="placeholder">Nuestra primera foto juntos</div>
-                            </div>
-                            <p>Recuerdo perfectamente el momento en que te vi por primera vez. Mi corazón supo instantáneamente que eras especial.</p>
-                            <div class="heart">💖</div>
-                            <div class="page-number">2</div>
-                        </div>
-                    </div>
+            </div>
+
+            <!-- Loader -->
+            <div class="loader-container">
+                <div class="dots-wrapper">
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
                 </div>
-                
-                <!-- Página 3 -->
-                <div class="page" data-page="3">
-                    <div class="page-front">
-                        <div class="page-content">
-                            <h2>Tu Sonrisa Perfecta</h2>
-                            <p>Tu sonrisa ilumina cada uno de mis días oscuros.</p>
-                            <div class="heart">😊</div>
-                            <p>Es el faro que guía mi corazón hacia ti, la luz que me da esperanza.</p>
-                            <p>Eres la razón por la que creo en la magia del amor verdadero.</p>
-                            <div class="page-number">3</div>
-                        </div>
+                <div class="loading-text" id="loadingText">Aplicando Actualizaciones</div>
+            </div>
+
+            <!-- Métricas -->
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-icon">
+                        <i class="fas fa-check-circle"></i>
                     </div>
+                    <div class="metric-label">Seguridad</div>
+                    <div class="metric-value">100%</div>
                 </div>
-                
-                <!-- Página 4 -->
-                <div class="page" data-page="4">
-                    <div class="page-front">
-                        <div class="page-content">
-                            <h2>Tus Abrazos</h2>
-                            <p>En tus brazos encuentro mi hogar, mi refugio perfecto.</p>
-                            <div class="heart">🤗</div>
-                            <p>Cada abrazo tuyo me hace sentir seguro, amado y completo.</p>
-                            <p>Contigo, he encontrado mi lugar en este mundo.</p>
-                            <div class="page-number">4</div>
-                        </div>
+
+                <div class="metric-card">
+                    <div class="metric-icon">
+                        <i class="fas fa-sync-alt fa-spin"></i>
                     </div>
+                    <div class="metric-label">Progreso</div>
+                    <div class="metric-value" id="progressValue">73%</div>
                 </div>
-                
-                <!-- Página 5 -->
-                <div class="page" data-page="5">
-                    <div class="page-front">
-                        <div class="page-content">
-                            <h2>Por Qué Te Amo</h2>
-                            <ul class="love-list">
-                                <li>Tu bondad infinita y generosa</li>
-                                <li>Tu inteligencia brillante</li>
-                                <li>Tu sentido del humor único</li>
-                                <li>Tu forma de entender mi alma</li>
-                                <li>Tu fuerza interior admirable</li>
-                            </ul>
-                            <div class="page-number">5</div>
-                        </div>
+
+                <div class="metric-card">
+                    <div class="metric-icon">
+                        <i class="fas fa-server"></i>
                     </div>
-                </div>
-                
-                <!-- Página 6 -->
-                <div class="page" data-page="6">
-                    <div class="page-front">
-                        <div class="page-content">
-                            <h2>Momentos Especiales</h2>
-                            <p>Cada momento contigo se convierte en un recuerdo precioso que guardo en mi corazón.</p>
-                            <div class="heart">⭐</div>
-                            <p>Desde nuestras conversaciones hasta nuestras aventuras, todo es mágico a tu lado.</p>
-                            <div class="page-number">6</div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Página 7 -->
-                <div class="page" data-page="7">
-                    <div class="page-front">
-                        <div class="page-content">
-                            <h2>Tu Voz</h2>
-                            <p>Tu voz es la melodía más hermosa que he escuchado jamás.</p>
-                            <div class="heart">🎵</div>
-                            <p>Cada palabra tuya es música para mis oídos, poesía para mi alma.</p>
-                            <div class="page-number">7</div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Página 8 -->
-                <div class="page" data-page="8">
-                    <div class="page-front">
-                        <div class="page-content">
-                            <h2>Nuestros Sueños</h2>
-                            <p>Juntos soñamos con un futuro lleno de amor, aventuras y felicidad.</p>
-                            <div class="photo-frame">
-                                <div class="placeholder">Nuestras próximas aventuras</div>
-                            </div>
-                            <p>No puedo esperar para construir una vida hermosa a tu lado.</p>
-                            <div class="page-number">8</div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Página 9 -->
-                <div class="page" data-page="9">
-                    <div class="page-front">
-                        <div class="page-content">
-                            <h2>Mi Promesa</h2>
-                            <p>Prometo amarte incondicionalmente cada día de mi vida.</p>
-                            <div class="heart">💍</div>
-                            <p>Prometo estar a tu lado en las buenas y en las malas.</p>
-                            <p>Prometo hacerte feliz y valorarte siempre.</p>
-                            <div class="page-number">9</div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Página 10 -->
-                <div class="page" data-page="10">
-                    <div class="page-front">
-                        <div class="page-content">
-                            <h2>Gracias Por Existir</h2>
-                            <p>Gracias por amarme tal como soy.</p>
-                            <div class="heart">🙏</div>
-                            <p>Gracias por llenar mi vida de color, alegría y amor.</p>
-                            <p>Gracias por ser tú, perfecta e imperfecta a la vez.</p>
-                            <div class="page-number">10</div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Página Final -->
-                <div class="page" data-page="11">
-                    <div class="page-front">
-                        <div class="page-content" style="background: linear-gradient(135deg, rgba(240, 147, 251, 0.2), rgba(245, 87, 108, 0.2));">
-                            <h1>Para Siempre</h1>
-                            <div class="heart">💑</div>
-                            <p style="font-size: 1.2rem; font-weight: 600;">Eres mi hoy y todos mis mañanas.</p>
-                            <p style="font-size: 1.2rem; font-weight: 600;">Te amaré por toda la eternidad.</p>
-                            <div class="signature">
-                                <p>Con todo mi corazón,</p>
-                                <p class="name">Néstor</p>
-                                <div class="heart" style="font-size: 2rem; margin-top: 15px;">❤️</div>
-                            </div>
-                            <div class="page-number">11</div>
-                        </div>
-                    </div>
+                    <div class="metric-label">Disponibilidad</div>
+                    <div class="metric-value">24/7</div>
                 </div>
             </div>
         </div>
-        
-        <div class="controls">
-            <button id="prev-btn" disabled>
-                <i class="fas fa-chevron-left"></i>
-                <span>Anterior</span>
-            </button>
-            <button id="next-btn">
-                <span>Siguiente</span>
-                <i class="fas fa-chevron-right"></i>
-            </button>
+
+        <!-- Footer -->
+        <div class="footer-section">
+            <div class="contact-group">
+                <div class="contact-item">
+                    <i class="fas fa-envelope"></i>
+                    <a href="mailto:soporte@nesticotech.com" class="contact-link">soporte@nesticotech.com</a>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-phone"></i>
+                    <span>+57 300 123 4567</span>
+                </div>
+            </div>
+
+            <div class="social-links">
+                <a href="#" class="social-link" aria-label="Twitter">
+                    <i class="fab fa-twitter"></i>
+                </a>
+                <a href="#" class="social-link" aria-label="LinkedIn">
+                    <i class="fab fa-linkedin-in"></i>
+                </a>
+                <a href="#" class="social-link" aria-label="GitHub">
+                    <i class="fab fa-github"></i>
+                </a>
+                <a href="#" class="social-link" aria-label="Discord">
+                    <i class="fab fa-discord"></i>
+                </a>
+            </div>
+
+            <div class="copyright">
+                © 2024 NesticoTech | Todos los derechos reservados
+            </div>
         </div>
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const book = document.getElementById('book');
-            const pages = document.querySelectorAll('.page');
-            const prevBtn = document.getElementById('prev-btn');
-            const nextBtn = document.getElementById('next-btn');
-            const pageIndicator = document.getElementById('page-indicator');
-            const particles = document.getElementById('particles');
-            
-            let currentPage = 0;
-            const totalPages = pages.length;
-            let isAnimating = false;
-            
-            // Crear partículas
-            function createParticles() {
-                for (let i = 0; i < 20; i++) {
-                    const particle = document.createElement('div');
-                    particle.classList.add('particle');
-                    const size = Math.random() * 4 + 2;
-                    particle.style.width = size + 'px';
-                    particle.style.height = size + 'px';
-                    particle.style.left = Math.random() * 100 + '%';
-                    particle.style.top = Math.random() * 100 + '%';
-                    particle.style.setProperty('--tx', (Math.random() - 0.5) * 200 + 'px');
-                    particle.style.setProperty('--ty', (Math.random() - 0.5) * 200 + 'px');
-                    particle.style.animationDelay = Math.random() * 15 + 's';
-                    particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
-                    particles.appendChild(particle);
-                }
+        // Mensajes rotativos sobre el mantenimiento
+        const messages = [
+            'Aplicando Actualizaciones',
+            'Optimizando Rendimiento',
+            'Mejorando Seguridad',
+            'Realizando Ajustes',
+            'Configurando Sistemas',
+            'Verificando Integridad',
+            'Actualizando Componentes',
+            'Refinando Funcionalidades'
+        ];
+
+        let msgIndex = 0;
+        const loadingText = document.getElementById('loadingText');
+
+        setInterval(() => {
+            msgIndex = (msgIndex + 1) % messages.length;
+            loadingText.style.opacity = '0';
+            setTimeout(() => {
+                loadingText.textContent = messages[msgIndex];
+                loadingText.style.opacity = '1';
+            }, 300);
+        }, 3500);
+
+        loadingText.style.transition = 'opacity 0.3s ease';
+
+        // Progreso dinámico
+        const progressValue = document.getElementById('progressValue');
+        let progress = 73;
+
+        setInterval(() => {
+            progress = progress >= 99 ? 73 : progress + 1;
+            progressValue.textContent = progress + '%';
+        }, 5000);
+
+        // Prevenir zoom con gestos táctiles pero permitir scroll
+        document.addEventListener('gesturestart', e => e.preventDefault());
+        document.addEventListener('gesturechange', e => e.preventDefault());
+        document.addEventListener('gestureend', e => e.preventDefault());
+
+        // Prevenir doble tap para zoom
+        let lastTouch = 0;
+        document.addEventListener('touchend', e => {
+            const now = Date.now();
+            if (now - lastTouch <= 300) {
+                e.preventDefault();
             }
-            
-            // Crear indicadores
-            function createPageIndicators() {
-                for (let i = 0; i < totalPages; i++) {
-                    const dot = document.createElement('div');
-                    dot.classList.add('dot');
-                    if (i === 0) dot.classList.add('active');
-                    pageIndicator.appendChild(dot);
-                }
+            lastTouch = now;
+        }, false);
+
+        // Prevenir pinch zoom
+        document.addEventListener('touchmove', e => {
+            if (e.scale && e.scale !== 1) {
+                e.preventDefault();
             }
-            
-            // Actualizar indicadores
-            function updatePageIndicators() {
-                const dots = document.querySelectorAll('.dot');
-                dots.forEach((dot, index) => {
-                    dot.classList.toggle('active', index === currentPage);
-                });
-            }
-            
-            // Girar página
-            function turnPage(direction) {
-                if (isAnimating) return;
-                
-                isAnimating = true;
-                const page = pages[currentPage];
-                
-                if (direction === 'next') {
-                    page.classList.add('turning');
-                    setTimeout(() => {
-                        page.classList.remove('turning');
-                        page.classList.add('turned');
-                        isAnimating = false;
-                    }, 800);
-                } else {
-                    const prevPage = pages[currentPage - 1];
-                    prevPage.classList.add('turning-back');
-                    setTimeout(() => {
-                        prevPage.classList.remove('turning-back');
-                        prevPage.classList.remove('turned');
-                        isAnimating = false;
-                    }, 800);
-                }
-                
-                playPageSound();
-            }
-            
-            // Navegar páginas
-            function goToNextPage() {
-                if (currentPage < totalPages - 1 && !isAnimating) {
-                    turnPage('next');
-                    currentPage++;
-                    updateButtons();
-                    updatePageIndicators();
-                }
-            }
-            
-            function goToPrevPage() {
-                if (currentPage > 0 && !isAnimating) {
-                    currentPage--;
-                    turnPage('prev');
-                    updateButtons();
-                    updatePageIndicators();
-                }
-            }
-            
-            // Actualizar botones
-            function updateButtons() {
-                prevBtn.disabled = currentPage === 0;
-                nextBtn.disabled = currentPage === totalPages - 1;
-            }
-            
-            // Sonido de página
-            function playPageSound() {
-                try {
-                    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-                    const oscillator = audioContext.createOscillator();
-                    const gainNode = audioContext.createGain();
-                    
-                    oscillator.connect(gainNode);
-                    gainNode.connect(audioContext.destination);
-                    
-                    oscillator.type = 'sine';
-                    oscillator.frequency.setValueAtTime(400, audioContext.currentTime);
-                    oscillator.frequency.exponentialRampToValueAtTime(100, audioContext.currentTime + 0.15);
-                    
-                    gainNode.gain.setValueAtTime(0.03, audioContext.currentTime);
-                    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.15);
-                    
-                    oscillator.start(audioContext.currentTime);
-                    oscillator.stop(audioContext.currentTime + 0.15);
-                } catch (e) {
-                    // Continuar sin sonido
-                }
-            }
-            
-            // Event listeners botones
-            prevBtn.addEventListener('click', goToPrevPage);
-            nextBtn.addEventListener('click', goToNextPage);
-            
-            // Navegación táctil
-            let touchStartX = 0;
-            let touchStartY = 0;
-            
-            book.addEventListener('touchstart', (e) => {
-                touchStartX = e.touches[0].clientX;
-                touchStartY = e.touches[0].clientY;
-            }, { passive: true });
-            
-            book.addEventListener('touchend', (e) => {
-                const touchEndX = e.changedTouches[0].clientX;
-                const touchEndY = e.changedTouches[0].clientY;
-                
-                const diffX = touchStartX - touchEndX;
-                const diffY = Math.abs(touchStartY - touchEndY);
-                
-                // Solo swipe horizontal
-                if (Math.abs(diffX) > 80 && diffY < 100) {
-                    if (diffX > 0) {
-                        goToNextPage();
-                    } else {
-                        goToPrevPage();
-                    }
-                }
-            }, { passive: true });
-            
-            // Navegación con teclado
-            document.addEventListener('keydown', (e) => {
-                if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
-                    goToNextPage();
-                } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
-                    goToPrevPage();
-                }
-            });
-            
-            // Inicializar
-            createParticles();
-            createPageIndicators();
-            updateButtons();
-        });
+        }, { passive: false });
     </script>
 </body>
 </html>
+
